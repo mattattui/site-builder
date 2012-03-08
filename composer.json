@@ -1,0 +1,12 @@
+{
+    "name": "inanimatt/Site-Builder",
+    "require": {
+        "twig/twig": "1.6.*"
+    },
+    "authors": [
+        {
+            "name": "Matt Robinson",
+            "email": "matt@inanimatt.com"
+        }
+    ]
+}

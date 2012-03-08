@@ -1,0 +1,10 @@
+{
+    "hash": "3c4fd749d20639e3b080da2d96b946a8",
+    "packages": [
+        {
+            "package": "twig/twig",
+            "version": "1.6.1"
+        }
+    ],
+    "aliases": []
+}

@@ -27,6 +27,26 @@ Usage
    folder.
 
 
+Twig support (optional)
+=======================
+
+A `composer.json` file is provided to download and install Twig. Download
+[Composer](http://getcomposer.org/) and run `php composer.phar install` to
+download and set up Twig and anything it might require.
+
+If Twig is installed and the template is set to a file with the `.twig`
+extension, then Site-Builder will automatically to render the template using
+Twig. You can use Twig templates for just some of your pages by setting the
+`$view->template` property in the head of each page, or change the default
+template to a Twig template in `config.ini`
+
+Twig escapes output by default (the equivalent of calling the `e()` function
+for every variable), which is very safe and good practice. However the
+`content` variable which contains your page content probably shouldn't be
+escaped. You can tell Twig not to escape it by passing it through the `raw`
+filter, i.e. `{{ content | raw }}`
+
+
 Notes
 =====
 

@@ -32,32 +32,59 @@ class Site_Builder
 		'output_extension' => '.html',
 	);
 	
+	protected $twig = null;
 	
 	public function __construct($config = array())
 	{
+		if (is_file(__DIR__.'/vendor/.composer/autoload.php'))
+		{
+			require __DIR__.'/vendor/.composer/autoload.php';
+			
+			if (class_exists('Twig_Loader_Filesystem', true))
+			{
+				$loader = new Twig_Loader_Filesystem(__DIR__);
+				$this->twig = new Twig_Environment($loader);
+			}
+		}
+		
 		$this->config = array_merge($this->config, $config);
 		
-		// Check configuration
-		if (!is_file($this->config['default_template']))
+		$this->checkConfiguration();
+	}
+	
+	public function checkConfiguration($config = null)
+	{
+		if (is_null($config))
+		{
+			$config = $this->config;
+		}
+		
+		if (!is_array($config))
+		{
+			throw new Site_Builder_Exception('Invalid or missing configuration.');
+		}
+
+		if (!isset($config['default_template']) || !is_file($config['default_template']))
 		{
 			throw new Site_Builder_Exception('Default template not found! Check your configuration.');
 		}
 
-		if (!is_dir($this->config['output_dir']))
+		if (!isset($config['output_dir']) || !is_dir($config['output_dir']))
 		{
 			throw new Site_Builder_Exception('Output directory not found! Check your configuration.');
 		}
 
-		if (!is_dir($this->config['content_dir']))
+		if (!isset($config['content_dir']) || !is_dir($config['content_dir']))
 		{
 			throw new Site_Builder_Exception('Content directory not found! Check your configuration.');
 		}
 
-		if (!is_writeable($this->config['output_dir']))
+		if (!isset($config['output_dir']) || !is_writeable($config['output_dir']))
 		{
 			throw new Site_Builder_Exception('Output directory not writeable. Check your directory permissions.');
 		}
 	}
+	
 	
 	// Factory method for creating a Site_Builder object from a config file
 	public static function load($config_file)
@@ -99,8 +126,19 @@ class Site_Builder
 		require($file);
 		$view->content = ob_get_clean();
 
+		$template_file = new SplFileInfo($view->template);
+		if ($template_file->getExtension() == 'twig')
+		{
+			if (!$this->twig)
+			{
+				throw new Site_Builder_Exception('Twig template give, but Twig not found.');
+			}
+			
+			return $this->twig->render($view->template, $view->__getVars());
+		}
+		
 		// Return rendered view
-	    return $view->render($view->template);
+		return $view->render($view->template);
 	}
 	
 	public function getFiles($directory)
@@ -132,6 +170,10 @@ class Site_Builder_Template {
     public function __set($name, $value) {
         $this->vars[$name] = $value;
     }
+
+		public function __getVars() {
+				return $this->vars;
+		}
  
     public function render($__file) {
         extract($this->vars, EXTR_SKIP);
