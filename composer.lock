@@ -1,6 +1,16 @@
 {
-    "hash": "3c4fd749d20639e3b080da2d96b946a8",
+    "hash": "5c93c18fff9f1b01ecabfda69e8c7c2f",
     "packages": [
+        {
+            "package": "dflydev/markdown",
+            "version": "dev-master",
+            "source-reference": "91c6649f89472f6ab60a107a80acc72baacf585c",
+            "alias": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "v2.0.10"
+        },
         {
             "package": "twig/twig",
             "version": "1.6.1"

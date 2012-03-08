@@ -47,9 +47,31 @@ escaped. You can tell Twig not to escape it by passing it through the `raw`
 filter, i.e. `{{ content | raw }}`
 
 
+Markdown support (optional)
+===========================
+
+A `composer.json` file is provided to download and install Markdown. Download
+[Composer](http://getcomposer.org/) and run `php composer.phar install` to
+download and set up Markdown and the Yaml library required for setting
+variables in a front-matter block.
+
+If Markdown and Yaml are installed, Site-Builder will automatically transform
+any files in the `content` directory that end with a `.md` extension using
+Markdown. You may use a "front matter" block in the YAML format to set other
+variables that will be passed to the template. Look at
+content/markdown-example.md for a simple example.
+
+You may use Markdown content with Twig or PHP templates, it's not fussy.
+
+
 Notes
 =====
 
+* There are other Static Site Generators out there, many of them far more
+  accomplished and capable than this one. For example 
+  [Jekyll](http://jekyllrb.com/) (Ruby) and 
+  [Hyde](http://ringce.com/hyde) (Python). I use Site-Builder because it
+  has no required dependencies, and it meets my very limited needs. YMMV!
 * I wrote this after an evening at the pub. Use at your own risk! It may be 
   rewritten heavily the next time I see it :)
 * The content of each page is saved in the `$content` variable, but you can 

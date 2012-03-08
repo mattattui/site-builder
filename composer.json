@@ -1,7 +1,9 @@
 {
     "name": "inanimatt/Site-Builder",
     "require": {
-        "twig/twig": "1.6.*"
+        "twig/twig": "1.6.*",
+        "dflydev/markdown": "1.0.*",
+        "symfony/yaml": "2.0.*"
     },
     "authors": [
         {

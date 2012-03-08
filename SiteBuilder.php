@@ -33,6 +33,9 @@ class Site_Builder
 	);
 	
 	protected $twig = null;
+	protected $yaml = null;
+	protected $markdown = null;
+	
 	
 	public function __construct($config = array())
 	{
@@ -45,6 +48,17 @@ class Site_Builder
 				$loader = new Twig_Loader_Filesystem(__DIR__);
 				$this->twig = new Twig_Environment($loader);
 			}
+			
+			if (class_exists('Symfony\Component\Yaml\Parser', true))
+			{
+				$this->yaml = new Symfony\Component\Yaml\Parser;
+			}
+			
+			if (class_exists('dflydev\markdown\MarkdownParser', true))
+			{
+				$this->markdown = new dflydev\markdown\MarkdownParser;
+			}
+			
 		}
 		
 		$this->config = array_merge($this->config, $config);
@@ -117,16 +131,63 @@ class Site_Builder
 	
 	public function renderFile($file)
 	{
-		
-		$view = new Site_Builder_Template();
-		$view->template = $this->config['default_template'];
-		
-		// Capture output
-		ob_start();
-		require($file);
-		$view->content = ob_get_clean();
+		// Handle content and data first
+		$file_info = new SplFileInfo($file);
+		if ($file_info->getExtension() == 'md')
+		{
+			if (!$this->yaml)
+			{
+				throw new Site_Builder_Exception('Markdown file found, but Yaml component not installed');
+			}
+			if (!$this->markdown)
+			{
+				throw new Site_Builder_Exception('Markdown file found, but Markdown component not installed');
+			}
+			
+			// Parse Markdown template
+			
+			$file_content = file_get_contents($file);
 
-		$template_file = new SplFileInfo($view->template);
+			// Search for front-matter, parse it, and then remove it
+			$data = array();
+			$front_matter = $this->getFrontMatter($file_content);
+			$data = $this->yaml->parse($front_matter);
+			
+			/* Strip (from the start of the string) the length of the front-matter 
+			 * collected, plus the size of the delimiters, and the starting and 
+			 * ending line-breaks
+			 */
+			$file_content = substr($file_content, mb_strlen($front_matter) + 6 + (2 * strlen(PHP_EOL)));
+			
+			
+			/* Parse remaining file as markdown */
+			$data['content'] = $this->markdown->transformMarkdown($file_content);
+			
+			$template = isset($data['template']) ? $data['template'] : $this->config['default_template'];
+			
+			// Create a view so that rendering will still work
+			$view = new Site_Builder_Template();
+			$view->__setVars($data);
+		
+		} 
+		elseif ($file_info->getExtension() == 'php')
+		{
+			$view = new Site_Builder_Template();
+			$view->template = $this->config['default_template'];
+		
+			// Capture output
+			ob_start();
+			require($file);
+			$view->content = ob_get_clean();
+			
+			$data = $view->__getVars();
+			$template = $view->template;
+		}
+		
+
+
+		// Insert content into template
+		$template_file = new SplFileInfo($template);
 		if ($template_file->getExtension() == 'twig')
 		{
 			if (!$this->twig)
@@ -134,11 +195,12 @@ class Site_Builder
 				throw new Site_Builder_Exception('Twig template give, but Twig not found.');
 			}
 			
-			return $this->twig->render($view->template, $view->__getVars());
+			return $this->twig->render($template, $data);
 		}
 		
 		// Return rendered view
-		return $view->render($view->template);
+		
+		return $view->render($template);
 	}
 	
 	public function getFiles($directory)
@@ -155,6 +217,16 @@ class Site_Builder
 			$files[] = $file->getPathname(); 
 		}
 		return $files;
+	}
+	
+	
+	public function getFrontMatter($content)
+	{
+		if (preg_match('/^\-\-\-$(.*)^\-\-\-$/sm', $content, $matches))
+		{
+			return $matches[1];
+		}
+		
 	}
 }
 
@@ -173,6 +245,10 @@ class Site_Builder_Template {
 
 		public function __getVars() {
 				return $this->vars;
+		}
+
+		public function __setVars($vars) {
+				$this->vars = $vars;
 		}
  
     public function render($__file) {
