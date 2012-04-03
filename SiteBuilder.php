@@ -226,9 +226,12 @@ class Site_Builder
 	
 	public function getFrontMatter($content)
 	{
-		if (preg_match('/^\-\-\-$(.*)^\-\-\-$/sm', $content, $matches))
+		$content = ltrim($content);
+
+		if ((substr($content,0,3) === '---') && preg_match('/^\-\-\-/m', $content, $matches, PREG_OFFSET_CAPTURE, 3))
 		{
-			return $matches[1];
+			$end = $matches[0][1];
+			return substr($content,3,$end-3);
 		}
 		
 	}
