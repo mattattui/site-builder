@@ -27,6 +27,12 @@ Usage
    folder.
 
 
+**Note**: this project works "out of the box" without the Markdown, YAML or
+Twig dependencies, but you'll need to remove the markdown example from the 
+`content/` folder otherwise the `rebuild.php` script will quit with an 
+error.
+
+
 Twig support (optional)
 =======================
 
@@ -61,7 +67,7 @@ Markdown. You may use a "front matter" block in the YAML format to set other
 variables that will be passed to the template. Look at
 content/markdown-example.md for a simple example.
 
-You may use Markdown content with Twig or PHP templates, it's not fussy.
+You may use Markdown content with Twig or PHP templates; it's not fussy.
 
 
 Notes
