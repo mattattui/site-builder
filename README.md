@@ -1,19 +1,28 @@
 What is(n't) this?
 ==================
 
-If the only reason you use PHP is to put a header and footer on all your
-pages, use this script instead.
+Site-builder is a simple example of a static site generator.
 
-It will read all the files in the `content` directory, wrap each one with
-the `template.php` file, and save it in the `output` directory with a
-`.html` filename, ready to upload to your server. PHP can be pretty fast,
-but unless you're savvy, it will prevent your site being cached by web
-browsers and proxies, and serve pages much slower than your web server can
-deal with plain old HTML files.
+It takes the files in `content/`, wraps them in a template you define, then
+saves them in the `output/` folder. It's a way to get the benefits of 
+templates (easy to maintain your content, easy to update your site style)
+without the unnecessary overhead (i.e. using PHP to compile the content 
+into the template every time someone visits the page).
+
+PHP can be pretty fast, but unless you're savvy, it will prevent your site 
+being cached by web browsers and proxies, and serve pages much slower than 
+your web server can deal with plain old HTML files.
 
 Don't get me wrong, PHP is great for certain tasks, but for adding header &
 footer to a bunch of files, it's huge overkill. This script will give you
 all the same advantages, and then a couple more.
+
+
+Requirements
+============
+
+* PHP 5.3 or newer. If you use Ubuntu or Debian, you may need to install 
+  the `php5-cli` package to let you run scripts on the command-line.
 
 
 Usage
@@ -37,7 +46,7 @@ Twig support (optional)
 =======================
 
 A `composer.json` file is provided to download and install Twig. Download
-[Composer](http://getcomposer.org/) and run `php composer.phar install` to
+[Composer](http://getcomposer.org/download/) and run `php composer.phar install` to
 download and set up Twig and anything it might require.
 
 If Twig is installed and the template is set to a file with the `.twig`
@@ -57,7 +66,7 @@ Markdown support (optional)
 ===========================
 
 A `composer.json` file is provided to download and install Markdown. Download
-[Composer](http://getcomposer.org/) and run `php composer.phar install` to
+[Composer](http://getcomposer.org/download/) and run `php composer.phar install` to
 download and set up Markdown and the Yaml library required for setting
 variables in a front-matter block.
 

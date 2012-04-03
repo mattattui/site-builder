@@ -1,6 +1,12 @@
 <?php
 
+if (is_file(__DIR__.'/vendor/.composer/autoload.php'))
+{
+	require __DIR__.'/vendor/.composer/autoload.php';
+}
+
 require('SiteBuilder.php');
+
 
 
 // Get the config file from the command-line, or use the default

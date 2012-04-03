@@ -1,5 +1,11 @@
 <?php
 
+if (basename($_SERVER['PHP_SELF']) == basename(__FILE__))
+{
+	die("This file is a library, it's not intended to be run directly. Try running 'rebuild.php' instead.".PHP_EOL);
+}
+
+
 // Utility function - shortcut to htmlspecialchars(). Feel free to comment it out if it's in the way.
 function e($string) {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
@@ -26,6 +32,7 @@ function e($string) {
 class Site_Builder
 {
 	protected $config = array(
+		'template_path'    => 'templates/',
 		'default_template' => 'template.php',
 		'output_dir'       => 'output',
 		'content_dir'      => 'content',
@@ -39,28 +46,22 @@ class Site_Builder
 	
 	public function __construct($config = array())
 	{
-		if (is_file(__DIR__.'/vendor/.composer/autoload.php'))
+		if (class_exists('Twig_Loader_Filesystem', true))
 		{
-			require __DIR__.'/vendor/.composer/autoload.php';
-			
-			if (class_exists('Twig_Loader_Filesystem', true))
-			{
-				$loader = new Twig_Loader_Filesystem(__DIR__);
-				$this->twig = new Twig_Environment($loader);
-			}
-			
-			if (class_exists('Symfony\Component\Yaml\Parser', true))
-			{
-				$this->yaml = new Symfony\Component\Yaml\Parser;
-			}
-			
-			if (class_exists('dflydev\markdown\MarkdownParser', true))
-			{
-				$this->markdown = new dflydev\markdown\MarkdownParser;
-			}
-			
+			$loader = new Twig_Loader_Filesystem(__DIR__);
+			$this->twig = new Twig_Environment($loader);
 		}
-		
+			
+		if (class_exists('Symfony\Component\Yaml\Parser', true))
+		{
+			$this->yaml = new Symfony\Component\Yaml\Parser;
+		}
+			
+		if (class_exists('dflydev\markdown\MarkdownParser', true))
+		{
+			$this->markdown = new dflydev\markdown\MarkdownParser;
+		}
+			
 		$this->config = array_merge($this->config, $config);
 		
 		$this->checkConfiguration();
@@ -78,7 +79,7 @@ class Site_Builder
 			throw new Site_Builder_Exception('Invalid or missing configuration.');
 		}
 
-		if (!isset($config['default_template']) || !is_file($config['default_template']))
+		if (!isset($config['default_template']) || !is_file($config['template_path'].$config['default_template']))
 		{
 			throw new Site_Builder_Exception('Default template not found! Check your configuration.');
 		}
@@ -133,7 +134,9 @@ class Site_Builder
 	{
 		// Handle content and data first
 		$file_info = new SplFileInfo($file);
-		if ($file_info->getExtension() == 'md')
+		$extension = pathinfo($file_info->getFilename(), PATHINFO_EXTENSION);
+
+		if ($extension == 'md')
 		{
 			if (!$this->yaml)
 			{
@@ -164,16 +167,17 @@ class Site_Builder
 			$data['content'] = $this->markdown->transformMarkdown($file_content);
 			
 			$template = isset($data['template']) ? $data['template'] : $this->config['default_template'];
+			$template = $this->config['template_path'].$template;
 			
 			// Create a view so that rendering will still work
 			$view = new Site_Builder_Template();
 			$view->__setVars($data);
 		
 		} 
-		elseif ($file_info->getExtension() == 'php')
+		elseif ($extension == 'php')
 		{
 			$view = new Site_Builder_Template();
-			$view->template = $this->config['default_template'];
+			$view->template = $this->config['template_path'].$this->config['default_template'];
 		
 			// Capture output
 			ob_start();
@@ -187,12 +191,12 @@ class Site_Builder
 
 
 		// Insert content into template
-		$template_file = new SplFileInfo($template);
-		if ($template_file->getExtension() == 'twig')
+		$template_extension = pathinfo($template, PATHINFO_EXTENSION);
+		if ($template_extension == 'twig')
 		{
 			if (!$this->twig)
 			{
-				throw new Site_Builder_Exception('Twig template give, but Twig not found.');
+				throw new Site_Builder_Exception('Twig template given, but Twig not found.');
 			}
 			
 			return $this->twig->render($template, $data);
