@@ -1,14 +1,12 @@
 {
     "name": "inanimatt/Site-Builder",
+    "version": "1.0",
+    "license": "MIT",
+    "description" : "Simple PHP static site generator",
     "require": {
-        "twig/twig": "1.6.*",
-        "dflydev/markdown": "1.0.*",
-        "symfony/yaml": "2.0.*"
-    },
-    "authors": [
-        {
-            "name": "Matt Robinson",
-            "email": "matt@inanimatt.com"
-        }
-    ]
+        "php": ">=5.3.2",
+        "twig/twig": "1.6.4",
+        "dflydev/markdown": "1.0.2",
+        "symfony/yaml": "2.0.12"
+    }
 }
