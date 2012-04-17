@@ -125,7 +125,7 @@ class Site_Builder
 		return sprintf(
 			'%s/%s%s', 
 			$this->config['output_dir'], 
-			pathinfo($file, PATHINFO_FILENAME), 
+			pathinfo($file, PATHINFO_FILENAME),
 			$this->config['output_extension']
 		);
 	}
@@ -159,8 +159,10 @@ class Site_Builder
 			/* Strip (from the start of the string) the length of the front-matter 
 			 * collected, plus the size of the delimiters, and the starting and 
 			 * ending line-breaks
+			 * FIXME: This assumes CRLF (or whatever PHP_EOL turns out to be), which
+			 * is bad.
 			 */
-			$file_content = substr($file_content, mb_strlen($front_matter) + 6 + (2 * strlen(PHP_EOL)));
+			$file_content = substr($file_content, mb_strlen($front_matter, 'UTF-8') + 6 + (2 * strlen(PHP_EOL)));
 			
 			
 			/* Parse remaining file as markdown */
@@ -239,31 +241,31 @@ class Site_Builder
 
 /* Credit (but no blame) to Chad Emrys Minick for this Template pattern */
 class Site_Builder_Template {
-    private $vars  = array(
-    );
+	private $vars = array(
+	);
 
-    public function __get($name) {
-        return $this->vars[$name];
-    }
+	public function __get($name) {
+		return $this->vars[$name];
+	}
  
-    public function __set($name, $value) {
-        $this->vars[$name] = $value;
-    }
+	public function __set($name, $value) {
+		$this->vars[$name] = $value;
+	}
 
-		public function __getVars() {
-				return $this->vars;
-		}
+	public function __getVars() {
+		return $this->vars;
+	}
 
-		public function __setVars($vars) {
-				$this->vars = $vars;
-		}
+	public function __setVars($vars) {
+		$this->vars = $vars;
+	}
  
-    public function render($__file) {
-        extract($this->vars, EXTR_SKIP);
-        ob_start();
-        include($__file);
-        return ob_get_clean();
-    }
+	public function render($__file) {
+		extract($this->vars, EXTR_SKIP);
+		ob_start();
+		include($__file);
+		return ob_get_clean();
+	}
 }
 
 
