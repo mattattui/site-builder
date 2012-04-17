@@ -79,6 +79,18 @@ content/markdown-example.md for a simple example.
 You may use Markdown content with Twig or PHP templates; it's not fussy.
 
 
+Subdirectory support (optional)
+===============================
+
+If you want to have subdirectories in your content folder and have them
+created in your output folder, you'll need to install the Symfony2 Finder
+component. 
+
+A `composer.json` file is provided to download and install Finder. Download 
+[Composer](http://getcomposer.org/download/) and run `php composer.phar 
+install` to download and set up Finder and all the other optional dependencies.
+
+
 Notes
 =====
 

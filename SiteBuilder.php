@@ -42,6 +42,7 @@ class Site_Builder
 	protected $twig = null;
 	protected $yaml = null;
 	protected $markdown = null;
+	protected $finder = null;
 	
 	
 	public function __construct($config = array())
@@ -55,6 +56,11 @@ class Site_Builder
 		if (class_exists('Symfony\Component\Yaml\Parser', true))
 		{
 			$this->yaml = new Symfony\Component\Yaml\Parser;
+		}
+			
+		if (class_exists('Symfony\Component\Finder\Finder', true))
+		{
+			$this->finder = new Symfony\Component\Finder\Finder;
 		}
 			
 		if (class_exists('dflydev\markdown\MarkdownParser', true))
@@ -115,25 +121,34 @@ class Site_Builder
 		foreach($files as $file)
 		{
 			$output_filename = $this->getOutputFilename($file);
+			
 			$output = $this->renderFile($file);
+			
+			if (!is_dir(dirname($output_filename)))
+			{
+				mkdir(dirname($output_filename));
+			}
+			
 			file_put_contents($output_filename, $output);
 		}
 	}
 	
 	public function getOutputFilename(SplFileInfo $file)
 	{
-		return sprintf(
-			'%s/%s%s', 
-			$this->config['output_dir'], 
-			$file->getExtension() ? $file->getBasename('.'.$file->getExtension()) : $file->getFilename(),
-			$this->config['output_extension']
-		);
+		$path = str_replace(realpath($this->config['content_dir'].DIRECTORY_SEPARATOR), realpath($this->config['output_dir']), $file->getRealPath());
+		$ext_pos = strrpos($path, '.');
+		if ($ext_pos === false)
+		{
+			throw new Site_Builder_Exception('Unexpected filename; must have file extension');
+		}
+		$filename = substr($path, 0, $ext_pos) . $this->config['output_extension'];
+		return $filename;
 	}
 	
 	public function renderFile(SplFileInfo $file)
 	{
 		// Handle content and data first
-    $extension = $file->getExtension();
+		$extension = $file->getExtension();
 		
 		if ($extension == 'md')
 		{
@@ -214,8 +229,27 @@ class Site_Builder
 	
 	public function getFiles($directory)
 	{
-		$dir = new FilesystemIterator($directory);
 		$files = array();
+		
+		if ($this->finder)
+		{
+			$this->finder->files()
+				->in($directory)
+				->name('*.php');
+			if ($this->markdown)
+			{
+				$this->finder->name('*.md');
+			}
+			
+			foreach($this->finder as $file)
+			{
+				$files[] = $file;
+			}
+			return $files;
+		}
+		
+		// Use fallback if Finder not installed. Doesn't descend directories.
+		$dir = new FilesystemIterator($directory);
 		foreach($dir as $file)
 		{
 			if (!$file->isFile())
