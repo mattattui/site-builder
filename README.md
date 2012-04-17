@@ -99,8 +99,6 @@ Notes
   [Jekyll](http://jekyllrb.com/) (Ruby) and 
   [Hyde](http://ringce.com/hyde) (Python). I use Site-Builder because it
   has no required dependencies, and it meets my very limited needs. YMMV!
-* I wrote this after an evening at the pub. Use at your own risk! It may be 
-  rewritten heavily the next time I see it :)
 * The content of each page is saved in the `$content` variable, but you can 
   set other variables too, which is handy, for example, for setting the page  
   title. Look at `content/example.php` for examples and ideas.
@@ -116,4 +114,41 @@ Notes
   you want to do more than set a few variables and wrap content in a 
   template, then I recommend you use a framework or microframework like 
   [Symfony2](http://symfony.com) or [Silex](http://silex-project.org).
+
+Contributing
+============
+
+I'd love to have pull requests to improve Site-Builder. Please raise an issue 
+first though, in case someone's already working on the feature. Generally 
+speaking, I'd like SiteBuilder to stay fairly simple. Dependencies should 
+remain optional so that people can use it "out of the box" without having to 
+install (e.g.) Markdown, Yaml, Twig, etc.
+
+
+
+Glaring omissions
+-----------------
+
+* A test suite. I'm somewhat ashamed that it doesn't already have one, but not 
+  so ashamed (or experienced) that I can write one worth a damn.
+
+
+Nice-to-haves:
+--------------
+
+* Introspection: it would be good if templates could get a list of other 
+  templates, e.g. for building navigation. This would require building an 
+  object with page titles/front-matter and setting it as something accessible 
+  from the templates.
+
+* Support for inline images. You can do it just fine right now by adding 
+  resources to your output folder, but it'd be nicer if they were part of the 
+  content and published, so you can wipe your output folder before rebuilding.
+
+* Package the whole thing as a Phar, add help and command-line options with the 
+  Symfony Console component. I've shied away from doing this before now because 
+  issues running Phars out of the box are still fairly common, but that's not 
+  really a blocker, just an opportunity for clearer documentation. A Phar would 
+  also allow some of the dependencies to be built-in without inconveniencing 
+  users.
 
