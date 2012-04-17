@@ -120,22 +120,21 @@ class Site_Builder
 		}
 	}
 	
-	public function getOutputFilename($file)
+	public function getOutputFilename(SplFileInfo $file)
 	{
 		return sprintf(
 			'%s/%s%s', 
 			$this->config['output_dir'], 
-			pathinfo($file, PATHINFO_FILENAME),
+			$file->getExtension() ? $file->getBasename('.'.$file->getExtension()) : $file->getFilename(),
 			$this->config['output_extension']
 		);
 	}
 	
-	public function renderFile($file)
+	public function renderFile(SplFileInfo $file)
 	{
 		// Handle content and data first
-		$file_info = new SplFileInfo($file);
-		$extension = pathinfo($file_info->getFilename(), PATHINFO_EXTENSION);
-
+    $extension = $file->getExtension();
+		
 		if ($extension == 'md')
 		{
 			if (!$this->yaml)
@@ -149,7 +148,7 @@ class Site_Builder
 			
 			// Parse Markdown template
 			
-			$file_content = file_get_contents($file);
+			$file_content = file_get_contents($file->getPathname());
 
 			// Search for front-matter, parse it, and then remove it
 			$data = array();
@@ -183,18 +182,22 @@ class Site_Builder
 		
 			// Capture output
 			ob_start();
-			require($file);
+			require($file->getPathname());
 			$view->content = ob_get_clean();
 			
 			$data = $view->__getVars();
 			$template = $view->template;
 		}
+		else 
+		{
+			throw new Site_Builder_Exception('Unsupported file extension: '.$file->getFilename());
+		}
 		
 
 
 		// Insert content into template
-		$template_extension = pathinfo($template, PATHINFO_EXTENSION);
-		if ($template_extension == 'twig')
+		$template_info = new splFileInfo($template);
+		if ($template_info->getExtension() == 'twig')
 		{
 			if (!$this->twig)
 			{
@@ -211,7 +214,7 @@ class Site_Builder
 	
 	public function getFiles($directory)
 	{
-		$dir = new DirectoryIterator($directory);
+		$dir = new FilesystemIterator($directory);
 		$files = array();
 		foreach($dir as $file)
 		{
@@ -220,7 +223,7 @@ class Site_Builder
 				continue;
 			}
 			
-			$files[] = $file->getPathname(); 
+			$files[] = $file;
 		}
 		return $files;
 	}
