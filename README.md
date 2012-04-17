@@ -132,6 +132,13 @@ Glaring omissions
 * A test suite. I'm somewhat ashamed that it doesn't already have one, but not 
   so ashamed (or experienced) that I can write one worth a damn.
 
+* Refactoring to better separate concerns. DI would help here. 
+
+* Right now I if/else the check for markdown or PHP content files, but they'd 
+  be neater as separate "drivers" using the same interface. This would probably 
+  mean formalising some of the expected front matter variables (i.e. title, 
+  template).
+
 
 Nice-to-haves:
 --------------
