@@ -54,8 +54,6 @@ class SiteBuilder
     public function renderFile(ContentObjectInterface $file)
     {
         // Handle content and data first
-        $extension = $file->getExtension();
-        
         $data = $file->getMetadata();
         $content = $file->getContent();
         
@@ -65,14 +63,19 @@ class SiteBuilder
         
         // Insert content into template
         $templateInfo = new \splFileInfo($data['template']);
-        if ($templateInfo->getExtension() == 'twig') {
-            return $this->twig->render($data['template'], $data);
+        switch($templateInfo->getExtension()) {
+            case 'twig':
+                $renderer = new TwigRenderer($this->twig);
+                break;
+            case 'php':
+                $renderer = new PhpRenderer($this->config['template_path']);
+                break;
+            default:
+                throw new SiteBuilderException('Unsupported template type');
         }
-        
+
         // Return rendered view
-        $view = new SiteBuilderTemplate;
-        $view->__setVars($data);
-        return $view->render($this->config['template_path'].$data['template']);
+        return $renderer->render($data, $data['template']);
     }
 
 }
