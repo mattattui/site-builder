@@ -40,6 +40,10 @@ $sc->register('contentcollection', 'Inanimatt\SiteBuilder\FileContentCollection'
     ->addArgument($sc->get('config')->offsetGet('content_dir'))
 ;
 
+$sc->register('serialiser', 'Inanimatt\SiteBuilder\FileSerialiser')
+    ->addArgument($sc->get('config')->offsetGet('output_dir'))
+;
+
 
 // FIXME: This feels wrong, but I don't know what else to do
 $sc->register('twig.loader', 'Twig_Loader_Filesystem')
@@ -59,6 +63,7 @@ $sc->register('sitebuilder', 'Inanimatt\SiteBuilder\SiteBuilder')
     ->addArgument(new Reference('yaml'))
     ->addArgument(new Reference('markdown'))
     ->addArgument(new Reference('contentcollection'))
+    ->addArgument(new Reference('serialiser'))
 ;
 
 

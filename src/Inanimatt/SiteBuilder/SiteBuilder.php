@@ -26,8 +26,10 @@ class SiteBuilder
     protected $markdown = null;
     
     protected $contentCollection = null;
+    protected $serialiser = null;
     
-    public function __construct($config, $twig, $yaml, $markdown, ContentCollectionInterface $contentCollection)
+    
+    public function __construct($config, $twig, $yaml, $markdown, ContentCollectionInterface $contentCollection, SerialiserInterface $serialiser)
     {
         $this->config   = $config;
         $this->twig     = $twig;
@@ -35,6 +37,7 @@ class SiteBuilder
         $this->markdown = $markdown;
         
         $this->contentCollection = $contentCollection;
+        $this->serialiser = $serialiser;
     }
     
     
@@ -44,22 +47,16 @@ class SiteBuilder
     // - serialiser
     public function renderSite()
     {
-        $files = $this->contentCollection->getObjects();
-        foreach($files as $file) {
-            $outputFilename = $this->getOutputFilename($file);
+        $contentObjects = $this->contentCollection->getObjects();
+        foreach($contentObjects as $content) {
+            $output = $this->renderFile($content);
             
-            $output = $this->renderFile($file);
-            
-            if (!is_dir(dirname($outputFilename))) {
-                mkdir(dirname($outputFilename));
-            }
-            
-            file_put_contents($outputFilename, $output);
+            $this->serialiser->write($output, $content->getName());
         }
     }
     
     protected function getOutputFilename(\SplFileInfo $file)
-    {
+    {   
         $path = str_replace(realpath($this->config['content_dir'].DIRECTORY_SEPARATOR), realpath($this->config['output_dir']), $file->getRealPath());
         $ext_pos = strrpos($path, '.');
         if ($ext_pos === false) {

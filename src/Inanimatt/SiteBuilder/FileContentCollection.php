@@ -6,6 +6,7 @@ class FileContentCollection implements ContentCollectionInterface
 {
     protected $path;
     protected $finder;
+    protected $collection;
 
     public function __construct($path = null)
     {
@@ -30,9 +31,10 @@ class FileContentCollection implements ContentCollectionInterface
             ->name('*.php')
             ->name('*.md')
         ;
-            
+        
         foreach($this->finder as $file) {
-            $files[] = $file;
+            //FIXME: call ContentObjectFactory to get the right filecontentobject for the given extension
+            $files[] = new FileContentObject($file, $file->getRelativePath(), $file->getRelativePathName());
         }
             
         return $files;
