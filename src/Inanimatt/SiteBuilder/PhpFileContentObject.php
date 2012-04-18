@@ -5,6 +5,19 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class PhpFileContentObject extends SplFileInfo implements ContentObjectInterface
 {
+    protected $view = null;
+
+    public function __construct($file, $relativePath, $relativePathName)
+    {
+        parent::__construct($file, $relativePath, $relativePathName);
+        
+        $view = new SiteBuilderTemplate();
+        ob_start();
+        require($this->getRealPath());
+        $view->content = ob_get_clean();
+        
+        $this->view = $view;
+    }
 
     public function getName()
     {
@@ -18,11 +31,12 @@ class PhpFileContentObject extends SplFileInfo implements ContentObjectInterface
     
     public function getContent()
     {
-        return file_get_contents($this->getRealPath());
+        return $this->view->content;
     }
     
     public function getMetadata()
     {
+        return $this->view->__getVars();
     }
     
 }

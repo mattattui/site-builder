@@ -42,6 +42,7 @@ $sc->register('contentcollection', 'Inanimatt\SiteBuilder\FileContentCollection'
 
 $sc->register('serialiser', 'Inanimatt\SiteBuilder\FileSerialiser')
     ->addArgument($sc->get('config')->offsetGet('output_dir'))
+    ->addArgument($sc->get('config')->offsetGet('output_extension'))
 ;
 
 
@@ -60,8 +61,6 @@ $sc->register('markdown', 'dflydev\markdown\MarkdownParser');
 $sc->register('sitebuilder', 'Inanimatt\SiteBuilder\SiteBuilder')
     ->addArgument(new Reference('config'))
     ->addArgument(new Reference('twig'))
-    ->addArgument(new Reference('yaml'))
-    ->addArgument(new Reference('markdown'))
     ->addArgument(new Reference('contentcollection'))
     ->addArgument(new Reference('serialiser'))
 ;
