@@ -24,31 +24,27 @@ class SiteBuilder
     protected $twig     = null;
     protected $yaml     = null;
     protected $markdown = null;
-    protected $finder   = null;
     
-    public function __construct($config)
+    protected $contentCollection = null;
+    
+    public function __construct($config, $twig, $yaml, $markdown, ContentCollectionInterface $contentCollection)
     {
-        $this->config = $config;
+        $this->config   = $config;
+        $this->twig     = $twig;
+        $this->yaml     = $yaml;
+        $this->markdown = $markdown;
         
-        $loader         = new \Twig_Loader_Filesystem(realpath($this->config['template_path']));
-        $this->twig     = new \Twig_Environment($loader);
-        $this->yaml     = new \Symfony\Component\Yaml\Parser;
-        $this->finder   = new \Symfony\Component\Finder\Finder;
-        $this->markdown = new \dflydev\markdown\MarkdownParser;
+        $this->contentCollection = $contentCollection;
     }
     
     
-    // Factory method for creating a Site_Builder object from a config file
-    public static function load($configFile)
-    {
-        $config = SiteBuilderConfig::load($configFile);
-        return new SiteBuilder($config);
-    }
-    
-
+    // Get a list of content objects, run the renderer on each one, then serialise them
+    // - content collection, content object
+    // - renderer object
+    // - serialiser
     public function renderSite()
     {
-        $files = $this->getFiles($this->config['content_dir']);
+        $files = $this->contentCollection->getObjects();
         foreach($files as $file) {
             $outputFilename = $this->getOutputFilename($file);
             
@@ -129,11 +125,6 @@ class SiteBuilder
         // Insert content into template
         $templateInfo = new \splFileInfo($template);
         if ($templateInfo->getExtension() == 'twig') {
-            if (!$this->twig)
-            {
-                throw new SiteBuilderException('Twig template given, but Twig not found.');
-            }
-            
             return $this->twig->render($template, $data);
         }
         
@@ -142,38 +133,6 @@ class SiteBuilder
         return $view->render($this->config['template_path'].$template);
     }
     
-    public function getFiles($directory)
-    {
-        $files = array();
-        
-        if ($this->finder) {
-            $this->finder->files()
-                ->in($directory)
-                ->name('*.php');
-            
-            if ($this->markdown) {
-                $this->finder->name('*.md');
-            }
-            
-            foreach($this->finder as $file) {
-                $files[] = $file;
-            }
-            
-            return $files;
-        }
-        
-        // Use fallback if Finder not installed. Doesn't descend directories.
-        $dir = new \FilesystemIterator($directory);
-        foreach($dir as $file) {
-            if (!$file->isFile()) {
-                continue;
-            }
-            
-            $files[] = $file;
-        }
-        
-        return $files;
-    }
     
     
     public function getFrontMatter($content)
