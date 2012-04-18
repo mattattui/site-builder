@@ -58,42 +58,37 @@ class SiteBuilder
     
     public function checkConfiguration($config = null)
     {
-        if (is_null($config))
-        {
+        if (is_null($config)) {
             $config = $this->config;
         }
         
-        if (!is_array($config))
-        {
+        if (!is_array($config)) {
             throw new SiteBuilderException('Invalid or missing configuration.');
         }
 
-        if (!isset($config['default_template']) || !is_file($config['template_path'].$config['default_template']))
-        {
+        if (!isset($config['default_template']) || !is_file($config['template_path'].$config['default_template'])) {
             throw new SiteBuilderException('Default template not found! Check your configuration.');
         }
 
-        if (!isset($config['output_dir']) || !is_dir($config['output_dir']))
-        {
+        if (!isset($config['output_dir']) || !is_dir($config['output_dir'])) {
             throw new SiteBuilderException('Output directory not found! Check your configuration.');
         }
 
-        if (!isset($config['content_dir']) || !is_dir($config['content_dir']))
-        {
+        if (!isset($config['content_dir']) || !is_dir($config['content_dir'])) {
             throw new SiteBuilderException('Content directory not found! Check your configuration.');
         }
 
-        if (!isset($config['output_dir']) || !is_writeable($config['output_dir']))
-        {
+        if (!isset($config['output_dir']) || !is_writeable($config['output_dir'])) {
             throw new SiteBuilderException('Output directory not writeable. Check your directory permissions.');
         }
     }
     
     
     // Factory method for creating a Site_Builder object from a config file
-    public static function load($config_file)
+    public static function load($configFile)
     {
-        $config = parse_ini_file($config_file);
+        $config = parse_ini_file($configFile);
+        
         return new SiteBuilder($config);
     }
     
@@ -101,30 +96,28 @@ class SiteBuilder
     public function renderSite()
     {
         $files = $this->getFiles($this->config['content_dir']);
-        foreach($files as $file)
-        {
-            $output_filename = $this->getOutputFilename($file);
+        foreach($files as $file) {
+            $outputFilename = $this->getOutputFilename($file);
             
             $output = $this->renderFile($file);
             
-            if (!is_dir(dirname($output_filename)))
-            {
-                mkdir(dirname($output_filename));
+            if (!is_dir(dirname($outputFilename))) {
+                mkdir(dirname($outputFilename));
             }
             
-            file_put_contents($output_filename, $output);
+            file_put_contents($outputFilename, $output);
         }
     }
     
-    public function getOutputFilename(\SplFileInfo $file)
+    protected function getOutputFilename(\SplFileInfo $file)
     {
         $path = str_replace(realpath($this->config['content_dir'].DIRECTORY_SEPARATOR), realpath($this->config['output_dir']), $file->getRealPath());
         $ext_pos = strrpos($path, '.');
-        if ($ext_pos === false)
-        {
+        if ($ext_pos === false) {
             throw new SiteBuilderException('Unexpected filename; must have file extension');
         }
         $filename = substr($path, 0, $ext_pos) . $this->config['output_extension'];
+        
         return $filename;
     }
     
@@ -133,16 +126,15 @@ class SiteBuilder
         // Handle content and data first
         $extension = $file->getExtension();
         
-        if ($extension == 'md')
-        {            
+        if ($extension == 'md') {
             // Parse Markdown template
             
-            $file_content = file_get_contents($file->getPathname());
+            $fileContent = file_get_contents($file->getPathname());
 
             // Search for front-matter, parse it, and then remove it
             $data = array();
-            $front_matter = $this->getFrontMatter($file_content);
-            $data = $this->yaml->parse($front_matter);
+            $frontMatter = $this->getFrontMatter($fileContent);
+            $data = $this->yaml->parse($frontMatter);
             
             /* Strip (from the start of the string) the length of the front-matter 
              * collected, plus the size of the delimiters, and the starting and 
@@ -150,11 +142,11 @@ class SiteBuilder
              * FIXME: This assumes CRLF (or whatever PHP_EOL turns out to be), which
              * is bad.
              */
-            $file_content = substr($file_content, mb_strlen($front_matter, 'UTF-8') + 6 + (2 * strlen(PHP_EOL)));
+            $fileContent = substr($fileContent, mb_strlen($frontMatter, 'UTF-8') + 6 + (2 * strlen(PHP_EOL)));
             
             
             /* Parse remaining file as markdown */
-            $data['content'] = $this->markdown->transformMarkdown($file_content);
+            $data['content'] = $this->markdown->transformMarkdown($fileContent);
             
             $template = isset($data['template']) ? $data['template'] : $this->config['default_template'];
             
@@ -162,31 +154,28 @@ class SiteBuilder
             $view = new SiteBuilderTemplate();
             $view->__setVars($data);
         
-        } 
-        elseif ($extension == 'php')
-        {
+        } elseif ($extension == 'php') {
             $view = new SiteBuilderTemplate();
             $view->template = $this->config['default_template'];
         
             // Capture output
+            // FIXME: this could really do with being sandboxed or isolated somehow
             ob_start();
             require($file->getPathname());
             $view->content = ob_get_clean();
             
             $data = $view->__getVars();
             $template = $view->template;
-        }
-        else 
-        {
+            
+        } else {
             throw new SiteBuilderException('Unsupported file extension: '.$file->getFilename());
         }
         
 
 
         // Insert content into template
-        $template_info = new \splFileInfo($template);
-        if ($template_info->getExtension() == 'twig')
-        {
+        $templateInfo = new \splFileInfo($template);
+        if ($templateInfo->getExtension() == 'twig') {
             if (!$this->twig)
             {
                 throw new SiteBuilderException('Twig template given, but Twig not found.');
@@ -204,34 +193,32 @@ class SiteBuilder
     {
         $files = array();
         
-        if ($this->finder)
-        {
+        if ($this->finder) {
             $this->finder->files()
                 ->in($directory)
                 ->name('*.php');
-            if ($this->markdown)
-            {
+            
+            if ($this->markdown) {
                 $this->finder->name('*.md');
             }
             
-            foreach($this->finder as $file)
-            {
+            foreach($this->finder as $file) {
                 $files[] = $file;
             }
+            
             return $files;
         }
         
         // Use fallback if Finder not installed. Doesn't descend directories.
         $dir = new \FilesystemIterator($directory);
-        foreach($dir as $file)
-        {
-            if (!$file->isFile())
-            {
+        foreach($dir as $file) {
+            if (!$file->isFile()) {
                 continue;
             }
             
             $files[] = $file;
         }
+        
         return $files;
     }
     
@@ -240,8 +227,7 @@ class SiteBuilder
     {
         $content = ltrim($content);
 
-        if ((substr($content,0,3) === '---') && preg_match('/^\-\-\-/m', $content, $matches, PREG_OFFSET_CAPTURE, 3))
-        {
+        if ((substr($content,0,3) === '---') && preg_match('/^\-\-\-/m', $content, $matches, PREG_OFFSET_CAPTURE, 3)) {
             $end = $matches[0][1];
             return substr($content,3,$end-3);
         }
