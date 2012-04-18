@@ -1,23 +1,6 @@
 <?php
 namespace Inanimatt\SiteBuilder;
 
-/* Bulk template rendering class
- * 
- * Usage:
- *   $builder = new SiteBuilder($config_array);
- * or:
- *   $builder = SiteBuilder::load('config.ini');
- * then:
- *   $builder->renderSite();
- * 
- * renderSite() renders every file in the content directory and
- * saves it in the output directory with the output file extension.
- * 
- * You can also call renderFile($filename) to return the rendered
- * content of a single file, then display or save it yourself.
- */
-
-
 class SiteBuilder
 {
     protected $config   = null;
@@ -37,15 +20,11 @@ class SiteBuilder
     
     
     // Get a list of content objects, run the renderer on each one, then serialise them
-    // - content collection, content object
-    // - renderer object
-    // - serialiser
     public function renderSite()
     {
         $contentObjects = $this->contentCollection->getObjects();
         foreach($contentObjects as $content) {
             $output = $this->renderFile($content);
-            
             $this->serialiser->write($output, $content->getName());
         }
     }
@@ -62,6 +41,7 @@ class SiteBuilder
         }
         
         // Insert content into template
+        // FIXME: replace the twig dependency with a RendererFactory with handlers
         $templateInfo = new \splFileInfo($data['template']);
         switch($templateInfo->getExtension()) {
             case 'twig':
