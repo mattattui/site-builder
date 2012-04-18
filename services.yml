@@ -1,0 +1,36 @@
+imports:
+    - { resource: config.yml }
+    
+services:
+    contentcollection:
+        class: Inanimatt\SiteBuilder\FileContentCollection
+        arguments: [%content_dir%]
+
+    serialiser:
+        class: Inanimatt\SiteBuilder\FileSerialiser
+        arguments: [%output_dir%, %output_extension%]
+    
+    twig.loader:
+        class: Twig_Loader_Filesystem
+        arguments: [%template_path%]
+    
+    twig:
+        class: Twig_Environment
+        arguments: [@twig.loader]
+        
+    finder:
+        class: Symfony\Component\Finder\Finder
+    
+    yaml:
+        class: Symfony\Component\Yaml\Parser
+    
+    markdown:
+        class: dflydev\markdown\MarkdownParser
+
+    sitebuilder:
+        class: Inanimatt\SiteBuilder\SiteBuilder
+        arguments: [@twig, @contentcollection, @serialiser]
+        calls:
+            - [setDefaultTemplate, [%default_template%]]
+            - [setTemplatePath, [%template_path%]]
+

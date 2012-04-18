@@ -1,23 +1,34 @@
 <?php
 namespace Inanimatt\SiteBuilder;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 class SiteBuilder
 {
-    protected $config   = null;
-    protected $twig     = null;
-    
+    protected $twig = null;
     protected $contentCollection = null;
     protected $serialiser = null;
     
+    protected $default_template = 'template.php';
+    protected $template_path = './';
     
-    public function __construct($config, $twig, ContentCollectionInterface $contentCollection, SerialiserInterface $serialiser)
+    public function __construct(\Twig_Environment $twig, ContentCollectionInterface $contentCollection, SerialiserInterface $serialiser)
     {
-        $this->config = $config;
         $this->twig = $twig;
         $this->contentCollection = $contentCollection;
         $this->serialiser = $serialiser;
     }
     
+    public function setDefaultTemplate($template)
+    {
+        $this->default_template = $template;
+    }
+
+    public function setTemplatePath($path)
+    {
+        $this->template_path = $path;
+    }
+        
     
     // Get a list of content objects, run the renderer on each one, then serialise them
     public function renderSite()
@@ -37,7 +48,7 @@ class SiteBuilder
         $content = $file->getContent();
         
         if (!isset($data['template']) || !$data['template']) {
-            $data['template'] = $this->config['default_template'];
+            $data['template'] = $this->default_template;
         }
         
         // Insert content into template
@@ -48,7 +59,7 @@ class SiteBuilder
                 $renderer = new TwigRenderer($this->twig);
                 break;
             case 'php':
-                $renderer = new PhpRenderer($this->config['template_path']);
+                $renderer = new PhpRenderer($this->template_path);
                 break;
             default:
                 throw new SiteBuilderException('Unsupported template type');

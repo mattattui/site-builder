@@ -1,0 +1,14 @@
+parameters:
+
+    # To use the default Twig template, install Twig and change .php to .twig below
+    template_path: templates/
+    default_template: template.php
+
+    # Where to look for content files
+    content_dir: content
+
+    # Where to put the generated site
+    output_dir: output
+
+    # File extension to give generated files (almost always .html)
+    output_extension: .html

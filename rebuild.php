@@ -5,6 +5,8 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Inanimatt\SiteBuilder\SiteBuilderException;
 
 $loader = new UniversalClassLoader;
@@ -15,6 +17,7 @@ $loader->registerNamespaces(array(
     'Symfony\\Component\\Finder'              => __DIR__ . '/vendor/symfony/finder/',
     'Symfony\\Component\\DependencyInjection' => __DIR__ . '/vendor/symfony/dependency-injection/',
     'Symfony\\Component\\ClassLoader'         => __DIR__ . '/vendor/symfony/class-loader/',
+    'Symfony\\Component\\Config'              => __DIR__ . '/vendor/symfony/config/',
 ));
 $loader->registerPrefixes(array(
     'Twig_' => __DIR__.'/vendor/twig/twig/lib',
@@ -28,53 +31,8 @@ function e($string) {
 
 // Set up the service container
 $sc = new ContainerBuilder;
-$sc->setParameter('sitebuilder.config', __DIR__.'/config.ini');
-
-$sc->register('config', 'Inanimatt\SiteBuilder\SiteBuilderConfig')
-    ->setFactoryClass('Inanimatt\SiteBuilder\SiteBuilderConfig')
-    ->setFactoryMethod('load')
-    ->addArgument('%sitebuilder.config%')
-;
-
-$sc->register('contentcollection', 'Inanimatt\SiteBuilder\FileContentCollection')
-    ->addArgument($sc->get('config')->offsetGet('content_dir'))
-;
-
-$sc->register('serialiser', 'Inanimatt\SiteBuilder\FileSerialiser')
-    ->addArgument($sc->get('config')->offsetGet('output_dir'))
-    ->addArgument($sc->get('config')->offsetGet('output_extension'))
-;
-
-
-// FIXME: This feels wrong, but I don't know what else to do
-$sc->register('twig.loader', 'Twig_Loader_Filesystem')
-    ->addArgument($sc->get('config')->offsetGet('template_path'));
-
-$sc->register('twig', 'Twig_Environment')
-    ->addArgument(new Reference('twig.loader'));
-
-$sc->register('finder', '\Symfony\Component\Finder\Finder');
-$sc->register('yaml', '\Symfony\Component\Yaml\Parser');
-$sc->register('markdown', 'dflydev\markdown\MarkdownParser');
-
-    
-$sc->register('sitebuilder', 'Inanimatt\SiteBuilder\SiteBuilder')
-    ->addArgument(new Reference('config'))
-    ->addArgument(new Reference('twig'))
-    ->addArgument(new Reference('contentcollection'))
-    ->addArgument(new Reference('serialiser'))
-;
-
-
-
-
-// Get the config file from the command-line, or use the default
-$config_file = isset($_SERVER['argv']) && isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : 'config.ini';
-
-if (!is_file($config_file))
-{
-    throw new SiteBuilderException('Config file not found!');
-}   
+$loader = new YamlFileLoader($sc, new FileLocator(__DIR__));
+$loader->load('services.yml');
 
 // Render the site with the given config file
 try {
