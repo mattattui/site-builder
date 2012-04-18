@@ -3,7 +3,7 @@
 namespace Inanimatt\SiteBuilder;
 use Symfony\Component\Finder\SplFileInfo;
 
-class FileContentObject extends SplFileInfo implements ContentObjectInterface
+class MarkdownFileContentObject extends SplFileInfo implements ContentObjectInterface
 {
 
     public function getName()
@@ -13,12 +13,16 @@ class FileContentObject extends SplFileInfo implements ContentObjectInterface
 
     public function getType()
     {
-        return ucfirst($this->getExtension()).'File';
+        return 'MarkdownFile';
     }
     
     public function getContent()
     {
         return file_get_contents($this->getRealPath());
+    }
+    
+    public function getMetadata()
+    {
     }
     
 }

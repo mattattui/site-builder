@@ -11,4 +11,6 @@ interface ContentObjectInterface
     
     public function getContent();
     
+    public function getMetadata();
+    
 }

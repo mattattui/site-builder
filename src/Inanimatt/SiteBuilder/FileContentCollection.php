@@ -33,8 +33,14 @@ class FileContentCollection implements ContentCollectionInterface
         ;
         
         foreach($this->finder as $file) {
-            //FIXME: call ContentObjectFactory to get the right filecontentobject for the given extension
-            $files[] = new FileContentObject($file, $file->getRelativePath(), $file->getRelativePathName());
+            // FIXME: Abstract this to a factory with registered handlers
+            if ($file->getExtension() == 'php') {
+                $files[] = new PhpFileContentObject($file, $file->getRelativePath(), $file->getRelativePathName());
+            }
+            
+            if ($file->getExtension() == 'md') {
+                $files[] = new MarkdownFileContentObject($file, $file->getRelativePath(), $file->getRelativePathName());
+            }
         }
             
         return $files;
