@@ -1,15 +1,6 @@
 <?php
 namespace Inanimatt\SiteBuilder;
 
-
-if (basename($_SERVER['PHP_SELF']) == basename(__FILE__))
-{
-    die("This file is a library, it's not intended to be run directly. Try running 'rebuild.php' instead.".PHP_EOL);
-}
-
-
-
-
 /* Bulk template rendering class
  * 
  * Usage:
@@ -29,25 +20,15 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__))
 
 class SiteBuilder
 {
-    protected $config = array(
-        'template_path'    => null,
-        'default_template' => 'template.php',
-        'output_dir'       => 'output',
-        'content_dir'      => 'content',
-        'output_extension' => '.html',
-    );
-    
+    protected $config   = null;
     protected $twig     = null;
     protected $yaml     = null;
     protected $markdown = null;
     protected $finder   = null;
     
-    public function __construct($config = array())
+    public function __construct($config)
     {
-        $this->config['template_path'] = __DIR__.'/../../../';
-        $this->config = array_merge($this->config, $config);
-        
-        $this->checkConfiguration();
+        $this->config = $config;
         
         $loader         = new \Twig_Loader_Filesystem(realpath($this->config['template_path']));
         $this->twig     = new \Twig_Environment($loader);
@@ -56,39 +37,11 @@ class SiteBuilder
         $this->markdown = new \dflydev\markdown\MarkdownParser;
     }
     
-    public function checkConfiguration($config = null)
-    {
-        if (is_null($config)) {
-            $config = $this->config;
-        }
-        
-        if (!is_array($config)) {
-            throw new SiteBuilderException('Invalid or missing configuration.');
-        }
-
-        if (!isset($config['default_template']) || !is_file($config['template_path'].$config['default_template'])) {
-            throw new SiteBuilderException('Default template not found! Check your configuration.');
-        }
-
-        if (!isset($config['output_dir']) || !is_dir($config['output_dir'])) {
-            throw new SiteBuilderException('Output directory not found! Check your configuration.');
-        }
-
-        if (!isset($config['content_dir']) || !is_dir($config['content_dir'])) {
-            throw new SiteBuilderException('Content directory not found! Check your configuration.');
-        }
-
-        if (!isset($config['output_dir']) || !is_writeable($config['output_dir'])) {
-            throw new SiteBuilderException('Output directory not writeable. Check your directory permissions.');
-        }
-    }
-    
     
     // Factory method for creating a Site_Builder object from a config file
     public static function load($configFile)
     {
-        $config = parse_ini_file($configFile);
-        
+        $config = SiteBuilderConfig::load($configFile);
         return new SiteBuilder($config);
     }
     
