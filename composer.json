@@ -5,9 +5,11 @@
     "description" : "Simple PHP static site generator",
     "require": {
         "php": ">=5.3.2",
-        "twig/twig": "1.6.4",
-        "dflydev/markdown": "1.0.2",
-        "symfony/yaml": "2.0.12",
-        "symfony/finder": "2.0.12"
+        "twig/twig": "1.6.*,<1.6.x-dev",
+        "dflydev/markdown": "1.0.*,<1.0.x-dev",
+        "symfony/yaml": "2.1.*",
+        "symfony/finder": "2.1.*",
+        "symfony/dependency-injection": "2.1.*",
+        "symfony/class-loader": "2.1.*"
     }
 }
