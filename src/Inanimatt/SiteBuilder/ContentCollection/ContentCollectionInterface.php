@@ -8,4 +8,6 @@ interface ContentCollectionInterface
   
     public function getObjects();
 
+    public function registerContentHandler($handlerName, $extensions);
+
 }
