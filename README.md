@@ -1,21 +1,26 @@
 What is(n't) this?
 ==================
 
-Site-builder is a simple example of a static site generator.
+Site-builder is a simple example of a static site generator. Static site
+generators take a series of content files, wrap them in templates, then 
+save them as HTML files. This is an alternative to the common practice of
+using PHP to `include()` headers and footers to content files "live" 
+whenever the file is requested. 
 
-It takes the files in `content/`, wraps them in a template you define, then
-saves them in the `output/` folder. It's a way to get the benefits of 
-templates (easy to maintain your content, easy to update your site style)
-without the unnecessary overhead (i.e. using PHP to compile the content 
-into the template every time someone visits the page).
+Using an SSG gives similar advantages (your content and layout are separated), 
+dramatically increases the performance of your website over using PHP for the 
+same task, and reduces requirements for your website.
 
-PHP can be pretty fast, but unless you're savvy, it will prevent your site 
-being cached by web browsers and proxies, and serve pages much slower than 
-your web server can deal with plain old HTML files.
+Site-builder is yet another SSG. Out of the box it supports Twig and its own 
+simple variety of PHP templates, and content files in HTML, PHP, and Markdown.
+It also presents a number of interfaces to allow developers to create 
+additional renderers and content handlers.
 
-Don't get me wrong, PHP is great for certain tasks, but for adding header &
-footer to a bunch of files, it's huge overkill. This script will give you
-all the same advantages, and then a couple more.
+**Note:** Site-builder is very much a work in progress. Use it at your own 
+risk, and don't be surprised if new updates break backward compatibility. It's 
+essentially in alpha stage until the interfaces, configuration formats, and API 
+is settled.
+
 
 
 Requirements
@@ -24,36 +29,72 @@ Requirements
 * PHP 5.3 or newer. If you use Ubuntu or Debian, you may need to install 
   the `php5-cli` package to let you run scripts on the command-line.
 
+* Twig 1.6
+* "dflydev"'s Markdown library
+* Symfony2 Components: Yaml, Config, Finder, DependencyInjection, ClassLoader
+
+A `composer.json` file is included to handle the installation of these 
+requirements. See the next section for more about this.
+
+
+
+Installation
+============
+
+1. [Download](https://github.com/inanimatt/site-builder/zipball/master) or clone this repository.
+2. From the command-line, run `curl http://getcomposer.org/installer | php` and follow the on-screen instructions to install Composer.
+3. Run `php composer.phar install` to install all the required libraries into the `vendor` folder.
+4. Test the installation by running `php rebuild.php` and checking for files in the `output` folder.
+
 
 Usage
 =====
 
-1. Put your pages (e.g. `index.php`, `about-me.php`) into the `content`
-   folder.
-2. Edit `template.php` to your liking. Your pages' contents will be put into 
-   the `$content` variable, so `echo` it where you want it to be displayed.
+The basics
+----------
+
+1. Put your content (e.g. `index.php`, `about-me.md`) into the `content` 
+   folder. Content files are just that: the main content of the page you want to 
+   publish. The name of the file when you publish will be the same as the content 
+   file, except with .html instead of the original extension.
+   
+   You can create sub-directories in your content folder and they'll be created in 
+   the output folder when you publish, so don't feel like you have to cram 
+   everything into the same folder.
+
+2. The default template is `template.php` in the `templates` folder. Change it 
+   however you like. You can also change the default template to a Twig template 
+   by changing `config.yml`. More on that later. The content of your content files 
+   is placed into the template variable called `$content` (or `{{content}}` in 
+   Twig).
+
 3. Run `php rebuild.php` to render every file and save it to the `output` 
    folder.
 
 
-**Note**: this project works "out of the box" without the Markdown, YAML or
-Twig dependencies, but you'll need to remove the markdown example from the 
-`content/` folder otherwise the `rebuild.php` script will quit with an 
-error.
+Templates
+=========
+
+Using the built-in PHP templates
+--------------------------------
+
+The default template is a simple PHP template class based on one written by 
+Chad Emrys Minick. Just write any old HTML, and where you want your content to 
+be displayed, simply `<?php echo $content; ?>`. A simple function called `e()` 
+is also provided as a shortcut to PHP's built-in `htmlspecialchars()` function, 
+for output escaping.
+
+Obviously you can run any other PHP code you like here, but bear in mind that 
+this is a static site generator: the PHP you write will run once, during 
+publishing, and the output will then be saved to a flat HTML file.
 
 
-Twig support (optional)
-=======================
+Using Twig templates
+--------------------
 
-A `composer.json` file is provided to download and install Twig. Download
-[Composer](http://getcomposer.org/download/) and run `php composer.phar install` to
-download and set up Twig and anything it might require.
-
-If Twig is installed and the template is set to a file with the `.twig`
-extension, then Site-Builder will automatically to render the template using
-Twig. You can use Twig templates for just some of your pages by setting the
-`$view->template` property in the head of each page, or change the default
-template to a Twig template in `config.ini`
+Twig is a fast, clean, and extensible template language with a syntax very 
+similar to Jinja and Django's templating systems. Read more about [writing Twig 
+templates](http://twig.sensiolabs.org/doc/templates.html) here. 
 
 Twig escapes output by default (the equivalent of calling the `e()` function
 for every variable), which is very safe and good practice. However the
@@ -62,33 +103,91 @@ escaped. You can tell Twig not to escape it by passing it through the `raw`
 filter, i.e. `{{ content | raw }}`
 
 
-Markdown support (optional)
-===========================
 
-A `composer.json` file is provided to download and install Markdown. Download
-[Composer](http://getcomposer.org/download/) and run `php composer.phar install` to
-download and set up Markdown and the Yaml library required for setting
-variables in a front-matter block.
+Content
+=======
 
-If Markdown and Yaml are installed, Site-Builder will automatically transform
-any files in the `content` directory that end with a `.md` extension using
-Markdown. You may use a "front matter" block in the YAML format to set other
-variables that will be passed to the template. Look at
-content/markdown-example.md for a simple example.
-
-You may use Markdown content with Twig or PHP templates; it's not fussy.
+Site-builder accepts content in either HTML/PHP format, or Markdown format. 
+Pick whichever you prefer, or use both.
 
 
-Subdirectory support (optional)
-===============================
+HTML/PHP content format
+-----------------------
 
-If you want to have subdirectories in your content folder and have them
-created in your output folder, you'll need to install the Symfony2 Finder
-component. 
+Look at `content/example.php` for an example. The file is like any other HTML 
+or PHP file and you can write whatever you like into it. The only difference is 
+that a variable called `$view` is set before the file is processed, which 
+allows you to pass more information to the template when you rebuild the site.
 
-A `composer.json` file is provided to download and install Finder. Download 
-[Composer](http://getcomposer.org/download/) and run `php composer.phar 
-install` to download and set up Finder and all the other optional dependencies.
+When the page is published, the file is run and the output is saved to the 
+`$content` variable. Any other properties you set on `$view` will also be 
+available within your template, so for example:
+
+
+```php example.php
+<?php
+    $view->title = "This is my page title";
+?>
+<h2>Hello world!</h2>
+<p>This is my content file. There are many like it but this one is mine.</p>
+```
+
+Your template will have access to `$content`, which will contain `<h2>Hello 
+world!<h2>…etc`, and `$title`, which will contain `This is my page title`.
+
+
+If you set `$view->template` to the filename of a template in your `templates` 
+folder, then Site-builder will render the page with that template instead of 
+the default.
+
+
+Markdown content format
+-----------------------
+
+Markdown is an "easy-to-read, easy-to-write plain text format", which is then 
+turned into valid, clean HTML. It was developed by John Gruber and is very 
+popular. [This 
+page](https://raw.github.com/inanimatt/site-builder/master/README.md) itself 
+was written in Markdown. A simple example markdown content file can be found in 
+`content/markdown-example.md`.
+
+Read more about [writing 
+Markdown](http://daringfireball.net/projects/markdown/basics) here.
+
+There are three important things to note about Markdown content files in 
+Site-builder:
+
+1. Markdown can contain plain old HTML, so don't feel constrained by it!
+2. Your markdown content files should end in either `.markdown` or `.md`
+3. Site-builder looks for (but doesn't require) a "front-matter" block where 
+   you can set variables to be passed to your template.
+
+The front-matter block is written in YAML and looks like this:
+
+```yaml example.md
+---
+title: This is my page title
+template: myTemplate.twig
+---
+
+My page title
+=============
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+culpa qui officia deserunt mollit anim id est laborum.
+
+```
+
+When you rebuild the site, Markdown files are converted into HTML and then 
+passed to either the default template, or whichever template you named in the 
+front-matter block. The HTML content is set on the `$content` in PHP templates, 
+and the `{{ content | raw }}` variable in Twig templates.
+
 
 
 Notes
@@ -97,14 +196,13 @@ Notes
 * There are other Static Site Generators out there, many of them far more
   accomplished and capable than this one. For example 
   [Jekyll](http://jekyllrb.com/) (Ruby) and 
-  [Hyde](http://ringce.com/hyde) (Python). I use Site-Builder because it
-  has no required dependencies, and it meets my very limited needs. YMMV!
+  [Hyde](http://ringce.com/hyde) (Python). YMMV!
 * The content of each page is saved in the `$content` variable, but you can 
   set other variables too, which is handy, for example, for setting the page  
   title. Look at `content/example.php` for examples and ideas.
 * You can also set the `template` variable to override the default template.
 * You can change the output and content directories, the output file 
-  extension, and the default template filename by editing `config.ini`
+  extension, and the default template filename by editing `config.yml`
 * `rebuild.php` is supposed to be a command-line tool. Don't put it on your 
   website. If you can't run php from the command-line and you're on a linux 
   system, try `apt-get install php-cli` or `yum install php5-cli` or 
@@ -115,14 +213,12 @@ Notes
   template, then I recommend you use a framework or microframework like 
   [Symfony2](http://symfony.com) or [Silex](http://silex-project.org).
 
+
 Contributing
 ============
 
 I'd love to have pull requests to improve Site-Builder. Please raise an issue 
-first though, in case someone's already working on the feature. Generally 
-speaking, I'd like SiteBuilder to stay fairly simple. Dependencies should 
-remain optional so that people can use it "out of the box" without having to 
-install (e.g.) Markdown, Yaml, Twig, etc.
+first though, in case someone's already working on the feature.
 
 
 
@@ -132,12 +228,7 @@ Glaring omissions
 * A test suite. I'm somewhat ashamed that it doesn't already have one, but not 
   so ashamed (or experienced) that I can write one worth a damn.
 
-* Refactoring to better separate concerns. DI would help here. 
-
-* Right now I if/else the check for markdown or PHP content files, but they'd 
-  be neater as separate "drivers" using the same interface. This would probably 
-  mean formalising some of the expected front matter variables (i.e. title, 
-  template).
+* Documentation (end user and developer)
 
 
 Nice-to-haves:
