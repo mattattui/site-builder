@@ -52,11 +52,6 @@ class MarkdownFileContentHandler extends SplFileInfo implements ContentHandlerIn
     {
         return $this->getRelativePathName();
     }
-
-    public function getType()
-    {
-        return 'MarkdownFile';
-    }
     
     public function getContent()
     {

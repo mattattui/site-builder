@@ -26,11 +26,6 @@ class PhpFileContentHandler extends SplFileInfo implements ContentHandlerInterfa
         return $this->getRelativePathName();
     }
 
-    public function getType()
-    {
-        return 'PhpFile';
-    }
-    
     public function getContent()
     {
         return $this->view->content;
