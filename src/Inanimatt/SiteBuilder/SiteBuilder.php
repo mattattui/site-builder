@@ -2,6 +2,10 @@
 namespace Inanimatt\SiteBuilder;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Inanimatt\SiteBuilder\ContentCollection\ContentCollectionInterface;
+use Inanimatt\SiteBuilder\ContentObject\ContentObjectInterface;
+use Inanimatt\SiteBuilder\Serialiser\SerialiserInterface;
+
 
 class SiteBuilder
 {
@@ -56,10 +60,10 @@ class SiteBuilder
         $templateInfo = new \splFileInfo($data['template']);
         switch($templateInfo->getExtension()) {
             case 'twig':
-                $renderer = new TwigRenderer($this->twig);
+                $renderer = new Renderer\TwigRenderer($this->twig);
                 break;
             case 'php':
-                $renderer = new PhpRenderer($this->template_path);
+                $renderer = new Renderer\PhpRenderer($this->template_path);
                 break;
             default:
                 throw new SiteBuilderException('Unsupported template type');

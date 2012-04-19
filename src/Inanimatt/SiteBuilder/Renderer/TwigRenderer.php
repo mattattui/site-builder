@@ -1,5 +1,5 @@
 <?php
-namespace Inanimatt\SiteBuilder;
+namespace Inanimatt\SiteBuilder\Renderer;
 
 class TwigRenderer implements RendererInterface
 {

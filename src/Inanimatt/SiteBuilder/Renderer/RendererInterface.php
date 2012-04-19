@@ -1,5 +1,5 @@
 <?php
-namespace Inanimatt\SiteBuilder;
+namespace Inanimatt\SiteBuilder\Renderer;
 
 interface RendererInterface
 {

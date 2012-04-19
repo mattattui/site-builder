@@ -1,6 +1,8 @@
 <?php
-namespace Inanimatt\SiteBuilder;
+namespace Inanimatt\SiteBuilder\ContentCollection;
 use Symfony\Component\Finder\Finder;
+use Inanimatt\SiteBuilder\ContentObject\PhpFileContentObject;
+use Inanimatt\SiteBuilder\ContentObject\MarkdownFileContentObject;
 
 class FileContentCollection implements ContentCollectionInterface
 {

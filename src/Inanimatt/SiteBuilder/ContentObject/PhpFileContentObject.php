@@ -1,6 +1,8 @@
 <?php
 
-namespace Inanimatt\SiteBuilder;
+namespace Inanimatt\SiteBuilder\ContentObject;
+
+use Inanimatt\SiteBuilder\SiteBuilderTemplate;
 use Symfony\Component\Finder\SplFileInfo;
 
 class PhpFileContentObject extends SplFileInfo implements ContentObjectInterface

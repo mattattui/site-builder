@@ -1,6 +1,6 @@
 <?php
 
-namespace Inanimatt\SiteBuilder;
+namespace Inanimatt\SiteBuilder\ContentObject;
 
 interface ContentObjectInterface
 {

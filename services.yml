@@ -3,11 +3,11 @@ imports:
     
 services:
     contentcollection:
-        class: Inanimatt\SiteBuilder\FileContentCollection
+        class: Inanimatt\SiteBuilder\ContentCollection\FileContentCollection
         arguments: [%content_dir%]
 
     serialiser:
-        class: Inanimatt\SiteBuilder\FileSerialiser
+        class: Inanimatt\SiteBuilder\Serialiser\FileSerialiser
         arguments: [%output_dir%, %output_extension%]
     
     twig.loader:

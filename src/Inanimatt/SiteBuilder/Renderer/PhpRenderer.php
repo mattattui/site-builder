@@ -1,5 +1,7 @@
 <?php
-namespace Inanimatt\SiteBuilder;
+namespace Inanimatt\SiteBuilder\Renderer;
+
+use Inanimatt\SiteBuilder\SiteBuilderTemplate;
 
 class PhpRenderer implements RendererInterface
 {
