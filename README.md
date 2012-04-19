@@ -56,8 +56,7 @@ The basics
 1. Put your content (e.g. `index.php`, `about-me.md`) into the `content` 
    folder. Content files are just that: the main content of the page you want to 
    publish. The name of the file when you publish will be the same as the content 
-   file, except with .html instead of the original extension.
-   
+   file, except with .html instead of the original extension.  
    You can create sub-directories in your content folder and they'll be created in 
    the output folder when you publish, so don't feel like you have to cram 
    everything into the same folder.
@@ -124,7 +123,7 @@ When the page is published, the file is run and the output is saved to the
 available within your template, so for example:
 
 
-```php example.php
+```php
 <?php
     $view->title = "This is my page title";
 ?>
@@ -164,7 +163,7 @@ Site-builder:
 
 The front-matter block is written in YAML and looks like this:
 
-```yaml example.md
+```yaml
 ---
 title: This is my page title
 template: myTemplate.twig
