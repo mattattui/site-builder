@@ -5,22 +5,35 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Inanimatt\SiteBuilder\ContentCollection\ContentCollectionInterface;
 use Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface;
 use Inanimatt\SiteBuilder\Serialiser\SerialiserInterface;
+use Inanimatt\SiteBuilder\Renderer\RendererInterface;
 
 
 class SiteBuilder
 {
-    protected $twig = null;
     protected $contentCollection = null;
     protected $serialiser = null;
     
     protected $default_template = 'template.php';
     protected $template_path = './';
     
-    public function __construct(\Twig_Environment $twig, ContentCollectionInterface $contentCollection, SerialiserInterface $serialiser)
+    protected $renderers = null;
+    
+    public function __construct(ContentCollectionInterface $contentCollection, SerialiserInterface $serialiser)
     {
-        $this->twig = $twig;
         $this->contentCollection = $contentCollection;
         $this->serialiser = $serialiser;
+        $this->renderers = array();
+    }
+    
+    
+    public function registerRenderer(RendererInterface $renderer, $extensions) {
+        if (!is_array($extensions)) {
+            throw new SiteBuilderException('Invalid argument: 2nd argument must be an array.');
+        }
+        
+        foreach($extensions as $ext) {
+            $this->renderers[$ext] = $renderer;
+        }
     }
     
     public function setDefaultTemplate($template)
@@ -56,21 +69,14 @@ class SiteBuilder
         }
         
         // Insert content into template
-        // FIXME: replace the twig dependency with a RendererFactory with handlers
+        // FIXME: templates can only ever be files while splFileInfo used to determine type
         $templateInfo = new \splFileInfo($data['template']);
-        switch($templateInfo->getExtension()) {
-            case 'twig':
-                $renderer = new Renderer\TwigRenderer($this->twig);
-                break;
-            case 'php':
-                $renderer = new Renderer\PhpRenderer($this->template_path);
-                break;
-            default:
-                throw new SiteBuilderException('Unsupported template type');
+        
+        if (!isset($this->renderers[$templateInfo->getExtension()])) {
+            throw new SiteBuilderException('No renderer registered for template file extension .'.$templateInfo->getExtension());
         }
-
-        // Return rendered view
-        return $renderer->render($data, $data['template']);
+            
+        return $this->renderers[$templateInfo->getExtension()]->render($data, $data['template']);
     }
 
 }

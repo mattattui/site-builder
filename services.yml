@@ -20,6 +20,14 @@ services:
     twig:
         class: Twig_Environment
         arguments: [@twig.loader]
+    
+    renderer.twig:
+        class: Inanimatt\SiteBuilder\Renderer\TwigRenderer
+        arguments: [@twig]
+
+    renderer.php:
+        class: Inanimatt\SiteBuilder\Renderer\PhpRenderer
+        arguments: [%template_path%]
         
     finder:
         class: Symfony\Component\Finder\Finder
@@ -32,8 +40,10 @@ services:
 
     sitebuilder:
         class: Inanimatt\SiteBuilder\SiteBuilder
-        arguments: [@twig, @contentcollection, @serialiser]
+        arguments: [@contentcollection, @serialiser]
         calls:
             - [setDefaultTemplate, [%default_template%]]
             - [setTemplatePath, [%template_path%]]
+            - [registerRenderer, [@renderer.twig, ["twig"]]]
+            - [registerRenderer, [@renderer.php, ["php"]]]
 
