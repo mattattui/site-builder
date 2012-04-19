@@ -1,8 +1,8 @@
 <?php
 
-namespace Inanimatt\SiteBuilder\ContentObject;
+namespace Inanimatt\SiteBuilder\ContentHandler;
 
-interface ContentObjectInterface
+interface ContentHandlerInterface
 {
 
     public function getName();

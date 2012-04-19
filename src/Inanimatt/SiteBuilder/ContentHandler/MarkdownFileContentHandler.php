@@ -1,13 +1,13 @@
 <?php
 
-namespace Inanimatt\SiteBuilder\ContentObject;
+namespace Inanimatt\SiteBuilder\ContentHandler;
 
 use Inanimatt\SiteBuilder\SiteBuilderTemplate;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use dflydev\markdown\MarkdownParser;
 
-class MarkdownFileContentObject extends SplFileInfo implements ContentObjectInterface
+class MarkdownFileContentHandler extends SplFileInfo implements ContentHandlerInterface
 {
     protected $content;
     protected $metadata;

@@ -3,7 +3,7 @@ namespace Inanimatt\SiteBuilder;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Inanimatt\SiteBuilder\ContentCollection\ContentCollectionInterface;
-use Inanimatt\SiteBuilder\ContentObject\ContentObjectInterface;
+use Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface;
 use Inanimatt\SiteBuilder\Serialiser\SerialiserInterface;
 
 
@@ -45,7 +45,7 @@ class SiteBuilder
     }
     
     
-    public function renderFile(ContentObjectInterface $file)
+    public function renderFile(ContentHandlerInterface $file)
     {
         // Handle content and data first
         $data = $file->getMetadata();

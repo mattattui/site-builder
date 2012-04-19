@@ -1,11 +1,11 @@
 <?php
 
-namespace Inanimatt\SiteBuilder\ContentObject;
+namespace Inanimatt\SiteBuilder\ContentHandler;
 
 use Inanimatt\SiteBuilder\SiteBuilderTemplate;
 use Symfony\Component\Finder\SplFileInfo;
 
-class PhpFileContentObject extends SplFileInfo implements ContentObjectInterface
+class PhpFileContentHandler extends SplFileInfo implements ContentHandlerInterface
 {
     protected $view = null;
 

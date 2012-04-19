@@ -1,8 +1,8 @@
 <?php
 namespace Inanimatt\SiteBuilder\ContentCollection;
 use Symfony\Component\Finder\Finder;
-use Inanimatt\SiteBuilder\ContentObject\PhpFileContentObject;
-use Inanimatt\SiteBuilder\ContentObject\MarkdownFileContentObject;
+use Inanimatt\SiteBuilder\ContentHandler\PhpFileContentHandler;
+use Inanimatt\SiteBuilder\ContentHandler\MarkdownFileContentHandler;
 
 class FileContentCollection implements ContentCollectionInterface
 {
@@ -37,11 +37,11 @@ class FileContentCollection implements ContentCollectionInterface
         foreach($this->finder as $file) {
             // FIXME: Abstract this to a factory with registered handlers
             if ($file->getExtension() == 'php') {
-                $files[] = new PhpFileContentObject($file, $file->getRelativePath(), $file->getRelativePathName());
+                $files[] = new PhpFileContentHandler($file, $file->getRelativePath(), $file->getRelativePathName());
             }
             
             if ($file->getExtension() == 'md') {
-                $files[] = new MarkdownFileContentObject($file, $file->getRelativePath(), $file->getRelativePathName());
+                $files[] = new MarkdownFileContentHandler($file, $file->getRelativePath(), $file->getRelativePathName());
             }
         }
             
