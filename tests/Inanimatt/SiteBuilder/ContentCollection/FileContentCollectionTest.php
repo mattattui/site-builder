@@ -63,4 +63,20 @@ class FileContentCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('example.php', $results[0]->data['relpathname']);
         $this->assertEquals('subdir/example.php', $results[1]->data['relpathname']);
     }
+    
+    /**
+     * @expectedException Inanimatt\SiteBuilder\SiteBuilderException
+     */
+    public function testGetObjectsException()
+    {
+        $results = $this->object->getObjects();
+    }
+
+    /**
+     * @expectedException Inanimatt\SiteBuilder\SiteBuilderException
+     */
+    public function testRegisterContentHandlerException()
+    {
+        $results = $this->object->registerContentHandler('Inanimatt\SiteBuilder\ContentCollection\testFile', 'php');
+    }
 }
