@@ -74,6 +74,23 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
         $m = $this->object->getMetadata();
         $this->assertEquals('Hello World & Stuff', $m['title']);
         $this->assertEquals('template.twig', $m['template']);
+       
+        $o = new MarkdownFileContentHandler(__DIR__.'/../../../resources/subdir/example-nofm.md', 'subdir', 'subdir/example.md' );
+        
+    }
+
+    /**
+     * @covers Inanimatt\SiteBuilder\ContentHandler\MarkdownFileContentHandler::getMetadata
+     * @covers Inanimatt\SiteBuilder\ContentHandler\MarkdownFileContentHandler::getFrontMatter
+     * @covers Inanimatt\SiteBuilder\ContentHandler\MarkdownFileContentHandler::__construct
+     */
+    public function testGetMetadataBlank()
+    {
+        $o = new MarkdownFileContentHandler(__DIR__.'/../../../resources/subdir/example-nofm.md', 'subdir', 'subdir/example-nofm.md' );
+
+        $this->assertTrue(is_array($o->getMetadata()), '->getMetadata() returns array, even if no frontmatter');
+        $this->assertArrayHasKey('content', $o->getMetadata(), '->getMetadata() with no frontmatter contains content var');
+        $this->assertCount(1, $o->getMetadata(), '->getMetadata() with no frontmatter contains only content var');
         
     }
 }

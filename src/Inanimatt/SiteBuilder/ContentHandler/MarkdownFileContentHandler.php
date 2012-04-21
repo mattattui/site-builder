@@ -42,8 +42,6 @@ class MarkdownFileContentHandler extends SplFileInfo implements ContentHandlerIn
             
         /* Parse remaining file as markdown */
         $data['content'] = $markdown->transformMarkdown($fileContent);
-            
-        $data['template'] = isset($data['template']) ? $data['template'] : $this->config['default_template'];
         
         // Create a view so that rendering will still work
         $view = new SiteBuilderTemplate();
