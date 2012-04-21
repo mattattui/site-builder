@@ -3,3 +3,4 @@ vendor
 composer.phar
 output/*
 composer.lock
+phpunit.xml
