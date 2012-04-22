@@ -224,10 +224,16 @@ first though, in case someone's already working on the feature.
 Glaring omissions
 -----------------
 
-* A test suite. I'm somewhat ashamed that it doesn't already have one, but not 
-  so ashamed (or experienced) that I can write one worth a damn.
+* A test suite. I'm work on this with PHPUnit and a code coverage tool,
+  but I'd greatly appreciate any help or advice.
+  
+* Console output/logging. Right now you get some info if there's a problem,
+  but if everything works properly, there's no output. Symfony's Console
+  Component is a no-brainer for this, but something much more simple would 
+  be fine too.
 
-* Documentation (end user and developer)
+* Documentation (end user and developer). I've started to add doc-comments
+  and there's this README, but there could be more and better.
 
 
 Nice-to-haves:
@@ -242,10 +248,15 @@ Nice-to-haves:
   resources to your output folder, but it'd be nicer if they were part of the 
   content and published, so you can wipe your output folder before rebuilding.
 
-* Package the whole thing as a Phar, add help and command-line options with the 
-  Symfony Console component. I've shied away from doing this before now because 
-  issues running Phars out of the box are still fairly common, but that's not 
-  really a blocker, just an opportunity for clearer documentation. A Phar would 
-  also allow some of the dependencies to be built-in without inconveniencing 
-  users.
+* Package the whole thing as a Phar, add help and command-line options with
+  the Symfony Console component. 
 
+* I'm fairly happy with the design of ContentCollection, ContentHandler and
+  Serialiser interfaces, but the rendering stuff probably needs some 
+  attention. Right now, the SiteBuilder class' renderFile method creates an
+  SplFileInfo object to check the template file's extension (so it can pick
+  the right renderer). This means that templates have to be file-based, 
+  whereas the ContentHandler interface is flexible enough to allow content
+  to be stored in files, or databases, or anywhere. This probably means
+  creating a TemplateHandler interface, but it needs some thought and I'd
+  welcome advice or help.
