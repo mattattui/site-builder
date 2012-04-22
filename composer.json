@@ -11,6 +11,7 @@
         "symfony/finder": "2.1.*",
         "symfony/dependency-injection": "2.1.*",
         "symfony/class-loader": "2.1.*",
-        "symfony/config": "2.1.*"
+        "symfony/config": "2.1.*",
+        "symfony/console": "2.1.*"
     }
 }

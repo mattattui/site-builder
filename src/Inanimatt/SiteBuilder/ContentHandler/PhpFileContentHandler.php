@@ -3,6 +3,7 @@
 namespace Inanimatt\SiteBuilder\ContentHandler;
 
 use Inanimatt\SiteBuilder\SiteBuilderTemplate;
+use Inanimatt\SiteBuilder\SiteBuilderException;
 use Symfony\Component\Finder\SplFileInfo;
 
 class PhpFileContentHandler extends SplFileInfo implements ContentHandlerInterface
@@ -11,6 +12,11 @@ class PhpFileContentHandler extends SplFileInfo implements ContentHandlerInterfa
 
     public function __construct($file, $relativePath, $relativePathName)
     {
+        if (!is_file($file))
+        {
+            throw new SiteBuilderException('File not found.');
+        }
+        
         parent::__construct($file, $relativePath, $relativePathName);
         
         $view = new SiteBuilderTemplate();

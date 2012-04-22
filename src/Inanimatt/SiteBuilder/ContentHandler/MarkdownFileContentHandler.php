@@ -3,6 +3,7 @@
 namespace Inanimatt\SiteBuilder\ContentHandler;
 
 use Inanimatt\SiteBuilder\SiteBuilderTemplate;
+use Inanimatt\SiteBuilder\SiteBuilderException;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use dflydev\markdown\MarkdownParser;
@@ -14,6 +15,11 @@ class MarkdownFileContentHandler extends SplFileInfo implements ContentHandlerIn
     
     public function __construct($file, $relativePath, $relativePathName)
     {
+        if (!is_file($file))
+        {
+            throw new SiteBuilderException('File not found.');
+        }
+
         parent::__construct($file, $relativePath, $relativePathName);
         
         $yaml = new YamlParser;
@@ -36,8 +42,6 @@ class MarkdownFileContentHandler extends SplFileInfo implements ContentHandlerIn
             
         /* Parse remaining file as markdown */
         $data['content'] = $markdown->transformMarkdown($fileContent);
-            
-        $data['template'] = isset($data['template']) ? $data['template'] : $this->config['default_template'];
         
         // Create a view so that rendering will still work
         $view = new SiteBuilderTemplate();
