@@ -94,13 +94,13 @@ class SiteBuilder
         // Insert content into template
         // FIXME: templates can only ever be files while splFileInfo used to determine type. 
         // Create template handler object, like content handler? 
-        $templateInfo = new \splFileInfo($data['template']);
+        $extension = pathinfo($data['template'], PATHINFO_EXTENSION);
         
-        if (!isset($this->renderers[$templateInfo->getExtension()])) {
-            throw new SiteBuilderException('No renderer registered for template file extension .'.$templateInfo->getExtension());
+        if (!isset($this->renderers[$extension])) {
+            throw new SiteBuilderException('No renderer registered for template file extension .'.$extension);
         }
             
-        return $this->renderers[$templateInfo->getExtension()]->render($data, $data['template']);
+        return $this->renderers[$extension]->render($data, $data['template']);
     }
 
 }

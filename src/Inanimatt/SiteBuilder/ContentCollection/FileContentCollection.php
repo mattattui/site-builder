@@ -52,11 +52,12 @@ class FileContentCollection implements ContentCollectionInterface
         }
         
         foreach($this->finder as $file) {
-            if (!isset($this->handlers[$file->getExtension()])) {
-                throw new SiteBuilderException('No content handler registered for file extension .'.$file->getExtension());
+            $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION); // splFileInfo->getExtension requires php 5.3.6
+            if (!isset($this->handlers[$extension])) {
+                throw new SiteBuilderException('No content handler registered for file extension .'.$extension);
             }
             
-            $class = $this->handlers[$file->getExtension()];
+            $class = $this->handlers[$extension];
             $files[] = new $class($file, $file->getRelativePath(), $file->getRelativePathName());
         }
             
