@@ -14,7 +14,7 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new MarkdownFileContentHandler(__DIR__.'/../../../resources/subdir/example.md', 'subdir', 'subdir/example.md' );
+        $this->object = new MarkdownFileContentHandler(__DIR__.'/../../../resources/content/subdir/example.md', 'subdir', 'subdir/example.md' );
     }
 
     /**
@@ -75,7 +75,7 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Hello World & Stuff', $m['title']);
         $this->assertEquals('template.twig', $m['template']);
        
-        $o = new MarkdownFileContentHandler(__DIR__.'/../../../resources/subdir/example-nofm.md', 'subdir', 'subdir/example.md' );
+        $o = new MarkdownFileContentHandler(__DIR__.'/../../../resources/content/subdir/example-nofm.md', 'subdir', 'subdir/example.md' );
         
     }
 
@@ -86,7 +86,7 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMetadataBlank()
     {
-        $o = new MarkdownFileContentHandler(__DIR__.'/../../../resources/subdir/example-nofm.md', 'subdir', 'subdir/example-nofm.md' );
+        $o = new MarkdownFileContentHandler(__DIR__.'/../../../resources/content/subdir/example-nofm.md', 'subdir', 'subdir/example-nofm.md' );
 
         $this->assertTrue(is_array($o->getMetadata()), '->getMetadata() returns array, even if no frontmatter');
         $this->assertArrayHasKey('content', $o->getMetadata(), '->getMetadata() with no frontmatter contains content var');

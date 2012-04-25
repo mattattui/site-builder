@@ -25,7 +25,7 @@ class FileContentCollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new FileContentCollection(__DIR__.'/../../../resources');
+        $this->object = new FileContentCollection(__DIR__.'/../../../resources/content');
     }
 
     /**

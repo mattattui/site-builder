@@ -23,7 +23,7 @@ class PhpFileContentHandlerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new PhpFileContentHandler(__DIR__.'/../../../resources/subdir/example.php', 'subdir', 'subdir/example.php' );
+        $this->object = new PhpFileContentHandler(__DIR__.'/../../../resources/content/subdir/example.php', 'subdir', 'subdir/example.php' );
     }
 
     /**
