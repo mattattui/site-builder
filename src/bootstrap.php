@@ -17,6 +17,7 @@ $loader->registerNamespaces(array(
     'Symfony\\Component\\DependencyInjection' => __DIR__ . '/../vendor/symfony/dependency-injection/',
     'Symfony\\Component\\ClassLoader'         => __DIR__ . '/../vendor/symfony/class-loader/',
     'Symfony\\Component\\Config'              => __DIR__ . '/../vendor/symfony/config/',
+    'Symfony\\Component\\Console'             => __DIR__ . '/../vendor/symfony/console/',
 ));
 $loader->registerPrefixes(array(
     'Twig_' => __DIR__.'/../vendor/twig/twig/lib',
