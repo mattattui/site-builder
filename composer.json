@@ -3,6 +3,14 @@
     "version": "2.0-dev",
     "license": "MIT",
     "description" : "Simple PHP static site generator",
+    "homepage" : "https://github.com/inanimatt/site-builder",
+    "authors": [
+      {
+          "name": "Matt Robinson",
+          "email": "matt@inanimatt.com",
+          "homepage": "http://inanimatt.com/"
+      }  
+    ],
     "require": {
         "php": ">=5.3.2",
         "twig/twig": "1.6.*,<1.6.x-dev",
@@ -13,5 +21,8 @@
         "symfony/class-loader": "2.1.*",
         "symfony/config": "2.1.*",
         "symfony/console": "2.1.*"
+    },
+    "require-dev": {
+        "EHER/PHPUnit": ">=1.2"
     }
 }
