@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$console = new Application('SiteBuilder', '1.0-dev');
+$console = new Application('SiteBuilder', '2.0-dev');
 
 $console
     ->register('rebuild')
