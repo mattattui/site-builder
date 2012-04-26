@@ -40,7 +40,6 @@ services:
 
     sitebuilder:
         class: Inanimatt\SiteBuilder\SiteBuilder
-        arguments: [@contentcollection, @serialiser]
         calls:
             - [setDefaultTemplate, [%default_template%]]
             - [setTemplatePath, [%template_path%]]

@@ -10,18 +10,13 @@ use Inanimatt\SiteBuilder\Renderer\RendererInterface;
 
 class SiteBuilder
 {
-    protected $contentCollection = null;
-    protected $serialiser = null;
-    
     protected $default_template = 'template.php';
     protected $template_path = './';
     
     protected $renderers = null;
     
-    public function __construct(ContentCollectionInterface $contentCollection, SerialiserInterface $serialiser)
+    public function __construct()
     {
-        $this->contentCollection = $contentCollection;
-        $this->serialiser = $serialiser;
         $this->renderers = array();
     }
     
@@ -66,12 +61,12 @@ class SiteBuilder
     /**
      * Iterate through the content collection, render each file, serialise output
      */
-    public function renderSite()
+    public function renderSite(ContentCollectionInterface $contentCollection, SerialiserInterface $serialiser)
     {
-        $contentObjects = $this->contentCollection->getObjects();
+        $contentObjects = $contentCollection->getObjects();
         foreach($contentObjects as $content) {
             $output = $this->renderFile($content);
-            $this->serialiser->write($output, $content->getName());
+            $serialiser->write($output, $content->getName());
         }
     }
     
