@@ -31,7 +31,7 @@ Requirements
 
 * Twig 1.6
 * "dflydev"'s Markdown library
-* Symfony2 Components: Yaml, Config, Finder, DependencyInjection, ClassLoader
+* Symfony2 Components: Yaml, Config, Finder, DependencyInjection, ClassLoader, Console
 
 A `composer.json` file is included to handle the installation of these 
 requirements. See the next section for more about this.
@@ -44,7 +44,7 @@ Installation
 1. [Download](https://github.com/inanimatt/site-builder/zipball/master) or clone this repository.
 2. From the command-line, run `curl http://getcomposer.org/installer | php` and follow the on-screen instructions to install Composer.
 3. Run `php composer.phar install` to install all the required libraries into the `vendor` folder.
-4. Test the installation by running `php rebuild.php` and checking for files in the `output` folder.
+4. Test the installation by running `php sitebuilder.php rebuild`. Check for files in the `output` folder.
 
 
 Usage
@@ -67,7 +67,7 @@ The basics
    is placed into the template variable called `$content` (or `{{content}}` in 
    Twig).
 
-3. Run `php rebuild.php` to render every file and save it to the `output` 
+3. Run `php sitebuilder.php rebuild` to render every file and save it to the `output` 
    folder.
 
 
@@ -202,8 +202,8 @@ Notes
 * You can also set the `template` variable to override the default template.
 * You can change the output and content directories, the output file 
   extension, and the default template filename by editing `config.yml`
-* `rebuild.php` is supposed to be a command-line tool. Don't put it on your 
-  website. If you can't run php from the command-line and you're on a linux 
+* `sitebuilder.php` is supposed to be a command-line tool. Don't put it on your 
+  website. If you can't run php from the command-line and you're on a Linux 
   system, try `apt-get install php-cli` or `yum install php5-cli` or 
   similar. 
 * Your content can contain any PHP you like, but bear in mind that this tool 
@@ -221,19 +221,15 @@ first though, in case someone's already working on the feature.
 
 
 
-Glaring omissions
------------------
+Major Todo Items
+----------------
 
-* A test suite. I'm work on this with PHPUnit and a code coverage tool,
-  but I'd greatly appreciate any help or advice.
+* A full test suite. I've made progress on this with PHPUnit and its code-
+  coverage tool, but I'd really appreciate help making sure it's good and
+  comprehensive.
   
-* Console output/logging. Right now you get some info if there's a problem,
-  but if everything works properly, there's no output. Symfony's Console
-  Component is a no-brainer for this, but something much more simple would 
-  be fine too.
-
 * Documentation (end user and developer). I've started to add doc-comments
-  and there's this README, but there could be more and better.
+  and there's this README, but there could be more and better, I know.
 
 
 Nice-to-haves:
@@ -248,8 +244,7 @@ Nice-to-haves:
   resources to your output folder, but it'd be nicer if they were part of the 
   content and published, so you can wipe your output folder before rebuilding.
 
-* Package the whole thing as a Phar, add help and command-line options with
-  the Symfony Console component. 
+* Package the whole thing as a Phar to make it tidy. 
 
 * I'm fairly happy with the design of ContentCollection, ContentHandler and
   Serialiser interfaces, but the rendering stuff probably needs some 
