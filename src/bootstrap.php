@@ -5,7 +5,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 use Inanimatt\SiteBuilder\SiteBuilderException;
 
 $loader = new UniversalClassLoader;
@@ -31,7 +34,14 @@ function e($string) {
 
 // Set up the service container
 $sc = new ContainerBuilder;
-$loader = new YamlFileLoader($sc, new FileLocator(array(__DIR__, __DIR__.'/..')));
+
+$locator = new FileLocator(array(__DIR__, __DIR__.'/..'));
+$resolver = new LoaderResolver(array(
+    new YamlFileLoader($sc, $locator),
+    new IniFileLoader($sc, $locator),
+));
+
+$loader = new DelegatingLoader($resolver);
 $loader->load('services.yml');
 
 return $sc;

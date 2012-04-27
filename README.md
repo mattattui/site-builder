@@ -63,7 +63,7 @@ The basics
 
 2. The default template is `template.php` in the `templates` folder. Change it 
    however you like. You can also change the default template to a Twig template 
-   by changing `config.yml`. More on that later. The content of your content files 
+   by changing `config.ini`. More on that later. The content of your content files 
    is placed into the template variable called `$content` (or `{{content}}` in 
    Twig).
 
@@ -201,7 +201,7 @@ Notes
   title. Look at `content/example.php` for examples and ideas.
 * You can also set the `template` variable to override the default template.
 * You can change the output and content directories, the output file 
-  extension, and the default template filename by editing `config.yml`
+  extension, and the default template filename by editing `config.ini`
 * `sitebuilder.php` is supposed to be a command-line tool. Don't put it on your 
   website. If you can't run php from the command-line and you're on a Linux 
   system, try `apt-get install php-cli` or `yum install php5-cli` or 
