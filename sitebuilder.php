@@ -32,7 +32,12 @@ EOH
         foreach($contentCollection->getObjects() as $content) {
             $output->writeln(sprintf('Rendering <info>%s</info>', $content->getRelativePathName()));
 
-            $out = $builder->renderFile($content);
+            $out = $builder->renderFile($content, array(
+                'app' => array(
+                    'contentcollection' => $contentCollection,
+                    'contentobject' => $content,
+                ),
+            ));
             $serialiser->write($out, $content->getName());
         }
     })

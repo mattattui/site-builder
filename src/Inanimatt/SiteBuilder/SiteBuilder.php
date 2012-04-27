@@ -65,7 +65,12 @@ class SiteBuilder
     {
         $contentObjects = $contentCollection->getObjects();
         foreach($contentObjects as $content) {
-            $output = $this->renderFile($content);
+            $output = $this->renderFile($content, array(
+                'app' => array(
+                    'contentcollection' => $contentCollection,
+                    'contentobject' => $content,
+                ),
+            ));
             $serialiser->write($output, $content->getName());
         }
     }
@@ -76,11 +81,18 @@ class SiteBuilder
      * @param ContentHandlerInterface $file ContentHandler object
      * @return string Rendered content
      */
-    public function renderFile(ContentHandlerInterface $file)
+    public function renderFile(ContentHandlerInterface $file, $extraData = null)
     {
         // Handle content and data first
         $data = $file->getMetadata();
         $content = $file->getContent();
+        
+        if (!is_null($extraData)) {
+            if (!is_array($extraData)) {
+                throw new SiteBuilderException('Invalid argument: extra data must be an array.');
+            }
+            $data = array_merge($extraData, $data);
+        }
         
         if (!isset($data['template']) || !$data['template']) {
             $data['template'] = $this->default_template;
