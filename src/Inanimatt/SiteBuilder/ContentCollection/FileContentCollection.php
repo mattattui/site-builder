@@ -6,15 +6,12 @@ use Inanimatt\SiteBuilder\SiteBuilderException;
 class FileContentCollection implements ContentCollectionInterface
 {
     protected $path;
-    protected $finder;
     protected $collection;
     
     protected $handlers;
 
     public function __construct($path = null)
     {
-        $this->finder = new Finder;
-        
         if ($path) {
             $this->setPath($path);
         }
@@ -41,17 +38,19 @@ class FileContentCollection implements ContentCollectionInterface
   
     public function getObjects()
     {
+        $finder = new Finder;
+        
         $files = array();
         
-        $this->finder->files()
+        $finder->files()
             ->in($this->path)
         ;
 
         foreach($this->handlers as $ext => $className) {
-            $this->finder->name('*.'.$ext);
+            $finder->name('*.'.$ext);
         }
         
-        foreach($this->finder as $file) {
+        foreach($finder as $file) {
             $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION); // splFileInfo->getExtension requires php 5.3.6
             if (!isset($this->handlers[$extension])) {
                 throw new SiteBuilderException('No content handler registered for file extension .'.$extension);
