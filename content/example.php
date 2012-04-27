@@ -1,6 +1,6 @@
 <?php
 	// $view is the template object. This will set $title in the template file
-	$view->title = 'Hello World & Stuff';
+	$view->title = 'Example title';
 	
 	/* Other example uses for view variables:
 	 * set the body id
