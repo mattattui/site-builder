@@ -94,20 +94,23 @@ class SiteBuilder
             $data = array_merge($extraData, $data);
         }
         
+        // Choose renderer
         if (!isset($data['template']) || !$data['template']) {
             $data['template'] = $this->default_template;
         }
         
-        // Insert content into template
-        // FIXME: templates can only ever be files while splFileInfo used to determine type. 
-        // Create template handler object, like content handler? 
-        $extension = pathinfo($data['template'], PATHINFO_EXTENSION);
+        $pos = strrpos($data['template'],'.');
+        if ($pos === false) {
+            throw new SiteBuilderException('Cannot determine renderer for template '.$data['template']);
+        }
         
-        if (!isset($this->renderers[$extension])) {
-            throw new SiteBuilderException('No renderer registered for template file extension .'.$extension);
+        $rendererId = substr($data['template'],$pos+1);
+        
+        if (!isset($this->renderers[$rendererId])) {
+            throw new SiteBuilderException('No renderer registered for template file extension .'.$rendererId);
         }
             
-        return $this->renderers[$extension]->render($data, $data['template']);
+        return $this->renderers[$rendererId]->render($data, $data['template']);
     }
 
 }
