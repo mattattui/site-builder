@@ -102,6 +102,17 @@ escaped. You can tell Twig not to escape it by passing it through the `raw`
 filter, i.e. `{{ content | raw }}`
 
 
+The app array
+--------------
+
+Both PHP and Twig templates have access to a variable called `app`. This 
+contains the ContentCollection object (aka the list of files) and the 
+ContentHandler object for the file being rendered. You can use these to generate 
+navigation in your templates. Both the Twig and PHP example templates 
+demonstrate how this works.
+
+
+
 
 Content
 =======
@@ -234,11 +245,6 @@ Major Todo Items
 
 Nice-to-haves:
 --------------
-
-* Introspection: it would be good if templates could get a list of other 
-  templates, e.g. for building navigation. This would require building an 
-  object with page titles/front-matter and setting it as something accessible 
-  from the templates.
 
 * Support for inline images. You can do it just fine right now by adding 
   resources to your output folder, but it'd be nicer if they were part of the 
