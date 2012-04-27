@@ -11,4 +11,6 @@ interface ContentHandlerInterface
     
     public function getMetadata();
     
+    public function getOutputName($extension);
+    
 }

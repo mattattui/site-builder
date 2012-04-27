@@ -12,7 +12,7 @@
   
   <ul id="nav">
       {% for o in app.contentcollection.objects %}
-          <li><a href="{{ o.relativepathname }}">{{ o.metadata.title }}</a></li>
+          <li><a href="{{ o.outputname(app.extension) }}">{{ o.metadata.title }}</a></li>
       {% endfor %}
   </ul>
 	

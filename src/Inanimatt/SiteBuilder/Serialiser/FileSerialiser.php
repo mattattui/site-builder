@@ -15,7 +15,6 @@ class FileSerialiser implements SerialiserInterface
 
     public function write($content, $name)
     {
-        $name = $this->convertName($name);
         $path = $this->outputPath.DIRECTORY_SEPARATOR.$name;
         
         if (!is_dir(dirname($path))) {
@@ -25,18 +24,8 @@ class FileSerialiser implements SerialiserInterface
         file_put_contents($path, $content);
     }
 
-
-    protected function convertName($name)
-    {   
-        // Strip current file extension, replace with outputExtension
-        
-        $ext_pos = strrpos($name, '.');
-        if ($ext_pos === false) {
-            throw new SiteBuilderException('Unexpected filename; must have file extension');
-        }
-        $filename = substr($name, 0, $ext_pos) . $this->outputExtension;
-        
-        return $filename;
+    public function getOutputExtension()
+    {
+        return $this->outputExtension;
     }
-
 }

@@ -78,6 +78,18 @@ class MarkdownFileContentHandler extends SplFileInfo implements ContentHandlerIn
         }
         
     }
-    
+ 
+    public function getOutputName($extension)
+    {
+        // Strip current file extension, replace with outputExtension
+        
+        $ext_pos = strrpos($this->getName(), '.');
+        if ($ext_pos === false) {
+            throw new SiteBuilderException('Unexpected filename; must have file extension');
+        }
+        $filename = substr($this->getName(), 0, $ext_pos) . $extension;
+        
+        return $filename;
+    }   
     
 }

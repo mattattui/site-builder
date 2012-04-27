@@ -28,7 +28,7 @@ EOH
         $contentCollection = $sc->get('contentcollection');
         $builder = $sc->get('sitebuilder');
         $serialiser = $sc->get('serialiser');
-        
+
         foreach($contentCollection->getObjects() as $content) {
             $output->writeln(sprintf('Rendering <info>%s</info>', $content->getRelativePathName()));
 
@@ -36,9 +36,11 @@ EOH
                 'app' => array(
                     'contentcollection' => $contentCollection,
                     'contentobject' => $content,
+                    'extension' => $serialiser->getOutputExtension(),
                 ),
             ));
-            $serialiser->write($out, $content->getName());
+
+            $serialiser->write($out, $content->getOutputName($serialiser->getOutputExtension()));
         }
     })
 ;
