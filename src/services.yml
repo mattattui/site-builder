@@ -8,6 +8,7 @@ services:
         calls:
             - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler", ["php"] ]]
             - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\MarkdownFileContentHandler", ["md", "markdown"]]]
+            - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\CSSFileContentHandler", ["css"]]]
 
     serialiser:
         class: Inanimatt\SiteBuilder\Serialiser\FileSerialiser

@@ -99,6 +99,12 @@ class SiteBuilder
             $data['template'] = $this->default_template;
         }
         
+        // No template? Pass through.
+        if (strtolower($data['template']) === 'none') {
+            return $content;
+        }
+        
+        // Get the renderer from the template name, then call it
         $pos = strrpos($data['template'],'.');
         if ($pos === false) {
             throw new SiteBuilderException('Cannot determine renderer for template '.$data['template']);
