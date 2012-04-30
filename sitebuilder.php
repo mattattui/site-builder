@@ -36,11 +36,10 @@ EOH
                 'app' => array(
                     'contentcollection' => $contentCollection,
                     'contentobject' => $content,
-                    'extension' => $serialiser->getOutputExtension(),
                 ),
             ));
 
-            $serialiser->write($out, $content->getOutputName($serialiser->getOutputExtension()));
+            $serialiser->write($out, $content->getOutputName());
         }
     })
 ;

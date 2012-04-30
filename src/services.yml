@@ -11,7 +11,7 @@ services:
 
     serialiser:
         class: Inanimatt\SiteBuilder\Serialiser\FileSerialiser
-        arguments: [%output_dir%, %output_extension%]
+        arguments: [%output_dir%]
     
     twig.loader:
         class: Twig_Loader_Filesystem

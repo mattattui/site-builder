@@ -5,12 +5,10 @@ namespace Inanimatt\SiteBuilder\Serialiser;
 class FileSerialiser implements SerialiserInterface
 {
     protected $outputPath;
-    protected $outputExtension;
 
-    public function __construct($outputPath, $outputExtension)
+    public function __construct($outputPath)
     {
         $this->outputPath = $outputPath;
-        $this->outputExtension = $outputExtension;
     }
 
     public function write($content, $name)
@@ -24,8 +22,4 @@ class FileSerialiser implements SerialiserInterface
         file_put_contents($path, $content);
     }
 
-    public function getOutputExtension()
-    {
-        return $this->outputExtension;
-    }
 }

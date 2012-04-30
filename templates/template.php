@@ -13,7 +13,7 @@
     <ul id="nav">
         <?php foreach ($app['contentcollection']->getObjects() as $object): ?>
             <?php $metadata = $object->getMetadata(); ?>
-            <li><a href="<?php echo e($object->getOutputName($app['extension'])) ?>"><?php echo e($metadata['title']) ?></a></li>
+            <li><a href="<?php echo e($object->getOutputName()) ?>"><?php echo e($metadata['title']) ?></a></li>
         <?php endforeach ?>
     </ul>
     

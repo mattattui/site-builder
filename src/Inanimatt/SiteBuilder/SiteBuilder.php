@@ -71,7 +71,7 @@ class SiteBuilder
                     'contentobject' => $content,
                 ),
             ));
-            $serialiser->write($output, $content->getOutputName($serialiser->getOutputExtension()));
+            $serialiser->write($output, $content->getOutputName());
         }
     }
     

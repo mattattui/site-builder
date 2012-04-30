@@ -42,7 +42,7 @@ class PhpFileContentHandler extends SplFileInfo implements ContentHandlerInterfa
         return $this->view->__getVars();
     }
     
-    public function getOutputName($extension)
+    public function getOutputName()
     {
         // Strip current file extension, replace with outputExtension
         
@@ -50,7 +50,7 @@ class PhpFileContentHandler extends SplFileInfo implements ContentHandlerInterfa
         if ($ext_pos === false) {
             throw new SiteBuilderException('Unexpected filename; must have file extension');
         }
-        $filename = substr($this->getName(), 0, $ext_pos) . $extension;
+        $filename = substr($this->getName(), 0, $ext_pos) . '.html';
         
         return $filename;
     }   
