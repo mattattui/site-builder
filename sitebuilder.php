@@ -64,7 +64,29 @@ EOH
             }
         }
         
-        if (!is_file('templates/template.php'))
+        if (!is_file('config.ini'))
+        {
+            $template =<<<'EOF'
+[parameters]
+
+; Where to look for templates, and the name of the default template
+; Use .php to render with the PHP template renderer, .twig for Twig
+template_path = templates
+default_template = template.twig
+
+; Where to look for content files
+content_dir = content
+
+; Where to put the generated site
+output_dir = output
+
+EOF;
+            
+            file_put_contents('config.ini', $template);
+        }
+
+
+        if (!is_file('templates/template.twig'))
         {
             $template =<<<'EOF'
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -73,38 +95,35 @@ EOH
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title><?php echo isset($title) ? e($title) : 'My Example Site'; ?></title>
+    <title>{{ title }}</title>
 </head>
 <body>
-    
-    <?php echo $content; ?>
-
+    {{ content | raw }}
 </body>
 </html>
                 
 EOF;
             
-            file_put_contents('templates/template.php', $template);
+            file_put_contents('templates/template.twig', $template);
         }
         
         
-        if (!is_file('content/example.php')) {
+        if (!is_file('content/example.md')) {
             $example =<<<'EOF'
-<?php
-// $view is the template object. This will set $title in the template file
-$view->title = 'Example title';
+---
+# This is a YAML block and sets variables you can call in your template, for example:
+title: Markdown example
 
-/* You can override the default template by setting $view->template, e.g.:
- * $view->template = 'homepage.php';
- */
-?>
+# You can also override the default template by setting a template variable, e.g.:
+template: template.twig
+---
 
-<h1>Hello World</h1>
+#Hello World
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+Lorem ipsum dolor sit *amet*, consectetur adipisicing elit, [sed do eiusmod tempor](http://www.example.com/) incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco **laboris nisi** ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 
 EOF;
-            file_put_contents('content/example.php', $example);
+            file_put_contents('content/example.md', $example);
         }
         
         
