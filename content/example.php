@@ -2,9 +2,8 @@
 // $view is the template object. This will set $title in the template file
 $view->title = 'Example title';
 
-/* You can override the default template by setting $view->template, e.g.:
- * $view->template = 'homepage.php';
- */
+/* You can override the default template by setting $view->template, e.g.:*/
+$view->template = 'template.php';
 ?>
 
 <h1>Hello World</h1>
