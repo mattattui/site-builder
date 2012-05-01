@@ -1,15 +1,10 @@
 <?php
-	// $view is the template object. This will set $title in the template file
-	$view->title = 'Example title';
-	
-	/* Other example uses for view variables:
-	 * set the body id
-	 * set a variable to highlight this page in your site navigation
-	 * use heredoc/nowdoc syntax or get_file_contents() to set large blocks of text for sidebars
-	 * 
-	 * You can override the default template by setting $view->template, e.g.:
-	 * $view->template = 'templates/homepage.php';
-	 */
+// $view is the template object. This will set $title in the template file
+$view->title = 'Example title';
+
+/* You can override the default template by setting $view->template, e.g.:
+ * $view->template = 'homepage.php';
+ */
 ?>
 
 <h1>Hello World</h1>

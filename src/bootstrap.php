@@ -28,8 +28,10 @@ $loader->registerPrefixes(array(
 $loader->register();
 
 // Utility function - shortcut to htmlspecialchars().
-function e($string) {
-    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+if (!function_exists('e')) {
+    function e($string) {
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
 }
 
 // Set up the service container
