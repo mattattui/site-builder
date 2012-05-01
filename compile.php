@@ -25,7 +25,7 @@ $finder->files()
 ;
   
 $phar = new Phar('sitebuilder.phar', 0, 'sitebuilder.phar');
-// $phar = $phar->convertToExecutable(Phar::TAR, Phar::GZ);
+$phar = $phar->convertToExecutable(Phar::TAR, Phar::GZ);
 $phar->setSignatureAlgorithm(Phar::SHA1);
 
 $phar->startBuffering();
@@ -77,4 +77,4 @@ $phar->stopBuffering();
 if (!is_dir('build')) {
     mkdir('build');
 }
-rename('sitebuilder.phar', 'build/sitebuilder.phar');
+rename('sitebuilder.phar.tar.gz', 'build/sitebuilder.phar');
