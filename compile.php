@@ -9,8 +9,8 @@ $finder->files()
   ->ignoreVCS(true)
   ->name('*.php')
   ->name('*.twig')
-  ->name('*.ini')
   ->name('*.yml')
+  ->name('*.ini')
   ->exclude('Tests')
   ->exclude('test')
   ->exclude(__DIR__.'/content')
@@ -43,6 +43,25 @@ $phar->setStub(<<<'EOF'
 <?php
 Phar::mapPhar('sitebuilder.phar');
 define('SITEBUILDER_ROOT', __DIR__);
+
+// Create config file if not found
+// FIXME: This is a kludge. Should be able to have one in the phar, overridden by one outside
+// if (!is_file(SITEBUILDER_ROOT.'/config.ini')) {
+//     file_put_contents(SITEBUILDER_ROOT.'/config.ini', '
+// [parameters]
+// 
+// ; To use the default Twig template, install Twig and change .php to .twig below
+// template_path = templates/
+// default_template = template.php
+// 
+// ; Where to look for content files
+// content_dir = content
+// 
+// ; Where to put the generated site
+// output_dir = output
+// ');
+// }
+
 require_once 'phar://sitebuilder.phar/src/bootstrap.php';
 require_once 'phar://sitebuilder.phar/sitebuilder.php';
 

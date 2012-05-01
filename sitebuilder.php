@@ -1,6 +1,6 @@
 <?php
 
-$sc = require __DIR__.'/src/bootstrap.php';
+$sc = require_once __DIR__.'/src/bootstrap.php';
 
 // Render the site with the given config file
 
@@ -62,25 +62,6 @@ EOH
             if (!is_dir($dir)) {
                 mkdir($dir);
             }
-        }
-        
-        $config =<<<'EOF'
-[parameters]
-
-# To use the default Twig template, install Twig and change .php to .twig below
-template_path = templates/
-default_template = template.php
-
-# Where to look for content files
-content_dir = content
-
-# Where to put the generated site
-output_dir = output
-
-EOF;
-        
-        if (!is_file('config.ini')) {
-            file_put_contents('config.ini', $config);
         }
         
         if (!is_file('templates/template.php'))

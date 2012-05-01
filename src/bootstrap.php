@@ -37,7 +37,12 @@ if (!function_exists('e')) {
 // Set up the service container
 $sc = new ContainerBuilder;
 
-$locator = new FileLocator(array(__DIR__, __DIR__.'/..'));
+$searchPath = array(__DIR__, __DIR__.'/..');
+if (defined('SITEBUILDER_ROOT')) {
+    array_unshift($searchPath, SITEBUILDER_ROOT);
+}
+
+$locator = new FileLocator($searchPath);
 $resolver = new LoaderResolver(array(
     new YamlFileLoader($sc, $locator),
     new IniFileLoader($sc, $locator),
