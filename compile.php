@@ -13,9 +13,11 @@ $finder->files()
   ->name('*.ini')
   ->exclude('Tests')
   ->exclude('test')
-  ->exclude(__DIR__.'/content')
-  ->exclude(__DIR__.'output')
-  ->exclude(__DIR__.'build')
+  ->exclude('tests')
+  ->exclude('templates')
+  ->exclude('content')
+  ->exclude('output')
+  ->exclude('build')
   ->exclude('vendor/EHER')
   ->notName('phpunit.xml.dist')
   ->notName('compile.php')
@@ -62,7 +64,6 @@ define('SITEBUILDER_ROOT', __DIR__);
 // ');
 // }
 
-require_once 'phar://sitebuilder.phar/src/bootstrap.php';
 require_once 'phar://sitebuilder.phar/sitebuilder.php';
 
 __HALT_COMPILER();
