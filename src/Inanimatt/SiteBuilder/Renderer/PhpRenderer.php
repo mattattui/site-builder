@@ -16,7 +16,7 @@ class PhpRenderer implements RendererInterface
     {
         $view = new SiteBuilderTemplate;
         $view->__setVars($data);
-        return $view->render($this->templatePath.$template);
+        return $view->render($this->templatePath.DIRECTORY_SEPARATOR.$template);
     }
 
 }
