@@ -22,12 +22,33 @@ essentially in alpha stage until the interfaces, configuration formats, and API
 is settled.
 
 
+Quick Start
+===========
+
+1. [Download the .phar file](https://github.com/downloads/inanimatt/site-builder/sitebuilder.phar). 
+   It's the whole app in one file, with everything it needs to run.
+2. Put sitebuilder.phar in the directory where you want to keep the installation.
+3. Run `php sitebuilder.phar init` to create directories, config, and sample files.
+4. Test your installation with `php sitebuilder.phar rebuild`. If it works, you 
+   should see a generated `example.html` file in the `output` directory.
+5. Replace the default template with your own. Twig is a pretty straightforward 
+   templating language; just put {{ content | raw }} where you want your page 
+   content to appear. Read on for more help and links to the Twig docs.
+6. Create your content files. You can write plain HTML (and save as `.php`), or 
+   Markdown (and save as `.md` or `.markdown`). You can make sub-directories too.  
+   Read on for more info on Markdown, including a link to the documentation.
+7. Run `php sitebuilder.phar rebuild` to regenerate your site.
+
+
+
 
 Requirements
 ============
 
 * PHP 5.3 or newer. If you use Ubuntu or Debian, you may need to install 
   the `php5-cli` package to let you run scripts on the command-line.
+
+If you aren't running the .phar edition, you'll need these:
 
 * Twig 1.6
 * "dflydev"'s Markdown library
@@ -45,7 +66,7 @@ Installation
 2. From the command-line, run `curl http://getcomposer.org/installer | php` and follow the on-screen instructions to install Composer.
 3. Run `php composer.phar install` to install all the required libraries into the `vendor` folder.
 4. Test the installation by running `php sitebuilder.php rebuild`. Check for files in the `output` folder.
-
+5. If you're helping to develop SiteBuilder, run `php composer.phar install --dev` to install PHPUnit, and run it with `vendor/bin/phpunit`. You can copy `phpunit.xml.dist` to `phpunit.xml` if you want to change it. **Note**: there's currently a bug in the Composer edition of PHPUnit. I've made a pull request, but in the meantime, to make it work change line 20 of `vendor/EHER/PHPUnit/bin/init.php` from `$composerLoader = __DIR__ . '/../../.composer/autoload.php';` to `$composerLoader = __DIR__ . '/../../../.composer/autoload.php';`
 
 Usage
 =====
@@ -111,6 +132,8 @@ ContentHandler object for the file being rendered. You can use these to generate
 navigation in your templates. Both the Twig and PHP example templates 
 demonstrate how this works.
 
+**Note:** `app` is experimental and will definitely change. Don't use it unless 
+you're okay with rewriting everything that uses it when that happens.
 
 
 
@@ -196,7 +219,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 When you rebuild the site, Markdown files are converted into HTML and then 
 passed to either the default template, or whichever template you named in the 
 front-matter block. The HTML content is set on the `$content` in PHP templates, 
-and the `{{ content | raw }}` variable in Twig templates.
+or the `{{ content | raw }}` variable in Twig templates.
 
 
 
@@ -250,14 +273,12 @@ Nice-to-haves:
   resources to your output folder, but it'd be nicer if they were part of the 
   content and published, so you can wipe your output folder before rebuilding.
 
-* Package the whole thing as a Phar to make it tidy. 
+* Support for resource files like CSS, JS, optionally (or eventually) with 
+  minification and LESS/YUI Compressor support. That'd be really lovely.
 
-* I'm fairly happy with the design of ContentCollection, ContentHandler and
-  Serialiser interfaces, but the rendering stuff probably needs some 
-  attention. Right now, the SiteBuilder class' renderFile method creates an
-  SplFileInfo object to check the template file's extension (so it can pick
-  the right renderer). This means that templates have to be file-based, 
-  whereas the ContentHandler interface is flexible enough to allow content
-  to be stored in files, or databases, or anywhere. This probably means
-  creating a TemplateHandler interface, but it needs some thought and I'd
-  welcome advice or help.
+* A navigation generator object passed to both PHP and Twig templates that 
+  represents the site structure, so that templates can create left navigation. 
+  It should ignore resource files and be context aware (so links in 
+  sub-directories don't break). Should be able to pass the ContentCollection 
+  and current ContentHandler into the constructor of this to get something 
+  useful.
