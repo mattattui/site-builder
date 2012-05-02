@@ -1,9 +1,3 @@
-# default params
-parameters:
-    output_dir: output
-    content_dir: content
-    template_path: templates
-    default_template: template.php
 
 imports:
     - { resource: config.ini }
