@@ -30,9 +30,6 @@ services:
         class: Inanimatt\SiteBuilder\Renderer\PhpRenderer
         arguments: [%template_path%]
         
-    finder:
-        class: Symfony\Component\Finder\Finder
-    
     yaml:
         class: Symfony\Component\Yaml\Parser
     
