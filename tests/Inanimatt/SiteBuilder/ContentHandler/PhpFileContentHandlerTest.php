@@ -80,4 +80,22 @@ class PhpFileContentHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Hello World & Stuff', $m['title'], '->getMetadata() title var contains title');
         
     }
+    
+    /**
+     * @expectedException Inanimatt\SiteBuilder\SiteBuilderException
+     */
+    public function testGetOutputNameException()
+    {
+        $o = new PhpFileContentHandler(__DIR__.'/../../../resources/content/noextensionexception', '', 'noextensionexception');
+        $results = $o->getOutputName();
+    }
+
+    /**
+     * @covers Inanimatt\SiteBuilder\ContentHandler\PhpFileContentHandler::getOutputName
+     */
+    public function testGetOutputName()
+    {
+        $this->assertEquals('subdir/example.html', $this->object->getOutputName());
+    }
+    
 }
