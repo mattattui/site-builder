@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Inanimatt\SiteBuilder\SiteBuilder | Site-builder (master)</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Site-builder (master)</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Inanimatt/SiteBuilder.html">Inanimatt\SiteBuilder</a>\SiteBuilder</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>SiteBuilder</strong></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_registerRenderer">registerRenderer</a>(<a href="../../Inanimatt/SiteBuilder/Renderer/RendererInterface.html"><abbr title="Inanimatt\SiteBuilder\Renderer\RendererInterface">RendererInterface</abbr></a> $renderer, array $extensions)
+                    <p>Register a renderer to handle the given file extension(s)</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setDefaultTemplate">setDefaultTemplate</a>(string $template)
+                    <p>Set default template filename</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setTemplatePath">setTemplatePath</a>(string $path)
+                    <p>Set template search path</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_renderSite">renderSite</a>(<a href="../../Inanimatt/SiteBuilder/ContentCollection/ContentCollectionInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentCollection\ContentCollectionInterface">ContentCollectionInterface</abbr></a> $contentCollection, <a href="../../Inanimatt/SiteBuilder/Serialiser/SerialiserInterface.html"><abbr title="Inanimatt\SiteBuilder\Serialiser\SerialiserInterface">SerialiserInterface</abbr></a> $serialiser)
+                    <p>Iterate through the content collection, render each file, serialise output</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_renderFile">renderFile</a>(<a href="../../Inanimatt/SiteBuilder/ContentHandler/ContentHandlerInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface">ContentHandlerInterface</abbr></a> $file, $extraData = null)
+                    <p>Render given content object with chosen (or default) template, and return output</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 18</div>
+        <code>            public            
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerRenderer">
+        <div class="location">at line 30</div>
+        <code>            public            
+    <strong>registerRenderer</strong>(<a href="../../Inanimatt/SiteBuilder/Renderer/RendererInterface.html"><abbr title="Inanimatt\SiteBuilder\Renderer\RendererInterface">RendererInterface</abbr></a> $renderer, array $extensions)</code>
+    </h3>
+    <div class="details">
+        <p>Register a renderer to handle the given file extension(s)</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Inanimatt/SiteBuilder/Renderer/RendererInterface.html"><abbr title="Inanimatt\SiteBuilder\Renderer\RendererInterface">RendererInterface</abbr></a></td>
+                <td>$renderer</td>
+                <td>An object that implements the RendererInterface</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$extensions</td>
+                <td>One or more file extensions without the initial .</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDefaultTemplate">
+        <div class="location">at line 45</div>
+        <code>            public            
+    <strong>setDefaultTemplate</strong>(string $template)</code>
+    </h3>
+    <div class="details">
+        <p>Set default template filename</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$template</td>
+                <td>Template filename (without path)</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setTemplatePath">
+        <div class="location">at line 55</div>
+        <code>            public            
+    <strong>setTemplatePath</strong>(string $path)</code>
+    </h3>
+    <div class="details">
+        <p>Set template search path</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>Path to templates</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_renderSite">
+        <div class="location">at line 64</div>
+        <code>            public            
+    <strong>renderSite</strong>(<a href="../../Inanimatt/SiteBuilder/ContentCollection/ContentCollectionInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentCollection\ContentCollectionInterface">ContentCollectionInterface</abbr></a> $contentCollection, <a href="../../Inanimatt/SiteBuilder/Serialiser/SerialiserInterface.html"><abbr title="Inanimatt\SiteBuilder\Serialiser\SerialiserInterface">SerialiserInterface</abbr></a> $serialiser)</code>
+    </h3>
+    <div class="details">
+        <p>Iterate through the content collection, render each file, serialise output</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Inanimatt/SiteBuilder/ContentCollection/ContentCollectionInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentCollection\ContentCollectionInterface">ContentCollectionInterface</abbr></a></td>
+                <td>$contentCollection</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../Inanimatt/SiteBuilder/Serialiser/SerialiserInterface.html"><abbr title="Inanimatt\SiteBuilder\Serialiser\SerialiserInterface">SerialiserInterface</abbr></a></td>
+                <td>$serialiser</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_renderFile">
+        <div class="location">at line 84</div>
+        <code>            public            string
+    <strong>renderFile</strong>(<a href="../../Inanimatt/SiteBuilder/ContentHandler/ContentHandlerInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface">ContentHandlerInterface</abbr></a> $file, $extraData = null)</code>
+    </h3>
+    <div class="details">
+        <p>Render given content object with chosen (or default) template, and return output</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Inanimatt/SiteBuilder/ContentHandler/ContentHandlerInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface">ContentHandlerInterface</abbr></a></td>
+                <td>$file</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$extraData</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>Rendered content</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
