@@ -8,9 +8,9 @@ class TwigRenderer implements RendererInterface
     /**
      * Create a new renderer
      * 
-     * @param Twig_Loader $twig A Twig_Loader instance
+     * @param Twig_Environment $twig A Twig_Environment instance
      */
-    public function __construct(\Twig_Loader $twig)
+    public function __construct(\Twig_Environment $twig)
     {
         $this->twig = $twig;
     }
