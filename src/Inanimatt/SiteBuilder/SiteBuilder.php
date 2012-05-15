@@ -79,7 +79,9 @@ class SiteBuilder
      * Render given content object with chosen (or default) template, and return output
      * 
      * @param ContentHandlerInterface $file ContentHandler object
+     * @param array $extraData Additional data to be merged into metadata
      * @return string Rendered content
+     * @throws SiteBuilderException 
      */
     public function renderFile(ContentHandlerInterface $file, $extraData = null)
     {

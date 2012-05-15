@@ -85,7 +85,7 @@
                     string
                 </td>
                 <td class="last">
-                    <a href="#method_renderFile">renderFile</a>(<a href="../../Inanimatt/SiteBuilder/ContentHandler/ContentHandlerInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface">ContentHandlerInterface</abbr></a> $file, $extraData = null)
+                    <a href="#method_renderFile">renderFile</a>(<a href="../../Inanimatt/SiteBuilder/ContentHandler/ContentHandlerInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface">ContentHandlerInterface</abbr></a> $file, array $extraData = null)
                     <p>Render given content object with chosen (or default) template, and return output</p>
                 </td>
                 <td></td>
@@ -221,9 +221,9 @@
     </div>
 
                 <h3 id="method_renderFile">
-        <div class="location">at line 84</div>
+        <div class="location">at line 86</div>
         <code>            public            string
-    <strong>renderFile</strong>(<a href="../../Inanimatt/SiteBuilder/ContentHandler/ContentHandlerInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface">ContentHandlerInterface</abbr></a> $file, $extraData = null)</code>
+    <strong>renderFile</strong>(<a href="../../Inanimatt/SiteBuilder/ContentHandler/ContentHandlerInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface">ContentHandlerInterface</abbr></a> $file, array $extraData = null)</code>
     </h3>
     <div class="details">
         <p>Render given content object with chosen (or default) template, and return output</p>
@@ -235,12 +235,12 @@
                     <tr>
                 <td><a href="../../Inanimatt/SiteBuilder/ContentHandler/ContentHandlerInterface.html"><abbr title="Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface">ContentHandlerInterface</abbr></a></td>
                 <td>$file</td>
-                <td></td>
+                <td>ContentHandler object</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>array</td>
                 <td>$extraData</td>
-                <td></td>
+                <td>Additional data to be merged into metadata</td>
             </tr>
             </table>
 
@@ -255,6 +255,15 @@
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="SiteBuilderException">SiteBuilderException</abbr></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
