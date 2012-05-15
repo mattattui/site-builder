@@ -7,6 +7,10 @@ class testFile
     {
         $this->data = array('fileobj' => $fileobj, 'relpath'=>$relpath, 'relpathname' => $relpathname);
     }
+    public function getName()
+    {
+        return $this->data['relpathname'];
+    }
 }
 
 /**
@@ -58,10 +62,19 @@ class FileContentCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(count($results) == 2);
         $this->assertInstanceof('Symfony\Component\Finder\SplFileInfo', $results[0]->data['fileobj']);
         $this->assertInstanceof('Symfony\Component\Finder\SplFileInfo', $results[1]->data['fileobj']);
-        $this->assertEquals('', $results[0]->data['relpath']);
-        $this->assertEquals('subdir', $results[1]->data['relpath']);
-        $this->assertEquals('example.php', $results[0]->data['relpathname']);
-        $this->assertEquals('subdir/example.php', $results[1]->data['relpathname']);
+
+        // Sort order is not guaranteed!
+        if ($results[0]->getName() == 'subdir/example.php') {
+            $this->assertEquals('', $results[1]->data['relpath']);
+            $this->assertEquals('subdir', $results[0]->data['relpath']);
+            $this->assertEquals('example.php', $results[1]->data['relpathname']);
+            $this->assertEquals('subdir/example.php', $results[0]->data['relpathname']);
+        } else {
+            $this->assertEquals('', $results[0]->data['relpath']);
+            $this->assertEquals('subdir', $results[1]->data['relpath']);
+            $this->assertEquals('example.php', $results[0]->data['relpathname']);
+            $this->assertEquals('subdir/example.php', $results[1]->data['relpathname']);
+        }
     }
     
     /**

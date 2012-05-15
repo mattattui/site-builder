@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/inanimatt/site-builder.png?branch=master)](http://travis-ci.org/inanimatt/site-builder)
+
 What is(n't) this?
 ==================
 

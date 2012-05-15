@@ -93,4 +93,24 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $o->getMetadata(), '->getMetadata() with no frontmatter contains only content var');
         
     }
+    
+    /**
+     * @expectedException Inanimatt\SiteBuilder\SiteBuilderException
+     */
+    public function testGetOutputNameException()
+    {
+        $o = new MarkdownFileContentHandler(__DIR__.'/../../../resources/content/noextensionexception', '', 'noextensionexception');
+        $results = $o->getOutputName();
+    }
+
+
+    /**
+     * @covers Inanimatt\SiteBuilder\ContentHandler\MarkdownFileContentHandler::getOutputName
+     */
+    public function testGetOutputName()
+    {
+        $this->assertEquals('subdir/example.html', $this->object->getOutputName());
+    }
+    
+    
 }
