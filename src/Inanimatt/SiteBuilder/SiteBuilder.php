@@ -7,6 +7,9 @@ use Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface;
 use Inanimatt\SiteBuilder\Serialiser\SerialiserInterface;
 use Inanimatt\SiteBuilder\Renderer\RendererInterface;
 
+use Inanimatt\SiteBuilder\Exception\RenderException;
+use Inanimatt\SiteBuilder\Exception\ArgumentException;
+
 
 class SiteBuilder
 {
@@ -29,7 +32,7 @@ class SiteBuilder
      */
     public function registerRenderer(RendererInterface $renderer, $extensions) {
         if (!is_array($extensions)) {
-            throw new SiteBuilderException('Invalid argument: 2nd argument must be an array.');
+            throw new ArgumentException('Invalid argument: 2nd argument must be an array.');
         }
         
         foreach($extensions as $ext) {
@@ -91,7 +94,7 @@ class SiteBuilder
         
         if (!is_null($extraData)) {
             if (!is_array($extraData)) {
-                throw new SiteBuilderException('Invalid argument: extra data must be an array.');
+                throw new ArgumentException('Extra data must be an array.');
             }
             $data = array_merge($extraData, $data);
         }
@@ -109,13 +112,13 @@ class SiteBuilder
         // Get the renderer from the template name, then call it
         $pos = strrpos($data['template'],'.');
         if ($pos === false) {
-            throw new SiteBuilderException('Cannot determine renderer for template '.$data['template']);
+            throw new RenderException('Cannot determine renderer for template '.$data['template']);
         }
         
         $rendererId = substr($data['template'],$pos+1);
         
         if (!isset($this->renderers[$rendererId])) {
-            throw new SiteBuilderException('No renderer registered for template file extension .'.$rendererId);
+            throw new RenderException('No renderer registered for template file extension .'.$rendererId);
         }
             
         return $this->renderers[$rendererId]->render($data, $data['template']);

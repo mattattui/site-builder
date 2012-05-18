@@ -78,7 +78,7 @@ class FileContentCollectionTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException Inanimatt\SiteBuilder\SiteBuilderException
+     * @expectedException Inanimatt\SiteBuilder\Exception\SiteBuilderException
      */
     public function testGetObjectsException()
     {
@@ -86,7 +86,7 @@ class FileContentCollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Inanimatt\SiteBuilder\SiteBuilderException
+     * @expectedException Inanimatt\SiteBuilder\Exception\SiteBuilderException
      */
     public function testRegisterContentHandlerException()
     {

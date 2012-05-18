@@ -9,7 +9,7 @@ use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
-use Inanimatt\SiteBuilder\SiteBuilderException;
+use Inanimatt\SiteBuilder\Exception\SiteBuilderException;
 
 $loader = new UniversalClassLoader;
 $loader->registerNamespaces(array(

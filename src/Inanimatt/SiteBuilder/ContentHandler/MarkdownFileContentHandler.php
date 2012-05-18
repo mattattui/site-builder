@@ -3,7 +3,7 @@
 namespace Inanimatt\SiteBuilder\ContentHandler;
 
 use Inanimatt\SiteBuilder\SiteBuilderTemplate;
-use Inanimatt\SiteBuilder\SiteBuilderException;
+use Inanimatt\SiteBuilder\Exception\SiteBuilderException;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use dflydev\markdown\MarkdownParser;

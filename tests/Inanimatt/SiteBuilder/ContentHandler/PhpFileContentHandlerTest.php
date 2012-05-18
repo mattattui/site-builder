@@ -43,7 +43,7 @@ class PhpFileContentHandlerTest extends \PHPUnit_Framework_TestCase
             $object = new PhpFileContentHandler(__DIR__.'/non-existent file', 'subdir', 'subdir/example.php' );
             $this->fail('->__construct() throws a SiteBuilderException if the file does not exist');
         } catch(\Exception $e) {
-            $this->assertInstanceOf('Inanimatt\SiteBuilder\SiteBuilderException', $e, '->__construct() throws a SiteBuilderException if the file does not exist');
+            $this->assertInstanceOf('Inanimatt\SiteBuilder\Exception\SiteBuilderException', $e, '->__construct() throws a SiteBuilderException if the file does not exist');
             $this->assertEquals('File not found.', $e->getMessage(), '->__construct() throws a SiteBuilderException if the file does not exist');
         }
     }
@@ -82,7 +82,7 @@ class PhpFileContentHandlerTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException Inanimatt\SiteBuilder\SiteBuilderException
+     * @expectedException Inanimatt\SiteBuilder\Exception\SiteBuilderException
      */
     public function testGetOutputNameException()
     {

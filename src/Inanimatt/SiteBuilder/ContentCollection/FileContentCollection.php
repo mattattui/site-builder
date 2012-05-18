@@ -1,7 +1,7 @@
 <?php
 namespace Inanimatt\SiteBuilder\ContentCollection;
 use Symfony\Component\Finder\Finder;
-use Inanimatt\SiteBuilder\SiteBuilderException;
+use Inanimatt\SiteBuilder\Exception\SiteBuilderException;
 
 class FileContentCollection implements ContentCollectionInterface
 {
