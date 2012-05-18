@@ -40,6 +40,18 @@ class SiteBuilder
         }
     }
     
+    
+    /**
+     * Fetch renderers
+     * 
+     * @return array Renderers
+     */
+    public function getRenderers() {
+        return $this->renderers;
+    }
+    
+    
+    
     /**
      * Set default template filename
      * 
@@ -50,6 +62,15 @@ class SiteBuilder
         $this->default_template = $template;
     }
 
+    
+    /**
+     * Get current default template
+     */
+    public function getDefaultTemplate() {
+        return $this->default_template;
+    }
+
+
     /**
      * Set template search path
      * 
@@ -58,6 +79,17 @@ class SiteBuilder
     public function setTemplatePath($path)
     {
         $this->template_path = $path;
+    }
+        
+
+    /**
+     * Get template search path
+     * 
+     * @return string $path Path to templates
+     */
+    public function getTemplatePath($path)
+    {
+        return $this->template_path;
     }
         
     
