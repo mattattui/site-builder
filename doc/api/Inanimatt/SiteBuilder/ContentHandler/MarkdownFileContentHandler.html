@@ -36,38 +36,38 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(string $file, string $relativePath, $relativePathName)
-                    <p>Constructor</p>
+                    <a href="#method___construct">__construct</a>($file, $relativePath, $relativePathName)
+                    <p></p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    string
                 </td>
                 <td class="last">
                     <a href="#method_getName">getName</a>()
-                    <p></p>
+                    <p>Return the unique name for this content.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    string
                 </td>
                 <td class="last">
                     <a href="#method_getContent">getContent</a>()
-                    <p></p>
+                    <p>Return the HTML representation of this content.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    array
                 </td>
                 <td class="last">
                     <a href="#method_getMetadata">getMetadata</a>()
-                    <p></p>
+                    <p>Fetch content metadata.</p>
                 </td>
                 <td></td>
             </tr>
@@ -77,7 +77,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_getOutputName">getOutputName</a>()
-                    <p></p>
+                    <p>Get the relative output path for this content.</p>
                 </td>
                 <td></td>
             </tr>
@@ -89,24 +89,24 @@
                         <h3 id="method___construct">
         <div class="location">at line 16</div>
         <code>            public            
-    <strong>__construct</strong>(string $file, string $relativePath, $relativePathName)</code>
+    <strong>__construct</strong>($file, $relativePath, $relativePathName)</code>
     </h3>
     <div class="details">
-        <p>Constructor</p>
+        <p></p>
         <p></p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td>string</td>
+                <td></td>
                 <td>$file</td>
-                <td>The file name</td>
+                <td></td>
             </tr>
                     <tr>
-                <td>string</td>
+                <td></td>
                 <td>$relativePath</td>
-                <td>The relative path</td>
+                <td></td>
             </tr>
                     <tr>
                 <td></td>
@@ -123,14 +123,23 @@
 
                 <h3 id="method_getName">
         <div class="location">at line 55</div>
-        <code>            public            
+        <code>            public            string
     <strong>getName</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
+        <p>Return the unique name for this content.</p>
         <p></p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>A pathlike unique name</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -138,14 +147,23 @@
 
                 <h3 id="method_getContent">
         <div class="location">at line 60</div>
-        <code>            public            
+        <code>            public            string
     <strong>getContent</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
+        <p>Return the HTML representation of this content.</p>
         <p></p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>HTML representation of content</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -153,14 +171,24 @@
 
                 <h3 id="method_getMetadata">
         <div class="location">at line 65</div>
-        <code>            public            
+        <code>            public            array
     <strong>getMetadata</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Fetch content metadata.</p>
+        <p>Content metadata always includes a key called &#039;content&#039;, and may <br />
+ also include a &#039;template&#039; key, and arbitrary other data, e.g. title.</p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>Content metadata</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -172,8 +200,9 @@
     <strong>getOutputName</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Get the relative output path for this content.</p>
+        <p>This corresponds to an output URL, and is the full filename<br />
+ of the returned file.</p>
         <div class="tags">
             
             
