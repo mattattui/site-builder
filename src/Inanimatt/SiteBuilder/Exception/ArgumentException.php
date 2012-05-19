@@ -8,9 +8,10 @@ class ArgumentException extends SiteBuilderException
     /**
      * @inheritDoc
      */
-    public function getMessage()
+    public function __construct($message = null, $code = 0, Exception $previous = null)
     {
-        return sprintf('Invalid argument: %s', parent::getMessage());
+        $message = sprintf('Argument exception: %s', $message);
+        return parent::__construct($message, $code, $previous);
     }
     
 }
