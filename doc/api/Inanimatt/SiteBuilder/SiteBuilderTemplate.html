@@ -24,6 +24,15 @@
         <div class="content">
                 <p>class    <strong>SiteBuilderTemplate</strong></p>
 
+            <div class="description">
+            <p>Basic PHP-based template class.</p>
+            <p>Credit (but no blame) to Chad Emrys Minick for this Template pattern.<br />
+ Major modifications:<br />
+  - namespaced :P<br />
+  - bulk setters (for setup) and getters (for testing)<br />
+  - extract() has the extra argument to prevent overwriting of <br />
+    non-template variables.</p>
+        </div>
     
     
     
@@ -32,51 +41,51 @@
             <table>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
-                    <a href="#method___get">__get</a>($name)
-                    <p></p>
+                    <a href="#method___get">__get</a>(string $name)
+                    <p>Fetch template var.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    null
                 </td>
                 <td class="last">
-                    <a href="#method___set">__set</a>($name, $value)
-                    <p></p>
+                    <a href="#method___set">__set</a>(string $name, mixed $value)
+                    <p>Set template var.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    array
                 </td>
                 <td class="last">
                     <a href="#method___getVars">__getVars</a>()
-                    <p></p>
+                    <p>Retrieve all vars</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    null
                 </td>
                 <td class="last">
-                    <a href="#method___setVars">__setVars</a>($vars)
-                    <p></p>
+                    <a href="#method___setVars">__setVars</a>(array $vars)
+                    <p>Bulk set template variables</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    string
                 </td>
                 <td class="last">
                     <a href="#method_render">render</a>($__file)
-                    <p></p>
+                    <p>Render template.</p>
                 </td>
                 <td></td>
             </tr>
@@ -86,108 +95,147 @@
         <h2>Details</h2>
 
                         <h3 id="method___get">
-        <div class="location">at line 9</div>
-        <code>            public            
-    <strong>__get</strong>($name)</code>
+        <div class="location">at line 27</div>
+        <code>            public            mixed
+    <strong>__get</strong>(string $name)</code>
     </h3>
     <div class="details">
-        <p></p>
+        <p>Fetch template var.</p>
         <p></p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$name</td>
-                <td></td>
+                <td>Variable name to fetch</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>Requested variable or null</td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method___set">
-        <div class="location">at line 13</div>
-        <code>            public            
-    <strong>__set</strong>($name, $value)</code>
+        <div class="location">at line 46</div>
+        <code>            public            null
+    <strong>__set</strong>(string $name, mixed $value)</code>
     </h3>
     <div class="details">
-        <p></p>
+        <p>Set template var.</p>
         <p></p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$name</td>
-                <td></td>
+                <td>Variable name to fetch</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$value</td>
-                <td></td>
+                <td>Variable value</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>null</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method___getVars">
-        <div class="location">at line 17</div>
-        <code>            public            
+        <div class="location">at line 55</div>
+        <code>            public            array
     <strong>__getVars</strong>()</code>
     </h3>
     <div class="details">
-        <p></p>
+        <p>Retrieve all vars</p>
         <p></p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>Template variables</td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method___setVars">
-        <div class="location">at line 21</div>
-        <code>            public            
-    <strong>__setVars</strong>($vars)</code>
+        <div class="location">at line 65</div>
+        <code>            public            null
+    <strong>__setVars</strong>(array $vars)</code>
     </h3>
     <div class="details">
-        <p></p>
+        <p>Bulk set template variables</p>
         <p></p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>array</td>
                 <td>$vars</td>
-                <td></td>
+                <td>Template variables (array or array-like)</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>null</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
     </div>
 
                 <h3 id="method_render">
-        <div class="location">at line 25</div>
-        <code>            public            
+        <div class="location">at line 85</div>
+        <code>            public            string
     <strong>render</strong>($__file)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>Render template.</p>
+        <p>Extracts all the template variables into the local scope (without<br />
+ overwriting existing template vars, like $this, which would be weird)<br />
+ and then includes the given file, capturing all output in a buffer,<br />
+ which is returned.</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -200,6 +248,15 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>Rendered template</td>
+        </tr>
+    </table>
+
             
             
                     </div>
