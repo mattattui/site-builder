@@ -117,6 +117,187 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
         
         $this->object->renderFile($contentHandler);
     }
+
+    /**
+     * @covers Inanimatt\SiteBuilder\SiteBuilder::renderFile
+     */
+    public function testRenderFileExtradata()
+    {
+        // Mock contenthandler object
+        $testMetadata = array(
+            'template' => 'template.test'
+        );
+        $expectedMetadata = array_merge($testMetadata, array('extra_field' => 'extra value'));
+        $testContent = 'Lorem ipsum';
+        
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'PhpFileContentHandler', false, false);
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getMetadata')
+            ->will($this->returnValue($testMetadata));
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($testContent));
+        
+        $renderer = $this->getMock('Inanimatt\\SiteBuilder\\Renderer\\PhpRenderer', array('render'), array(), 'TestRenderer', false, false);
+        $renderer
+            ->expects($this->once())
+            ->method('render')
+            ->with($this->equalTo($expectedMetadata), 'template.test')
+            ->will($this->returnValue('Lorem ipsum'))
+        ;
+        
+        $this->object->registerRenderer($renderer, array('test'));
+        
+        $this->object->renderFile($contentHandler, array('extra_field' => 'extra value'));
+    }
+
+
+    /**
+     * @covers Inanimatt\SiteBuilder\SiteBuilder::renderFile
+     */
+    public function testRenderFileDefaultTemplate()
+    {
+        // Mock contenthandler object
+        $testMetadata = array();
+        $testContent = 'Lorem ipsum';
+        $expectedMetadata = array(
+            'template' => 'template.test',
+        );
+        
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'PhpFileContentHandler', false, false);
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getMetadata')
+            ->will($this->returnValue($testMetadata));
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($testContent));
+        
+        $renderer = $this->getMock('Inanimatt\\SiteBuilder\\Renderer\\PhpRenderer', array('render'), array(), 'TestRenderer', false, false);
+        $renderer
+            ->expects($this->once())
+            ->method('render')
+            ->with($this->equalTo($expectedMetadata), 'template.test')
+            ->will($this->returnValue('Lorem ipsum'))
+        ;
+        
+        $this->object->registerRenderer($renderer, array('test'));
+        $this->object->setDefaultTemplate('template.test');
+        
+        $this->object->renderFile($contentHandler);
+    }
+
+    /**
+     * @covers Inanimatt\SiteBuilder\SiteBuilder::renderFile
+     */
+    public function testRenderFilePassthrough()
+    {
+        // Mock contenthandler object
+        $testMetadata = array(
+            'template' => 'none'
+        );
+        $testContent = 'Lorem ipsum';
+        
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'PhpFileContentHandler', false, false);
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getMetadata')
+            ->will($this->returnValue($testMetadata));
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($testContent));
+        
+        $result = $this->object->renderFile($contentHandler);
+        $this->assertEquals($result, 'Lorem ipsum');
+    }
+    
+    /**
+     * @expectedException Inanimatt\SiteBuilder\Exception\ArgumentException
+     */
+    public function testRenderFileDataError()
+    {
+        // Mock contenthandler object
+        $testMetadata = array(
+            'template' => 'template.test'
+        );
+        $testContent = 'Lorem ipsum';
+        
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'PhpFileContentHandler', false, false);
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getMetadata')
+            ->will($this->returnValue($testMetadata));
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($testContent));
+                
+        $this->object->renderFile($contentHandler, 'invalid extra data');
+    }
+
+    /**
+     * @expectedException Inanimatt\SiteBuilder\Exception\RenderException
+     */
+    public function testRenderFileTemplateError()
+    {
+        // Mock contenthandler object
+        $testMetadata = array(
+            'template' => 'problemtemplate'
+        );
+        $testContent = 'Lorem ipsum';
+        
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'PhpFileContentHandler', false, false);
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getMetadata')
+            ->will($this->returnValue($testMetadata));
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($testContent));
+                
+        $this->object->renderFile($contentHandler);
+    }
+    
+    /**
+     * @expectedException Inanimatt\SiteBuilder\Exception\RenderException
+     */
+    public function testRenderFileRendererError()
+    {
+        // Mock contenthandler object
+        $testMetadata = array(
+            'template' => 'template.missingrenderer'
+        );
+        $testContent = 'Lorem ipsum';
+        
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'PhpFileContentHandler', false, false);
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getMetadata')
+            ->will($this->returnValue($testMetadata));
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($testContent));
+                
+        $this->object->renderFile($contentHandler);
+    }
     
     
      /**
