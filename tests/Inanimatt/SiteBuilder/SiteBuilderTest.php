@@ -1,9 +1,10 @@
 <?php
 namespace Inanimatt\SiteBuilder;
+use Inanimatt\SiteBuilder\ContentHandler\ContentHandlerInterface;
 
 class SiteBuilderSansRenderFile extends SiteBuilder
 {
-    public function renderFile($file, $extraData)
+    public function renderFile(ContentHandlerInterface $file, $extraData = null)
     {
         return 'Lorem ipsum';
     }
