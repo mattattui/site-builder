@@ -44,6 +44,10 @@ class SiteBuilderTemplate {
      * @return null
      */
     public function __set($name, $value) {
+        if (!is_string($name)) {
+            throw new ArgumentException($name . ' is not a valid variable name');
+        }
+        
         $this->vars[$name] = $value;
     }
 

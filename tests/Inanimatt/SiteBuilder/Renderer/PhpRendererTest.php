@@ -31,6 +31,7 @@ class PhpRendererTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Inanimatt\SiteBuilder\Renderer\PhpRenderer::render
      * @covers Inanimatt\SiteBuilder\Renderer\PhpRenderer::__construct
+     * @covers Inanimatt\SiteBuilder\SiteBuilderTemplate::render
      */
     public function testRender()
     {
