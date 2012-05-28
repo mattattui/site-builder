@@ -23,6 +23,7 @@
         "symfony/console": "2.1.*"
     },
     "require-dev": {
-        "EHER/PHPUnit": ">=1.2"
+        "EHER/PHPUnit": ">=1.2",
+        "mikey179/vfsStream": ">=1.0.0"
     }
 }

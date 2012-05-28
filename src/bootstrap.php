@@ -21,6 +21,7 @@ $loader->registerNamespaces(array(
     'Symfony\\Component\\ClassLoader'         => __DIR__ . '/../vendor/symfony/class-loader/',
     'Symfony\\Component\\Config'              => __DIR__ . '/../vendor/symfony/config/',
     'Symfony\\Component\\Console'             => __DIR__ . '/../vendor/symfony/console/',
+    'org\\bovigo\\vfs'                        => __DIR__ . '/../vendor/mikey179/vfsStream/src/main/php',
 ));
 $loader->registerPrefixes(array(
     'Twig_' => __DIR__.'/../vendor/twig/twig/lib',
