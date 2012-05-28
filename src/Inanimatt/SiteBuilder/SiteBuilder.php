@@ -87,7 +87,7 @@ class SiteBuilder
      * 
      * @return string $path Path to templates
      */
-    public function getTemplatePath($path)
+    public function getTemplatePath()
     {
         return $this->template_path;
     }
