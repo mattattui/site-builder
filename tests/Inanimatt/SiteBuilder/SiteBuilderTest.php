@@ -94,7 +94,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $testContent = 'Lorem ipsum';
         
-        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'TestContentHandler', false, false);
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'testRenderFileContentHandler', false, false);
         
         $contentHandler
             ->expects($this->once())
@@ -131,7 +131,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
         $expectedMetadata = array_merge($testMetadata, array('extra_field' => 'extra value'));
         $testContent = 'Lorem ipsum';
         
-        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'TestContentHandler', false, false);
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'testRenderFileExtradataContentHandler', false, false);
         
         $contentHandler
             ->expects($this->once())
@@ -169,7 +169,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
             'template' => 'template.test',
         );
         
-        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'TestContentHandler', false, false);
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'testRenderFileDefaultTemplateContentHandler', false, false);
         
         $contentHandler
             ->expects($this->once())
@@ -206,7 +206,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $testContent = 'Lorem ipsum';
         
-        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'TestContentHandler', false, false);
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'testRenderFilePassthroughContentHandler', false, false);
         
         $contentHandler
             ->expects($this->once())
@@ -233,7 +233,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $testContent = 'Lorem ipsum';
         
-        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'TestContentHandler', false, false);
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'testRenderFileDataErrorContentHandler', false, false);
         
         $contentHandler
             ->expects($this->once())
@@ -259,7 +259,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $testContent = 'Lorem ipsum';
         
-        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'TestContentHandler', false, false);
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'testRenderFileTemplateErrorContentHandler', false, false);
         
         $contentHandler
             ->expects($this->once())
@@ -285,7 +285,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $testContent = 'Lorem ipsum';
         
-        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'TestContentHandler', false, false);
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'testRenderFileRendererContentHandler', false, false);
         
         $contentHandler
             ->expects($this->once())
@@ -312,7 +312,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $testContent = 'Lorem ipsum';
         
-        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata', 'getOutputName'), array(), 'TestContentHandler', false, false);
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata', 'getOutputName'), array(), 'TestRenderSiteContentHandler', false, false);
         $contentHandler
             ->expects($this->once())
             ->method('getOutputName')
