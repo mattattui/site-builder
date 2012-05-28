@@ -87,13 +87,37 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Inanimatt\SiteBuilder\SiteBuilder::renderFile
-     * @todo   Implement testRenderFile().
      */
     public function testRenderFile()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+        // Mock contenthandler object
+        $testMetadata = array(
+            'template' => 'template.test'
         );
+        $testContent = 'Lorem ipsum';
+        
+        $contentHandler = $this->getMock('Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler', array('__construct', 'getContent', 'getMetadata'), array(), 'PhpFileContentHandler', false, false);
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getMetadata')
+            ->will($this->returnValue($testMetadata));
+        
+        $contentHandler
+            ->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($testContent));
+        
+        $renderer = $this->getMock('Inanimatt\\SiteBuilder\\Renderer\\PhpRenderer', array('render'), array(), 'TestRenderer', false, false);
+        $renderer
+            ->expects($this->once())
+            ->method('render')
+            ->with($this->equalTo($testMetadata), 'template.test')
+            ->will($this->returnValue('Lorem ipsum'))
+        ;
+        
+        $this->object->registerRenderer($renderer, array('test'));
+        
+        $this->object->renderFile($contentHandler);
     }
 }
