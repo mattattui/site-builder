@@ -116,7 +116,8 @@ class SiteBuilder
      * @param ContentHandlerInterface $file ContentHandler object
      * @param array $extraData Additional data to be merged into metadata
      * @return string Rendered content
-     * @throws SiteBuilderException 
+     * @throws RenderException
+     * @throws ArgumentException
      */
     public function renderFile(ContentHandlerInterface $file, $extraData = null)
     {
