@@ -1,7 +1,7 @@
 
 imports:
     - { resource: config.ini }
-    
+
 services:
     contentcollection:
         class: Inanimatt\SiteBuilder\ContentCollection\FileContentCollection
@@ -13,15 +13,15 @@ services:
     serialiser:
         class: Inanimatt\SiteBuilder\Serialiser\FileSerialiser
         arguments: [%output_dir%]
-    
+
     twig.loader:
         class: Twig_Loader_Filesystem
         arguments: [%template_path%]
-    
+
     twig:
         class: Twig_Environment
         arguments: [@twig.loader]
-    
+
     renderer.twig:
         class: Inanimatt\SiteBuilder\Renderer\TwigRenderer
         arguments: [@twig]
@@ -29,10 +29,10 @@ services:
     renderer.php:
         class: Inanimatt\SiteBuilder\Renderer\PhpRenderer
         arguments: [%template_path%]
-        
+
     yaml:
         class: Symfony\Component\Yaml\Parser
-    
+
     markdown:
         class: dflydev\markdown\MarkdownParser
 

@@ -7,14 +7,14 @@
 	<title>{{ title }}</title>
 </head>
 <body class="twig">
-	
+
   {{ content | raw }}
-  
+
   <ul id="nav">
       {% for o in app.contentcollection.objects %}
           <li><a href="{{ o.outputname() }}">{{ o.metadata.title }}</a></li>
       {% endfor %}
   </ul>
-	
+
 </body>
 </html>

@@ -7,7 +7,7 @@ class TwigRenderer implements RendererInterface
 
     /**
      * Create a new renderer
-     * 
+     *
      * @param Twig_Environment $twig A Twig_Environment instance
      */
     public function __construct(\Twig_Environment $twig)

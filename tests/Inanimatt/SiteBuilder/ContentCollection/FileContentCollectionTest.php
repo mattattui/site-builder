@@ -55,10 +55,10 @@ class FileContentCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetObjects()
     {
-        
+
         $this->assertNull($this->object->registerContentHandler('Inanimatt\SiteBuilder\ContentCollection\testFile', array('php')));
         $results = $this->object->getObjects();
-        $this->assertTrue(is_array($results)); 
+        $this->assertTrue(is_array($results));
         $this->assertTrue(count($results) == 2);
         $this->assertInstanceof('Symfony\Component\Finder\SplFileInfo', $results[0]->data['fileobj']);
         $this->assertInstanceof('Symfony\Component\Finder\SplFileInfo', $results[1]->data['fileobj']);
@@ -76,7 +76,7 @@ class FileContentCollectionTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('subdir/example.php', $results[1]->data['relpathname']);
         }
     }
-    
+
     /**
      * @expectedException Inanimatt\SiteBuilder\Exception\SiteBuilderException
      */

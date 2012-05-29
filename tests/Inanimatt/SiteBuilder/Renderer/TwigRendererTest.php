@@ -21,13 +21,13 @@ class TwigRendererTest extends \PHPUnit_Framework_TestCase
     {
         $this->testdata = array('title' => 'Lorem', 'content' => 'Lorem ipsum');
         $this->expectedOutput = '<title>Lorem</title><content>Lorem ipsum</content>';
-        
+
         $twig = $this->getMock('Twig_Environment', array('render'));
         $twig->expects($this->once())
             ->method('render')
             ->with($this->equalTo('template.twig'), $this->testdata)
             ->will($this->returnValue($this->expectedOutput));
-        
+
         $this->object = new TwigRenderer($twig);
     }
 

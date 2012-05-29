@@ -12,13 +12,13 @@ class FileSerialiserTest extends \PHPUnit_Framework_TestCase
      * @var FileSerialiser
      */
     protected $object;
-    
+
     protected $outputPath;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
-     * 
+     *
      * @covers Inanimatt\SiteBuilder\Serialiser\FileSerialiser::__construct
      */
     protected function setUp()
@@ -35,23 +35,20 @@ class FileSerialiserTest extends \PHPUnit_Framework_TestCase
     {
     }
 
-
-
     /**
      * @covers Inanimatt\SiteBuilder\Serialiser\FileSerialiser::__construct
      */
     public function testConstructor()
-    {        
-        
+    {
+
         try {
             $object = new FileSerialiser(vfsStream::url('baddir'));
             $this->fail('->__construct() throws a SerialiserException if the path does not exist or cannot be created.');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->assertInstanceOf('Inanimatt\SiteBuilder\Exception\SerialiserException', $e, '->__construct() throws a SerialiserException if the path does not exist or cannot be created.');
             $this->assertEquals('Serialiser exception: Failed to create output directory vfs://baddir', $e->getMessage(), '->__construct() throws a Serialiser if the output path does not exist & cannot be created');
         }
     }
-
 
     /**
      * @expectedException Inanimatt\SiteBuilder\Exception\SerialiserException
@@ -60,8 +57,6 @@ class FileSerialiserTest extends \PHPUnit_Framework_TestCase
     {
         $object = new FileSerialiser(vfsStream::url('baddir'));
     }
-    
-
 
     /**
      * @covers Inanimatt\SiteBuilder\Serialiser\FileSerialiser::write
@@ -75,15 +70,15 @@ class FileSerialiserTest extends \PHPUnit_Framework_TestCase
         $file = vfsStream::newFile('testdir/testfile.html', 0666)
                          ->withContent('notoverwritten')
                          ->at($this->outputPath);
-        
+
         $filename = 'testfile.html';
-        
+
         $test_content = 'Lorem ipsum';
 
         $this->object->write($test_content, $filename);
-        
+
         $this->assertEquals($test_content, $this->outputPath->getChild('testfile.html')->getContent(), 'Can read written content.');
-        
+
         unlink($pathName);
     }
 }

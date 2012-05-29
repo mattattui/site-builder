@@ -52,7 +52,6 @@ class SiteBuilderTemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($test_array, $result, 'Can get/set template variables in bulk');
     }
 
-
     /**
      * @expectedException Inanimatt\SiteBuilder\Exception\RenderException
      */
@@ -86,6 +85,5 @@ class SiteBuilderTemplateTest extends \PHPUnit_Framework_TestCase
         $a = array('thing', 'stuff');
         $this->object->__get($a);
     }
-
 
 }

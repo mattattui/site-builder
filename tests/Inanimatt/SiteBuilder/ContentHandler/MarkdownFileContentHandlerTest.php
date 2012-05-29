@@ -33,7 +33,7 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
         try {
             $object = new MarkdownFileContentHandler(__DIR__.'/non-existent file', 'subdir', 'subdir/example.md' );
             $this->fail('->__construct() throws a SiteBuilderException if the file does not exist');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->assertInstanceOf('Inanimatt\SiteBuilder\Exception\SiteBuilderException', $e, '->__construct() throws a SiteBuilderException if the file does not exist');
             $this->assertEquals('File not found.', $e->getMessage(), '->__construct() throws a SiteBuilderException if the file does not exist');
         }
@@ -74,9 +74,9 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
         $m = $this->object->getMetadata();
         $this->assertEquals('Hello World & Stuff', $m['title']);
         $this->assertEquals('template.twig', $m['template']);
-       
+
         $o = new MarkdownFileContentHandler(__DIR__.'/../../../resources/content/subdir/example-nofm.md', 'subdir', 'subdir/example.md' );
-        
+
     }
 
     /**
@@ -91,9 +91,9 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($o->getMetadata()), '->getMetadata() returns array, even if no frontmatter');
         $this->assertArrayHasKey('content', $o->getMetadata(), '->getMetadata() with no frontmatter contains content var');
         $this->assertCount(1, $o->getMetadata(), '->getMetadata() with no frontmatter contains only content var');
-        
+
     }
-    
+
     /**
      * @expectedException Inanimatt\SiteBuilder\Exception\SiteBuilderException
      */
@@ -103,7 +103,6 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
         $results = $o->getOutputName();
     }
 
-
     /**
      * @covers Inanimatt\SiteBuilder\ContentHandler\MarkdownFileContentHandler::getOutputName
      */
@@ -111,6 +110,5 @@ class MarkdownFileContentHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('subdir/example.html', $this->object->getOutputName());
     }
-    
-    
+
 }

@@ -36,6 +36,6 @@ class PhpRendererTest extends \PHPUnit_Framework_TestCase
     public function testRender()
     {
         $result = $this->object->render(array('title' => 'Lorem', 'content' => 'Lorem ipsum'), 'template.php');
-        $this->assertEquals('<title>Lorem</title><content>Lorem ipsum</content>', $result);
+        $this->assertEquals('<title>Lorem</title><content>Lorem ipsum</content>'.PHP_EOL, $result);
     }
 }

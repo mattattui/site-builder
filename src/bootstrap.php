@@ -1,15 +1,11 @@
 <?php
 $loader = require __DIR__.'/../vendor/autoload.php';
-use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
-use Inanimatt\SiteBuilder\Exception\SiteBuilderException;
 
 $loader->add('Inanimatt\\SiteBuilder', __DIR__.'/../src');
 $loader->register();

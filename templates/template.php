@@ -7,15 +7,15 @@
     <title><?php echo isset($title) ? e($title) : 'My Example Site'; ?></title>
 </head>
 <body>
-    
+
     <?php echo $content; ?>
-    
+
     <ul id="nav">
         <?php foreach ($app['contentcollection']->getObjects() as $object): ?>
             <?php $metadata = $object->getMetadata(); ?>
             <li><a href="<?php echo e($object->getOutputName()) ?>"><?php echo e($metadata['title']) ?></a></li>
         <?php endforeach ?>
     </ul>
-    
+
 </body>
 </html>

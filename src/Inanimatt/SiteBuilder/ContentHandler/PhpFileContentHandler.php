@@ -12,18 +12,17 @@ class PhpFileContentHandler extends SplFileInfo implements ContentHandlerInterfa
 
     public function __construct($file, $relativePath, $relativePathName)
     {
-        if (!is_file($file))
-        {
+        if (!is_file($file)) {
             throw new SiteBuilderException('File not found.');
         }
-        
+
         parent::__construct($file, $relativePath, $relativePathName);
-        
+
         $view = new SiteBuilderTemplate();
         ob_start();
         require($this->getRealPath());
         $view->content = ob_get_clean();
-        
+
         $this->view = $view;
     }
 
@@ -36,23 +35,23 @@ class PhpFileContentHandler extends SplFileInfo implements ContentHandlerInterfa
     {
         return $this->view->content;
     }
-    
+
     public function getMetadata()
     {
         return $this->view->__getVars();
     }
-    
+
     public function getOutputName()
     {
         // Strip current file extension, replace with outputExtension
-        
+
         $ext_pos = strrpos($this->getName(), '.');
         if ($ext_pos === false) {
             throw new SiteBuilderException('Unexpected filename; must have file extension');
         }
         $filename = substr($this->getName(), 0, $ext_pos) . '.html';
-        
+
         return $filename;
-    }   
-    
+    }
+
 }

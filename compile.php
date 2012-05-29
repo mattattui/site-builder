@@ -22,20 +22,19 @@ $finder->files()
   ->notName('compile.php')
   ->in(__DIR__)
 ;
-  
+
 $phar = new Phar('sitebuilder.phar', 0, 'sitebuilder.phar');
 $phar = $phar->convertToExecutable(Phar::TAR, Phar::GZ);
 $phar->setSignatureAlgorithm(Phar::SHA1);
 
 $phar->startBuffering();
 
-foreach($finder as $file)
-{
+foreach ($finder as $file) {
   $path = str_replace(__DIR__.DIRECTORY_SEPARATOR, '', $file->getRealPath());
   $content = file_get_contents($file);
   $phar->addFromString($path, $content);
   echo $path.PHP_EOL;
-  
+
 }
 
 // $phar->setMetadata(array('bootstrap' => 'index.php'));
@@ -50,14 +49,14 @@ define('SITEBUILDER_ROOT', __DIR__);
 // if (!is_file(SITEBUILDER_ROOT.'/config.ini')) {
 //     file_put_contents(SITEBUILDER_ROOT.'/config.ini', '
 // [parameters]
-// 
+//
 // ; To use the default Twig template, install Twig and change .php to .twig below
 // template_path = templates/
 // default_template = template.php
-// 
+//
 // ; Where to look for content files
 // content_dir = content
-// 
+//
 // ; Where to put the generated site
 // output_dir = output
 // ');
