@@ -7,7 +7,7 @@ services:
         class: Inanimatt\SiteBuilder\ContentCollection\FileContentCollection
         arguments: [%content_dir%]
         calls:
-            - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler", ["php"] ]]
+            - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler", ["php", "html"] ]]
             - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\MarkdownFileContentHandler", ["md", "markdown"]]]
 
     serialiser:
