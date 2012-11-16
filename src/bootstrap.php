@@ -12,7 +12,8 @@ $loader->register();
 
 // Utility function - shortcut to htmlspecialchars().
 if (!function_exists('e')) {
-    function e($string) {
+    function e($string)
+    {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 }

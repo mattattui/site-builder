@@ -102,4 +102,3 @@ class SiteBuilderTemplate
         return ob_get_clean();
     }
 }
-

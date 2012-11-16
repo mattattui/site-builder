@@ -43,4 +43,3 @@ services:
             - [setTemplatePath, [%template_path%]]
             - [registerRenderer, [@renderer.twig, ["twig"]]]
             - [registerRenderer, [@renderer.php, ["php"]]]
-
