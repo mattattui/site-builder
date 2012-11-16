@@ -73,7 +73,7 @@ class SiteBuilderTemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function test__SetException()
     {
-        $a = array('thing', 'stuff');
+        $a = 123;
         $this->object->__set($a, 'test');
     }
 
@@ -82,7 +82,7 @@ class SiteBuilderTemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function test__getException()
     {
-        $a = array('thing', 'stuff');
+        $a = 123;
         $this->object->__get($a);
     }
 

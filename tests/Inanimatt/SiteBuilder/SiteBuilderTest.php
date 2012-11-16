@@ -141,7 +141,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
             ->method('getContent')
             ->will($this->returnValue($testContent));
 
-        $renderer = $this->getMock('Inanimatt\\SiteBuilder\\Renderer\\PhpRenderer', array('render'), array(), 'TestRenderer', false, false);
+        $renderer = $this->getMock('Inanimatt\\SiteBuilder\\Renderer\\PhpRenderer', array('render'), array(), 'TestRenderer2', false, false);
         $renderer
             ->expects($this->once())
             ->method('render')
@@ -178,7 +178,7 @@ class SiteBuilderTest extends \PHPUnit_Framework_TestCase
             ->method('getContent')
             ->will($this->returnValue($testContent));
 
-        $renderer = $this->getMock('Inanimatt\\SiteBuilder\\Renderer\\PhpRenderer', array('render'), array(), 'TestRenderer', false, false);
+        $renderer = $this->getMock('Inanimatt\\SiteBuilder\\Renderer\\PhpRenderer', array('render'), array(), 'TestRenderer3', false, false);
         $renderer
             ->expects($this->once())
             ->method('render')
