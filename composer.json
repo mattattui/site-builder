@@ -26,6 +26,7 @@
     "require-dev": {
         "symfony/finder": "~2.1",
         "phpunit/phpunit": "~3.7",
+        "mockery/mockery": "~0.8",
         "mikey179/vfsStream": "~1.0"
     }
 }
