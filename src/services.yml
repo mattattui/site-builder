@@ -3,6 +3,15 @@ imports:
     - { resource: config.ini }
 
 services:
+    sitebuilder_filesystem:
+        class: Inanimatt\SiteBuilder\TransformingFilesystem
+        calls:
+            - [registerTransformer, [@twig_markdown_transformer]]
+
+    twig_markdown_transformer:
+        class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
+        arguments: [@markdown, @yaml, @twig, %default_template%]
+
     contentcollection:
         class: Inanimatt\SiteBuilder\ContentCollection\FileContentCollection
         arguments: [%content_dir%]
