@@ -45,7 +45,6 @@ class TransformingFilesystemTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        m::close();
         $this->clean($this->workspace);
     }
 
