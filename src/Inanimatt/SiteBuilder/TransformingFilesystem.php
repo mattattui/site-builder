@@ -27,6 +27,11 @@ class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
         }
     }
 
+    public function hasTransformer($extension)
+    {
+        return isset($this->contentTransformers[$extension]);
+    }
+
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -47,7 +52,6 @@ class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
      */
     public function copy($originFile, $targetFile, $override = false)
     {
-        $this->logger->debug('Copying {source} to {target}', array('source' => $originFile, 'target' => $targetFile));
         $this->mkdir(dirname($targetFile));
 
         if (!$override && is_file($targetFile)) {
@@ -56,13 +60,10 @@ class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
             $doCopy = true;
         }
 
-        $this->logger->debug('doCopy is {doCopy}', array('doCopy' => $doCopy ? 'true' : 'false'));
-
         if ($doCopy) {
             // Transform $originFile if transformer exists
             $extension = pathinfo($originFile, PATHINFO_EXTENSION);
-            if (isset($this->contentTransformers[$extension])) {
-                $this->logger->debug('Using transformer for {extension}', array('extension' => $extension));
+            if ($this->hasTransformer($extension)) {
                 $originFile = $this->contentTransformers[$extension]->transform($originFile, $targetFile);
             } elseif (true !== @copy($originFile, $targetFile)) {
                 throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
