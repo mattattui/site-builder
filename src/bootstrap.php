@@ -37,4 +37,5 @@ $resolver = new LoaderResolver(array(
 $loader = new DelegatingLoader($resolver);
 $loader->load('services.yml');
 
+$sc->compile();
 return $sc;
