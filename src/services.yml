@@ -12,17 +12,6 @@ services:
         class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
         arguments: [@markdown, @yaml, @twig, %default_template%]
 
-    contentcollection:
-        class: Inanimatt\SiteBuilder\ContentCollection\FileContentCollection
-        arguments: [%content_dir%]
-        calls:
-            - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler", ["php", "html"] ]]
-            - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\MarkdownFileContentHandler", ["md", "markdown"]]]
-
-    serialiser:
-        class: Inanimatt\SiteBuilder\Serialiser\FileSerialiser
-        arguments: [%output_dir%]
-
     twig.loader:
         class: Twig_Loader_Filesystem
         arguments: [%template_path%]
@@ -31,24 +20,8 @@ services:
         class: Twig_Environment
         arguments: [@twig.loader]
 
-    renderer.twig:
-        class: Inanimatt\SiteBuilder\Renderer\TwigRenderer
-        arguments: [@twig]
-
-    renderer.php:
-        class: Inanimatt\SiteBuilder\Renderer\PhpRenderer
-        arguments: [%template_path%]
-
     yaml:
         class: Symfony\Component\Yaml\Parser
 
     markdown:
         class: dflydev\markdown\MarkdownExtraParser
-
-    sitebuilder:
-        class: Inanimatt\SiteBuilder\SiteBuilder
-        calls:
-            - [setDefaultTemplate, [%default_template%]]
-            - [setTemplatePath, [%template_path%]]
-            - [registerRenderer, [@renderer.twig, ["twig"]]]
-            - [registerRenderer, [@renderer.php, ["php"]]]
