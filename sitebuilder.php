@@ -6,9 +6,10 @@ $sc = require_once __DIR__.'/src/bootstrap.php';
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$console = new Application('SiteBuilder', '2.0-dev');
+$console = new Application('SiteBuilder', '3.0.0');
 
 $console
     ->register('rebuild')
@@ -21,23 +22,24 @@ Run it like this:
 EOH
 )
     ->setDefinition(array())
+    ->addOption('force', false, InputOption::VALUE_NONE, 'Overwrite all files, even if unchanged')
+    ->addOption('delete', false, InputOption::VALUE_NONE, 'Delete files from output if they aren\'t in content')
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($sc) {
-        $contentCollection = $sc->get('contentcollection');
-        $builder = $sc->get('sitebuilder');
-        $serialiser = $sc->get('serialiser');
+        $logger = $sc->get('logger');
+        $filesystem = $sc->get('sitebuilder_filesystem');
 
-        foreach ($contentCollection->getObjects() as $content) {
-            $output->writeln(sprintf('Rendering <info>%s</info>', $content->getRelativePathName()));
-
-            $out = $builder->renderFile($content, array(
-                'app' => array(
-                    'contentcollection' => $contentCollection,
-                    'contentobject' => $content,
-                ),
-            ));
-
-            $serialiser->write($out, $content->getOutputName());
-        }
+        $logger->info('Starting rebuild.');
+        $output->writeln('<info>Copying and transforming content</info>');
+        
+        $filesystem->mirror(
+            $sc->getParameter('content_dir'),
+            $sc->getParameter('output_dir'),
+            null, 
+            array(
+                'override' => $input->getOption('force'),
+                'delete' => $input->getOption('delete'),
+            )
+        );
     })
 ;
 
@@ -66,7 +68,6 @@ EOH
 [parameters]
 
 ; Where to look for templates, and the name of the default template
-; Use .php to render with the PHP template renderer, .twig for Twig
 template_path = templates
 default_template = template.twig
 
