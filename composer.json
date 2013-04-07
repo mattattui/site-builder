@@ -24,6 +24,7 @@
         "monolog/monolog": "~1.4"
     },
     "require-dev": {
+        "symfony/finder": "~2.1",
         "phpunit/phpunit": "~3.7",
         "mikey179/vfsStream": "~1.0"
     }
