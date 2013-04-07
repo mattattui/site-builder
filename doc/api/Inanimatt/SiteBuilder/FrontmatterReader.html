@@ -3,27 +3,26 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Inanimatt\SiteBuilder\Renderer\PhpRenderer | Site-builder (master)</title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+        <title>Inanimatt\SiteBuilder\FrontmatterReader | Site-builder (master)</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
                             </head>
         <body id="class">
             <div class="header">
         <ul>
-            <li><a href="../../../classes.html">Classes</a></li>
-                            <li><a href="../../../namespaces.html">Namespaces</a></li>
-                        <li><a href="../../../interfaces.html">Interfaces</a></li>
-            <li><a href="../../../doc-index.html">Index</a></li>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
             
         </ul>
 
         <div id="title">Site-builder (master)</div>
 
             <div class="type">Class</div>
-    <h1><a href="../../../Inanimatt/SiteBuilder/Renderer.html">Inanimatt\SiteBuilder\Renderer</a>\PhpRenderer</h1>
+    <h1><a href="../../Inanimatt/SiteBuilder.html">Inanimatt\SiteBuilder</a>\FrontmatterReader</h1>
     </div>
         <div class="content">
-                <p>class    <strong>PhpRenderer</strong>        implements
-        <a href="../../../Inanimatt/SiteBuilder/Renderer/RendererInterface.html"><abbr title="Inanimatt\SiteBuilder\Renderer\RendererInterface">RendererInterface</abbr></a></p>
+                <p>class    <strong>FrontmatterReader</strong></p>
 
     
     
@@ -36,18 +35,18 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>($templatePath)
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\Yaml\Parser">Parser</abbr> $yaml)
                     <p></p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    string
+                    array
                 </td>
                 <td class="last">
-                    <a href="#method_render">render</a>(array $data, string $template)
-                    <p>Render data through template</p>
+                    <a href="#method_parse">parse</a>($content)
+                    <p>Find and parse a frontmatter block</p>
                 </td>
                 <td></td>
             </tr>
@@ -57,9 +56,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 10</div>
+        <div class="location">at line 9</div>
         <code>            public            
-    <strong>__construct</strong>($templatePath)</code>
+    <strong>__construct</strong>(<abbr title="Symfony\Component\Yaml\Parser">Parser</abbr> $yaml)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -69,8 +68,8 @@
 
                     <table>
                     <tr>
-                <td></td>
-                <td>$templatePath</td>
+                <td><abbr title="Symfony\Component\Yaml\Parser">Parser</abbr></td>
+                <td>$yaml</td>
                 <td></td>
             </tr>
             </table>
@@ -81,27 +80,22 @@
                     </div>
     </div>
 
-                <h3 id="method_render">
-        <div class="location">at line 15</div>
-        <code>            public            string
-    <strong>render</strong>(array $data, string $template)</code>
+                <h3 id="method_parse">
+        <div class="location">at line 19</div>
+        <code>            public            array
+    <strong>parse</strong>($content)</code>
     </h3>
     <div class="details">
-        <p>Render data through template</p>
+        <p>Find and parse a frontmatter block</p>
         <p></p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td>array</td>
-                <td>$data</td>
-                <td>Array (or array-like object) containing at least a &#039;content&#039; key</td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$template</td>
-                <td>Template name that makes sense to the renderer (usually a file)</td>
+                <td></td>
+                <td>$content</td>
+                <td></td>
             </tr>
             </table>
 
@@ -110,8 +104,8 @@
 
                     <table>
         <tr>
-            <td>string</td>
-            <td>Rendered HTML output</td>
+            <td>array</td>
+            <td>0: the content (with frontmatter removed if found), 1: any parsed frontmatter data</td>
         </tr>
     </table>
 
