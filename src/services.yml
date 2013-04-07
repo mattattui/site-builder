@@ -6,7 +6,7 @@ services:
     sitebuilder_filesystem:
         class: Inanimatt\SiteBuilder\TransformingFilesystem
         calls:
-            - [setLogger, [@monolog]]
+            - [setLogger, [@logger]]
 
     twig_markdown_transformer:
         class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
@@ -38,7 +38,7 @@ services:
     markdown:
         class: dflydev\markdown\MarkdownExtraParser
 
-    monolog:
+    logger:
         class: Monolog\Logger
         arguments: ['sitebuilder']
         calls:
