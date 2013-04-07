@@ -6,9 +6,10 @@ $sc = require_once __DIR__.'/src/bootstrap.php';
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$console = new Application('SiteBuilder', '2.0-dev');
+$console = new Application('SiteBuilder', '3.0-dev');
 
 $console
     ->register('rebuild')
@@ -21,23 +22,12 @@ Run it like this:
 EOH
 )
     ->setDefinition(array())
+    ->addOption('force', null, InputOption::VALUE_NONE, 'Overwrite all files, even if unchanged')
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($sc) {
-        $contentCollection = $sc->get('contentcollection');
-        $builder = $sc->get('sitebuilder');
-        $serialiser = $sc->get('serialiser');
+        $filesystem = $sc->get('sitebuilder_filesystem');
 
-        foreach ($contentCollection->getObjects() as $content) {
-            $output->writeln(sprintf('Rendering <info>%s</info>', $content->getRelativePathName()));
-
-            $out = $builder->renderFile($content, array(
-                'app' => array(
-                    'contentcollection' => $contentCollection,
-                    'contentobject' => $content,
-                ),
-            ));
-
-            $serialiser->write($out, $content->getOutputName());
-        }
+        $output->writeln('<info>Copying and transforming content</info>');
+        $filesystem->mirror(__DIR__.'/content', __DIR__.'/output', null, array('override' => $input->getOption('force')));
     })
 ;
 
