@@ -12,6 +12,12 @@ services:
         tags:
             - { name: sitebuilder.transformer }
 
+    twig_html_transformer:
+        class: Inanimatt\SiteBuilder\Transformer\TwigHtmlTransformer
+        arguments: [@yaml, @twig, %default_template%]
+        tags:
+            - { name: sitebuilder.transformer }
+
     twig.loader:
         class: Twig_Loader_Filesystem
         arguments: [%template_path%]
