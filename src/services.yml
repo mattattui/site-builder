@@ -40,6 +40,7 @@ services:
 
     monolog:
         class: Monolog\Logger
+        arguments: ['sitebuilder']
         calls:
             - [pushHandler, [@monolog.streamhandler]]
 
