@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Inanimatt\SiteBuilder\TransformingFilesystem | Site-builder (master)</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Site-builder (master)</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Inanimatt/SiteBuilder.html">Inanimatt\SiteBuilder</a>\TransformingFilesystem</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>TransformingFilesystem</strong>        extends <abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr>        implements
+        <abbr title="Psr\Log\LoggerAwareInterface">LoggerAwareInterface</abbr></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addTransformer">addTransformer</a>(<a href="../../Inanimatt/SiteBuilder/Transformer/TransformerInterface.html"><abbr title="Inanimatt\SiteBuilder\Transformer\TransformerInterface">TransformerInterface</abbr></a> $transformer)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setLogger">setLogger</a>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_copy">copy</a>(string $originFile, string $targetFile, boolean $override = false)
+                    <p>Copies and transforms a file.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 17</div>
+        <code>            public            
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addTransformer">
+        <div class="location">at line 23</div>
+        <code>            public            
+    <strong>addTransformer</strong>(<a href="../../Inanimatt/SiteBuilder/Transformer/TransformerInterface.html"><abbr title="Inanimatt\SiteBuilder\Transformer\TransformerInterface">TransformerInterface</abbr></a> $transformer)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Inanimatt/SiteBuilder/Transformer/TransformerInterface.html"><abbr title="Inanimatt\SiteBuilder\Transformer\TransformerInterface">TransformerInterface</abbr></a></td>
+                <td>$transformer</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setLogger">
+        <div class="location">at line 30</div>
+        <code>            public            
+    <strong>setLogger</strong>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr></td>
+                <td>$logger</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_copy">
+        <div class="location">at line 48</div>
+        <code>            public            
+    <strong>copy</strong>(string $originFile, string $targetFile, boolean $override = false)</code>
+    </h3>
+    <div class="details">
+        <p>Copies and transforms a file.</p>
+        <p>This method only copies the file if the origin file is newer than the target file.<br />
+<br />
+ By default, if the target already exists, it is not overridden.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$originFile</td>
+                <td>The original filename</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$targetFile</td>
+                <td>The target filename</td>
+            </tr>
+                    <tr>
+                <td>boolean</td>
+                <td>$override</td>
+                <td>Whether to override an existing file or not</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IOException">IOException</abbr></td>
+                <td>When copy fails</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

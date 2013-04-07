@@ -5,3 +5,4 @@ output/*
 composer.lock
 phpunit.xml
 build/
+/sitebuilder.log

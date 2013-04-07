@@ -3,16 +3,26 @@ imports:
     - { resource: config.ini }
 
 services:
-    contentcollection:
-        class: Inanimatt\SiteBuilder\ContentCollection\FileContentCollection
-        arguments: [%content_dir%]
+    sitebuilder_filesystem:
+        class: Inanimatt\SiteBuilder\TransformingFilesystem
         calls:
-            - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\PhpFileContentHandler", ["php", "html"] ]]
-            - [registerContentHandler, ["Inanimatt\\SiteBuilder\\ContentHandler\\MarkdownFileContentHandler", ["md", "markdown"]]]
+            - [setLogger, [@logger]]
 
-    serialiser:
-        class: Inanimatt\SiteBuilder\Serialiser\FileSerialiser
-        arguments: [%output_dir%]
+    twig_markdown_transformer:
+        class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
+        arguments: [@markdown, @frontmatter_reader, @twig, %default_template%]
+        tags:
+            - { name: sitebuilder.transformer }
+
+    twig_html_transformer:
+        class: Inanimatt\SiteBuilder\Transformer\TwigHtmlTransformer
+        arguments: [@frontmatter_reader, @twig, %default_template%]
+        tags:
+            - { name: sitebuilder.transformer }
+
+    frontmatter_reader:
+        class: Inanimatt\SiteBuilder\FrontmatterReader
+        arguments: [@yaml]
 
     twig.loader:
         class: Twig_Loader_Filesystem
@@ -22,24 +32,18 @@ services:
         class: Twig_Environment
         arguments: [@twig.loader]
 
-    renderer.twig:
-        class: Inanimatt\SiteBuilder\Renderer\TwigRenderer
-        arguments: [@twig]
-
-    renderer.php:
-        class: Inanimatt\SiteBuilder\Renderer\PhpRenderer
-        arguments: [%template_path%]
-
     yaml:
         class: Symfony\Component\Yaml\Parser
 
     markdown:
         class: dflydev\markdown\MarkdownExtraParser
 
-    sitebuilder:
-        class: Inanimatt\SiteBuilder\SiteBuilder
+    logger:
+        class: Monolog\Logger
+        arguments: ['sitebuilder']
         calls:
-            - [setDefaultTemplate, [%default_template%]]
-            - [setTemplatePath, [%template_path%]]
-            - [registerRenderer, [@renderer.twig, ["twig"]]]
-            - [registerRenderer, [@renderer.php, ["php"]]]
+            - [pushHandler, [@monolog.streamhandler]]
+
+    monolog.streamhandler:
+        class: Monolog\Handler\StreamHandler
+        arguments: ['sitebuilder.log', 100]
