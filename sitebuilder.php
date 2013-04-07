@@ -68,7 +68,6 @@ EOH
 [parameters]
 
 ; Where to look for templates, and the name of the default template
-; Use .php to render with the PHP template renderer, .twig for Twig
 template_path = templates
 default_template = template.twig
 
