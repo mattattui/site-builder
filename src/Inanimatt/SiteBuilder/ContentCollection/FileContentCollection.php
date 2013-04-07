@@ -57,6 +57,7 @@ class FileContentCollection implements ContentCollectionInterface
             }
 
             $class = $this->handlers[$extension];
+            // FIXME: use a factory instead, to allow dependency injection and different constructor definitions
             $files[] = new $class($file, $file->getRelativePath(), $file->getRelativePathName());
         }
 

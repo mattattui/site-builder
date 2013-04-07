@@ -20,6 +20,7 @@ class MarkdownFileContentHandler extends SplFileInfo implements ContentHandlerIn
 
         parent::__construct($file, $relativePath, $relativePathName);
 
+        // FIXME: dependencies should be injected
         $yaml = new YamlParser;
         $markdown = new MarkdownParser;
 
