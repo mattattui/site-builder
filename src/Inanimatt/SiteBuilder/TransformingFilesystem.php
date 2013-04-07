@@ -3,7 +3,7 @@
 namespace Inanimatt\SiteBuilder;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\IOException;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -11,12 +11,12 @@ use Psr\Log\NullLogger;
 
 class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
 {
-    protected $transformers;
+    protected $contentTransformers;
     protected $logger;
 
     public function __construct()
     {
-        $this->transformers = array();
+        $this->contentTransformers = array();
         $this->logger = new NullLogger;
     }
 
