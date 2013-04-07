@@ -2,10 +2,11 @@
 
 ## Notes for users
 
-* Twig & Markdown content files should behave exactly as before
-* There is a new Twig & HTML content format. It uses the same frontmatter format as the Twig & Markdown format, but doesn't process the remaining content.
+* The default behaviour is now to pass unrecognised files straight through. This means you can put your whole site in the `content` folder and publish it to the `output folder`, php files, images and all.
+* The default Markdown parser is now the MarkdownExtra parser.
+* Otherwise, content files that use Markdown with Twig templates should behave exactly as before.
+* There is a new Twig & HTML content format. It uses the same frontmatter format as the Twig & Markdown format, but doesn't process the remaining content. It reads `.html` files.
 * The Sitebuilder template format has been removed in favour of the Twig & HTML content format. 
-* The default behaviour is now to pass unrecognised files straight through. This means you can put your whole site in the `content` folder and publish it to the `output folder`, images and all.
 * The `rebuild` command has a new `--force` option, which always reprocesses files even if they're not newer
 * The `rebuild` command has a new `--delete` option, which removes any files in `output` that don't exist in `content`.
 
