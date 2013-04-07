@@ -34,7 +34,7 @@ services:
         class: Symfony\Component\Yaml\Parser
 
     markdown:
-        class: dflydev\markdown\MarkdownParser
+        class: dflydev\markdown\MarkdownExtraParser
 
     sitebuilder:
         class: Inanimatt\SiteBuilder\SiteBuilder
