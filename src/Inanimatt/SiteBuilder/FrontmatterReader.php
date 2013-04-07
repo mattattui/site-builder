@@ -26,7 +26,7 @@ class FrontmatterReader
 
             $frontMatter = substr($content,3,$end-3);
             $data = $this->yaml->parse($frontMatter);
-            $content = substr($content, mb_strlen($frontMatter, 'UTF-8') + 6 + (2 * strlen(PHP_EOL)));
+            $content = ltrim(substr($content, 3 + $matches[0][1]), "\r\n");
         }
 
         return array($content, $data);
