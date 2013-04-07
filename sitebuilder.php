@@ -22,12 +22,21 @@ Run it like this:
 EOH
 )
     ->setDefinition(array())
-    ->addOption('force', null, InputOption::VALUE_NONE, 'Overwrite all files, even if unchanged')
+    ->addOption('force', false, InputOption::VALUE_NONE, 'Overwrite all files, even if unchanged')
+    ->addOption('delete', false, InputOption::VALUE_NONE, 'Delete files from output if they aren\'t in content')
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($sc) {
         $filesystem = $sc->get('sitebuilder_filesystem');
 
         $output->writeln('<info>Copying and transforming content</info>');
-        $filesystem->mirror(__DIR__.'/content', __DIR__.'/output', null, array('override' => $input->getOption('force')));
+        $filesystem->mirror(
+            __DIR__.'/content',
+            __DIR__.'/output',
+            null, 
+            array(
+                'override' => $input->getOption('force'),
+                'delete' => $input->getOption('delete'),
+            )
+        );
     })
 ;
 
