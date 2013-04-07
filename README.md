@@ -13,10 +13,9 @@ Using an SSG gives similar advantages (your content and layout are separated),
 dramatically increases the performance of your website over using PHP for the 
 same task, and reduces requirements for your website.
 
-Site-builder is yet another SSG. Out of the box it supports Twig and its own 
-simple variety of PHP templates, and content files in HTML, PHP, and Markdown.
-It also presents a number of interfaces to allow developers to create 
-additional renderers and content handlers.
+Site-builder is yet another SSG. Out of the box it supports Twig templates, and
+content files in HTML and Markdown. However it's extensible to add
+transformations for any other file format with its own file extension.
 
 **Note:** Site-builder is very much a work in progress. Use it at your own 
 risk, and don't be surprised if new updates break backward compatibility. It's 
@@ -27,7 +26,7 @@ is settled.
 Quick Start
 ===========
 
-1. [Download the .phar file](https://github.com/downloads/inanimatt/site-builder/sitebuilder.phar). 
+1. [Download the .phar file](https://lazycat.org/download/sitebuilder.phar). 
    It's the whole app in one file, with everything it needs to run.
 2. Put sitebuilder.phar in the directory where you want to keep the installation.
 3. Run `php sitebuilder.phar init` to create directories, config, and sample files.
@@ -52,9 +51,9 @@ Requirements
 
 If you aren't running the .phar edition, you'll need these:
 
-* Twig 1.6
+* Twig 1.6 or newer
 * "dflydev"'s Markdown library
-* Symfony2 Components: Yaml, Config, Finder, DependencyInjection, ClassLoader, Console
+* Symfony2 Components: Yaml, Config, DependencyInjection, ClassLoader, Console
 
 A `composer.json` file is included to handle the installation of these 
 requirements. See the next section for more about this.
@@ -68,7 +67,7 @@ Installation
 2. From the command-line, run `curl http://getcomposer.org/installer | php` and follow the on-screen instructions to install Composer.
 3. Run `php composer.phar install` to install all the required libraries into the `vendor` folder.
 4. Test the installation by running `php sitebuilder.php rebuild`. Check for files in the `output` folder.
-5. If you're helping to develop SiteBuilder, run `php composer.phar install --dev` to install PHPUnit, and run it with `vendor/bin/phpunit`. You can copy `phpunit.xml.dist` to `phpunit.xml` if you want to change it. **Note**: there's currently a bug in the Composer edition of PHPUnit. I've made a pull request, but in the meantime, to make it work change line 20 of `vendor/EHER/PHPUnit/bin/init.php` from `$composerLoader = __DIR__ . '/../../.composer/autoload.php';` to `$composerLoader = __DIR__ . '/../../../.composer/autoload.php';`
+5. If you're helping to develop SiteBuilder, run `php composer.phar install --dev` to install PHPUnit, and run it with `vendor/bin/phpunit`. You can copy `phpunit.xml.dist` to `phpunit.xml` if you want to change it. Rebuild the phar with the `compile.php` script.
 
 Usage
 =====
@@ -76,104 +75,65 @@ Usage
 The basics
 ----------
 
-1. Put your content (e.g. `index.php`, `about-me.md`) into the `content` 
-   folder. Content files are just that: the main content of the page you want to 
-   publish. The name of the file when you publish will be the same as the content 
-   file, except with .html instead of the original extension.  
-   You can create sub-directories in your content folder and they'll be created in 
-   the output folder when you publish, so don't feel like you have to cram 
+1. Put your content (e.g. `index.html`, `about-me.md`) into the `content`
+   folder. Content files are just that: the main content of the page you want to
+   publish. The name of the file when you publish will be the same as the 
+   content file, except with `.html` instead of the original extension. You can 
+   create sub-directories in your content folder and they'll be created in the 
+   output folder when you publish, so don't feel like you have to cram 
    everything into the same folder.
 
-2. The default template is `template.php` in the `templates` folder. Change it 
-   however you like. You can also change the default template to a Twig template 
-   by changing `config.ini`. More on that later. The content of your content files 
-   is placed into the template variable called `$content` (or `{{content}}` in 
-   Twig).
+2. The default template is `template.twig` in the `templates` folder. Change it 
+   however you like. You can also change the default template in `config.ini`. 
+   More on that later. The content of your content files is placed into the 
+   template variable called `$content` (or `{{content}}` in Twig).
 
-3. Run `php sitebuilder.php rebuild` to render every file and save it to the `output` 
-   folder.
+3. Run `php sitebuilder.php rebuild` to render every file and save it to the 
+   `output` folder.
 
 
 Templates
 =========
 
-Using the built-in PHP templates
---------------------------------
-
-The default template is a simple PHP template class based on one written by 
-Chad Emrys Minick. Just write any old HTML, and where you want your content to 
-be displayed, simply `<?php echo $content; ?>`. A simple function called `e()` 
-is also provided as a shortcut to PHP's built-in `htmlspecialchars()` function, 
-for output escaping.
-
-Obviously you can run any other PHP code you like here, but bear in mind that 
-this is a static site generator: the PHP you write will run once, during 
-publishing, and the output will then be saved to a flat HTML file.
-
-
-Using Twig templates
---------------------
-
 Twig is a fast, clean, and extensible template language with a syntax very 
 similar to Jinja and Django's templating systems. Read more about [writing Twig 
 templates](http://twig.sensiolabs.org/doc/templates.html) here. 
 
-Twig escapes output by default (the equivalent of calling the `e()` function
-for every variable), which is very safe and good practice. However the
-`content` variable which contains your page content probably shouldn't be
+Twig escapes output by default, which is very safe and good practice. However
+the `content` variable which contains your page content probably shouldn't be
 escaped. You can tell Twig not to escape it by passing it through the `raw`
 filter, i.e. `{{ content | raw }}`
-
-
-The app array
---------------
-
-Both PHP and Twig templates have access to a variable called `app`. This 
-contains the ContentCollection object (aka the list of files) and the 
-ContentHandler object for the file being rendered. You can use these to generate 
-navigation in your templates. Both the Twig and PHP example templates 
-demonstrate how this works.
-
-**Note:** `app` is experimental and will definitely change. Don't use it unless 
-you're okay with rewriting everything that uses it when that happens.
-
 
 
 Content
 =======
 
-Site-builder accepts content in either HTML/PHP format, or Markdown format. 
-Pick whichever you prefer, or use both.
+Site-builder accepts content in either HTML or Markdown format. Pick whichever
+you prefer, or use both. Both have an optional "front matter" block which contains instructions you can pass to the template.
 
 
-HTML/PHP content format
+HTML content format
 -----------------------
 
-Look at `content/example.php` for an example. The file is like any other HTML 
-or PHP file and you can write whatever you like into it. The only difference is 
-that a variable called `$view` is set before the file is processed, which 
-allows you to pass more information to the template when you rebuild the site.
+Look at `content/example.php` for an example. The file is like any other HTML
+file and you can write whatever you like into it. The only difference is an
+optional front matter block, which allows you to pass more information to the
+template when you rebuild the site.
 
-When the page is published, the file is run and the output is saved to the 
-`$content` variable. Any other properties you set on `$view` will also be 
-available within your template, so for example:
+When the page is published, the contents of the file are passed to the template in the `content` variable along with anything else you define in your front matter block.
 
 
-```php
-<?php
-    $view->title = "This is my page title";
-?>
+```html
+---
+title: This is my page title
+---
+
 <h2>Hello world!</h2>
 <p>This is my content file. There are many like it but this one is mine.</p>
 ```
 
-Your template will have access to `$content`, which will contain `<h2>Hello 
-world!<h2>…etc`, and `$title`, which will contain `This is my page title`.
-
-
-If you set `$view->template` to the filename of a template in your `templates` 
-folder, then Site-builder will render the page with that template instead of 
-the default.
+If you set the `template` variable in your front matter, then Sitebuilder will
+render the page with that template instead of the default.
 
 
 Markdown content format
@@ -220,8 +180,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 
 When you rebuild the site, Markdown files are converted into HTML and then 
 passed to either the default template, or whichever template you named in the 
-front-matter block. The HTML content is set on the `$content` in PHP templates, 
-or the `{{ content | raw }}` variable in Twig templates.
+front-matter block. The HTML content is set on the `{{ content | raw }}` variable in the template.
 
 
 
@@ -271,16 +230,12 @@ Major Todo Items
 Nice-to-haves:
 --------------
 
-* Support for inline images. You can do it just fine right now by adding 
-  resources to your output folder, but it'd be nicer if they were part of the 
-  content and published, so you can wipe your output folder before rebuilding.
+* Support for image processing.
 
 * Support for resource files like CSS, JS, optionally (or eventually) with 
   minification and LESS/YUI Compressor support. That'd be really lovely.
 
-* A navigation generator object passed to both PHP and Twig templates that 
-  represents the site structure, so that templates can create left navigation. 
-  It should ignore resource files and be context aware (so links in 
-  sub-directories don't break). Should be able to pass the ContentCollection 
-  and current ContentHandler into the constructor of this to get something 
-  useful.
+* A navigation generator object passed to the templates that represents the
+  site structure, so that templates can create left navigation. It should
+  ignore resource files and be context aware (so links in sub-directories don't
+  break).
