@@ -32,8 +32,8 @@ EOH
         $output->writeln('<info>Copying and transforming content</info>');
         
         $filesystem->mirror(
-            __DIR__.'/content',
-            __DIR__.'/output',
+            $sc->getParameter('content_dir'),
+            $sc->getParameter('output_dir'),
             null, 
             array(
                 'override' => $input->getOption('force'),
