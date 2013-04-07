@@ -5,14 +5,19 @@ namespace Inanimatt\SiteBuilder;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\IOException;
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-class TransformingFilesystem extends Filesystem
+class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
 {
     protected $transformers;
+    protected $logger;
 
     public function __construct()
     {
         $this->transformers = array();
+        $this->logger = new NullLogger;
     }
 
     public function addTransformer(TransformerInterface $transformer)
@@ -20,6 +25,11 @@ class TransformingFilesystem extends Filesystem
         foreach ($transformer->getSupportedExtensions() as $extension) {
             $this->contentTransformers[$extension] = $transformer;
         }
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -37,6 +47,7 @@ class TransformingFilesystem extends Filesystem
      */
     public function copy($originFile, $targetFile, $override = false)
     {
+        $this->logger->debug('Copying {source} to {target}', array('source' => $originFile, 'target' => $targetFile));
         $this->mkdir(dirname($targetFile));
 
         if (!$override && is_file($targetFile)) {
@@ -45,10 +56,13 @@ class TransformingFilesystem extends Filesystem
             $doCopy = true;
         }
 
+        $this->logger->debug('doCopy is {doCopy}', array('doCopy' => $doCopy ? 'true' : 'false'));
+
         if ($doCopy) {
             // Transform $originFile if transformer exists
             $extension = pathinfo($originFile, PATHINFO_EXTENSION);
             if (isset($this->contentTransformers[$extension])) {
+                $this->logger->debug('Using transformer for {extension}', array('extension' => $extension));
                 $originFile = $this->contentTransformers[$extension]->transform($originFile, $targetFile);
             } elseif (true !== @copy($originFile, $targetFile)) {
                 throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
