@@ -6,7 +6,7 @@ interface TransformerInterface
 {
     /**
      * Return an array of supported file extensions
-     * 
+     *
      * @return array File extensions
      */
     public function getSupportedExtensions();

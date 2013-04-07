@@ -38,7 +38,7 @@ class TwigMarkdownTransformer implements TransformerInterface
         $fileContent = file_get_contents($originFile);
 
         list($fileContent, $data) = $this->frontmatterReader->parse($fileContent);
-        
+
         // Override template?
         if (isset($data['template'])) {
             $this->template = $data['template'];

@@ -13,14 +13,14 @@ class FrontmatterReader
 
     /**
      * Find and parse a frontmatter block
-     * 
+     *
      * @return array 0: the content (with frontmatter removed if found), 1: any parsed frontmatter data
      */
     public function parse($content)
     {
         $frontmatter = '';
         $data = array();
-        
+
         if ((substr($content,0,3) === '---') && preg_match('/^\-\-\-/m', $content, $matches, PREG_OFFSET_CAPTURE, 3)) {
             $end = $matches[0][1];
 
