@@ -3,18 +3,18 @@
 namespace Inanimatt\SiteBuilder\Transformer;
 
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
+use Inanimatt\SiteBuilder\FrontmatterReader;
 use \Twig_Environment;
-use Symfony\Component\Yaml\Parser as YamlParser;
 
 class TwigHtmlTransformer implements TransformerInterface
 {
-    protected $yaml;
+    protected $frontMatterReader;
     protected $twig;
     protected $template;
 
-    public function __construct(YamlParser $yaml, Twig_Environment $twig, $template)
+    public function __construct(FrontmatterReader $reader, Twig_Environment $twig, $template)
     {
-        $this->yaml = $yaml;
+        $this->frontMatterReader = $reader;
         $this->twig = $twig;
         $this->template = $template;
     }
@@ -34,17 +34,8 @@ class TwigHtmlTransformer implements TransformerInterface
     {
         $fileContent = file_get_contents($originFile);
 
-        $data = array();
-        $frontMatter = $this->getFrontMatter($fileContent);
-        $data = $this->yaml->parse($frontMatter);
-
-        /* Strip (from the start of the string) the length of the front-matter
-         * collected, plus the size of the delimiters, and the starting and
-         * ending line-breaks
-         * FIXME: This assumes CRLF (or whatever PHP_EOL turns out to be), which
-         * is bad.
-         */
-        $data['content'] = substr($fileContent, mb_strlen($frontMatter, 'UTF-8') + 6 + (2 * strlen(PHP_EOL)));
+        list($fileContent, $data) = $this->frontMatterReader->parse($fileContent);
+        $data['content'] = $fileContent;
 
         // Override template?
         if (isset($data['template'])) {
@@ -55,17 +46,5 @@ class TwigHtmlTransformer implements TransformerInterface
         $output = $this->twig->render($this->template, $data);
 
         file_put_contents($targetFile, $output);
-    }
-
-    protected function getFrontMatter($content)
-    {
-        $content = ltrim($content);
-
-        if ((substr($content,0,3) === '---') && preg_match('/^\-\-\-/m', $content, $matches, PREG_OFFSET_CAPTURE, 3)) {
-            $end = $matches[0][1];
-
-            return substr($content,3,$end-3);
-        }
-
     }
 }
