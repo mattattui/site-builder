@@ -14,7 +14,7 @@ class TransformingFilesystem extends Filesystem
         $this->transformers = array();
     }
 
-    public function registerTransformer(TransformerInterface $transformer)
+    public function addTransformer(TransformerInterface $transformer)
     {
         foreach ($transformer->getSupportedExtensions() as $extension) {
             $this->contentTransformers[$extension] = $transformer;

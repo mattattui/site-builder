@@ -5,12 +5,12 @@ imports:
 services:
     sitebuilder_filesystem:
         class: Inanimatt\SiteBuilder\TransformingFilesystem
-        calls:
-            - [registerTransformer, [@twig_markdown_transformer]]
 
     twig_markdown_transformer:
         class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
         arguments: [@markdown, @yaml, @twig, %default_template%]
+        tags:
+            - { name: sitebuilder.transformer }
 
     twig.loader:
         class: Twig_Loader_Filesystem
