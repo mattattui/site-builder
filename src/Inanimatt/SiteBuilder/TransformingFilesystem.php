@@ -3,6 +3,7 @@
 namespace Inanimatt\SiteBuilder;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\IOException;
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
 
 class TransformingFilesystem extends Filesystem
@@ -50,7 +51,6 @@ class TransformingFilesystem extends Filesystem
             if (isset($this->contentTransformers[$extension])) {
                 $originFile = $this->contentTransformers[$extension]->transform($originFile, $targetFile);
             } elseif (true !== @copy($originFile, $targetFile)) {
-                echo 'Not transforming '.$originFile.PHP_EOL;
                 throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
             }
         }
