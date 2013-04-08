@@ -21,12 +21,12 @@
         "symfony/config": "~2.1",
         "symfony/console": "~2.1",
         "psr/log": "~1.0",
-        "monolog/monolog": "~1.4"
+        "monolog/monolog": "~1.4",
+        "symfony/process": "~2.1"
     },
     "require-dev": {
         "symfony/finder": "~2.1",
         "phpunit/phpunit": "~3.7",
-        "mockery/mockery": "~0.8",
-        "mikey179/vfsStream": "~1.0"
+        "mockery/mockery": "~0.8"
     }
 }
