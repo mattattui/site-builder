@@ -77,6 +77,8 @@ content_dir = content
 ; Where to put the generated site
 output_dir = output
 
+; Where the sass binary lives. Leave it blank if you don't have it
+sass_path = /usr/bin/sass
 EOF;
 
             file_put_contents('config.ini', $template);
