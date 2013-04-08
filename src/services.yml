@@ -20,6 +20,12 @@ services:
         tags:
             - { name: sitebuilder.transformer }
 
+    scss_transformer:
+        class: Inanimatt\SiteBuilder\Transformer\SassTransformer
+        arguments: [%sass_path%]
+        tags:
+            - { name: sitebuilder.transformer }
+
     frontmatter_reader:
         class: Inanimatt\SiteBuilder\FrontmatterReader
         arguments: [@yaml]

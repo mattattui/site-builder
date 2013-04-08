@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$console = new Application('SiteBuilder', '3.0.0');
+$console = new Application('SiteBuilder', '3.1.0');
 
 $console
     ->register('rebuild')
@@ -77,6 +77,8 @@ content_dir = content
 ; Where to put the generated site
 output_dir = output
 
+; Where the sass binary lives. Leave it blank if you don't have it
+sass_path = /usr/bin/sass
 EOF;
 
             file_put_contents('config.ini', $template);
