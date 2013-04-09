@@ -25,10 +25,8 @@ EOH
     ->addOption('force', false, InputOption::VALUE_NONE, 'Overwrite all files, even if unchanged')
     ->addOption('delete', false, InputOption::VALUE_NONE, 'Delete files from output if they aren\'t in content')
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($sc) {
-        $logger = $sc->get('logger');
         $filesystem = $sc->get('sitebuilder_filesystem');
 
-        $logger->info('Starting rebuild.');
         $output->writeln('<info>Copying and transforming content</info>');
         
         $filesystem->mirror(
