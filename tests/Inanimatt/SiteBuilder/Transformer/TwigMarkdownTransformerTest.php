@@ -11,59 +11,27 @@ class TwigMarkdownTransformerTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    protected $workspace;
-
-    protected function setUp()
-    {
-        $this->workspace = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.time().rand(0, 1000);
-        mkdir($this->workspace, 0777, true);
-        $this->workspace = realpath($this->workspace);
-    }
-
-    protected function tearDown()
-    {
-        $this->clean($this->workspace);
-    }
-
-    /**
-     * @param string $file
-     */
-    private function clean($file)
-    {
-        if (is_dir($file) && !is_link($file)) {
-            $dir = new \FilesystemIterator($file);
-            foreach ($dir as $childFile) {
-                $this->clean($childFile);
-            }
-
-            rmdir($file);
-        } else {
-            unlink($file);
-        }
-    }
-
-    public function testgetSupportedExtensions()
+    public function testTransformIgnoresNonMarkdown()
     {
         $markdown = m::mock('dflydev\markdown\MarkdownParser');
         $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader');
         $twig = m::mock('\Twig_Environment');
+
+        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
+            ->shouldReceive('getExtension')
+            ->andReturn('notmarkdown')
+            ->mock();
+
         $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
-        
-        $extensions = $object->getSupportedExtensions();
-        $this->assertContains('md', $extensions);
-        $this->assertContains('markdown', $extensions);
+        $object->transform($event);
     }
-    
+
     public function testTransform()
     {
-        $sourceFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.md';
-        $targetFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.html';
-        
         $content = '---
 title: Lorem ipsum
 ---
 ORIGINAL INPUT';
-        file_put_contents($sourceFilePath, $content);
 
         $markdown = m::mock('dflydev\markdown\MarkdownParser')
             ->shouldReceive('transformMarkdown')
@@ -82,24 +50,30 @@ ORIGINAL INPUT';
             ->andReturn('TRANSFORMED OUTPUT')
             ->mock();
 
-        $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
-        $object->transform($sourceFilePath, $targetFilePath);
-        $output = file_get_contents($targetFilePath);
+        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
+            ->shouldReceive('getExtension')
+            ->andReturn('md')
+            ->shouldReceive('getContent')
+            ->andReturn($content)
+            ->shouldReceive('getTarget')
+            ->andReturn('/path/to/file.md')
+            ->shouldReceive('setTarget')
+            ->andReturn('/path/to/file.html')
+            ->shouldReceive('setContent')
+            ->with('TRANSFORMED OUTPUT')
+            ->mock();
 
-        $this->assertEquals($output, 'TRANSFORMED OUTPUT');
+        $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
+        $object->transform($event);
     }
+    
 
     public function testTransformOverridesTemplate()
     {
-        $sourceFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.md';
-        $targetFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.html';
-        
         $content = '---
 title: Lorem ipsum
-template: overridden.twig
 ---
 ORIGINAL INPUT';
-        file_put_contents($sourceFilePath, $content);
 
         $markdown = m::mock('dflydev\markdown\MarkdownParser')
             ->shouldReceive('transformMarkdown')
@@ -118,10 +92,21 @@ ORIGINAL INPUT';
             ->andReturn('TRANSFORMED OUTPUT')
             ->mock();
 
-        $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
-        $object->transform($sourceFilePath, $targetFilePath);
-        $output = file_get_contents($targetFilePath);
+        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
+            ->shouldReceive('getExtension')
+            ->andReturn('md')
+            ->shouldReceive('getContent')
+            ->andReturn($content)
+            ->shouldReceive('getTarget')
+            ->andReturn('/path/to/file.md')
+            ->shouldReceive('setTarget')
+            ->andReturn('/path/to/file.html')
+            ->shouldReceive('setContent')
+            ->with('TRANSFORMED OUTPUT')
+            ->mock();
 
-        $this->assertEquals($output, 'TRANSFORMED OUTPUT');
+        $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
+        $object->transform($event);
     }
+
 }

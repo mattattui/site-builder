@@ -2,6 +2,7 @@
 
 namespace Inanimatt\SiteBuilder\Transformer;
 
+use Inanimatt\SiteBuilder\Event\FileCopyEvent;
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
 use Inanimatt\SiteBuilder\FrontmatterReader;
 use \Twig_Environment;
@@ -22,17 +23,13 @@ class TwigHtmlTransformer implements TransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function getSupportedExtensions()
+    public function transform(FileCopyEvent $event)
     {
-        return array('htm', 'html');
-    }
+        if (!in_array($event->getExtension(), array('htm', 'html'))) {
+            return;
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function transform($originFile, $targetFile)
-    {
-        $fileContent = file_get_contents($originFile);
+        $fileContent = $event->getContent();
 
         list($fileContent, $data) = $this->frontMatterReader->parse($fileContent);
         $data['content'] = $fileContent;
@@ -45,6 +42,6 @@ class TwigHtmlTransformer implements TransformerInterface
         // Render and save
         $output = $this->twig->render($this->template, $data);
 
-        file_put_contents($targetFile, $output);
+        $event->setContent($output);
     }
 }

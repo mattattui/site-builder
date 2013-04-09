@@ -5,6 +5,7 @@ imports:
 services:
     sitebuilder_filesystem:
         class: Inanimatt\SiteBuilder\TransformingFilesystem
+        arguments: [@event_dispatcher]
         calls:
             - [setLogger, [@logger]]
 
@@ -25,6 +26,9 @@ services:
         arguments: [%sass_path%]
         tags:
             - { name: sitebuilder.transformer }
+
+    event_dispatcher:
+        class: Symfony\Component\EventDispatcher\EventDispatcher
 
     frontmatter_reader:
         class: Inanimatt\SiteBuilder\FrontmatterReader

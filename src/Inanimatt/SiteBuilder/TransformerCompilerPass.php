@@ -1,6 +1,7 @@
 <?php
 namespace Inanimatt\SiteBuilder;
 
+use Inanimatt\SiteBuilder\FilesystemEvents;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
@@ -9,12 +10,12 @@ class TransformerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('sitebuilder_filesystem')) {
+        if (!$container->hasDefinition('event_dispatcher')) {
             return;
         }
 
         $definition = $container->getDefinition(
-            'sitebuilder_filesystem'
+            'event_dispatcher'
         );
 
         $taggedServices = $container->findTaggedServiceIds(
@@ -22,8 +23,8 @@ class TransformerCompilerPass implements CompilerPassInterface
         );
         foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall(
-                'addTransformer',
-                array(new Reference($id))
+                'addListener',
+                array(FilesystemEvents::COPY, array(new Reference($id), 'transform'))
             );
         }
     }

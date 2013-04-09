@@ -2,17 +2,12 @@
 
 namespace Inanimatt\SiteBuilder\Transformer;
 
+use Inanimatt\SiteBuilder\Event\FileCopyEvent;
+
 interface TransformerInterface
 {
     /**
-     * Return an array of supported file extensions
-     *
-     * @return array File extensions
+     * Transform a file
      */
-    public function getSupportedExtensions();
-
-    /**
-     * Copy and transform a file
-     */
-    public function transform($originFile, $targetFile);
+    public function transform(FileCopyEvent $event);
 }

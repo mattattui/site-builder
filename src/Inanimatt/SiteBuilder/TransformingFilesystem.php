@@ -2,39 +2,19 @@
 
 namespace Inanimatt\SiteBuilder;
 
-use Symfony\Component\Filesystem\Filesystem;
+use Inanimatt\SiteBuilder\FilesystemEvents;
+use Inanimatt\SiteBuilder\Event\FileCopyEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
+use Symfony\Component\Filesystem\Filesystem;
 
-class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
+class TransformingFilesystem extends Filesystem
 {
-    protected $contentTransformers;
-    protected $logger;
+    protected $event_dispatcher;
 
-    public function __construct()
+    public function __construct(EventDispatcher $event_dispatcher)
     {
-        $this->contentTransformers = array();
-        $this->logger = new NullLogger;
-    }
-
-    public function addTransformer(TransformerInterface $transformer)
-    {
-        foreach ($transformer->getSupportedExtensions() as $extension) {
-            $this->contentTransformers[$extension] = $transformer;
-        }
-    }
-
-    public function hasTransformer($extension)
-    {
-        return isset($this->contentTransformers[$extension]);
-    }
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
+        $this->event_dispatcher = $event_dispatcher;
     }
 
     /**
@@ -61,12 +41,20 @@ class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
         }
 
         if ($doCopy) {
-            // Transform $originFile if transformer exists
-            $extension = pathinfo($originFile, PATHINFO_EXTENSION);
-            if ($this->hasTransformer($extension)) {
-                $originFile = $this->contentTransformers[$extension]->transform($originFile, $targetFile);
-            } elseif (true !== @copy($originFile, $targetFile)) {
-                throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
+
+            $event = new FileCopyEvent($originFile, $targetFile);
+            $event = $this->event_dispatcher->dispatch(FilesystemEvents::COPY, $event);
+
+            $originFile = $event->getSource();
+            $targetFile = $event->getTarget();
+
+            if ($event->isModified()) {
+                file_put_contents($targetFile, $event->getContent());
+            } else {
+                // No listeners modified the file, so just copy it.
+                if (true !== @copy($originFile, $targetFile)) {
+                    throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
+                }
             }
         }
     }
