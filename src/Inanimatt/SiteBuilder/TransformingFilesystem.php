@@ -7,25 +7,14 @@ use Inanimatt\SiteBuilder\Event\FileCopyEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
-class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
+class TransformingFilesystem extends Filesystem
 {
-    protected $logger;
     protected $event_dispatcher;
 
     public function __construct(EventDispatcher $event_dispatcher)
     {
-        $this->contentTransformers = array();
-        $this->logger = new NullLogger;
         $this->event_dispatcher = $event_dispatcher;
-    }
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 
     /**
@@ -60,7 +49,6 @@ class TransformingFilesystem extends Filesystem implements LoggerAwareInterface
             $targetFile = $event->getTarget();
 
             if ($event->isModified()) {
-                // FIXME: HMMM, is this right? What if we need to generate more than one file?
                 file_put_contents($targetFile, $event->getContent());
             } else {
                 // No listeners modified the file, so just copy it.
