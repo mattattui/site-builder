@@ -15,7 +15,17 @@ class TwigHtmlTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testTransformIgnoresNonHTML()
     {
+        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader');
         
+        $twig = m::mock('\Twig_Environment');
+
+        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
+            ->shouldReceive('getExtension')
+            ->andReturn('nothtml')
+            ->mock();
+
+        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $object->transform($event);
     }
 
     public function testTransform()
