@@ -45,13 +45,3 @@ services:
 
     markdown:
         class: dflydev\markdown\MarkdownExtraParser
-
-    logger:
-        class: Monolog\Logger
-        arguments: ['sitebuilder']
-        calls:
-            - [pushHandler, [@monolog.streamhandler]]
-
-    monolog.streamhandler:
-        class: Monolog\Handler\StreamHandler
-        arguments: ['sitebuilder.log', 100]

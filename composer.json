@@ -20,8 +20,6 @@
         "symfony/dependency-injection": "~2.1",
         "symfony/config": "~2.1",
         "symfony/console": "~2.1",
-        "psr/log": "~1.0",
-        "monolog/monolog": "~1.4",
         "symfony/event-dispatcher": "~2.1",
         "symfony/process": "~2.1"
     },
