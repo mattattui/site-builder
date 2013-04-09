@@ -2,6 +2,7 @@
 
 namespace Inanimatt\SiteBuilder\Transformer;
 
+use Inanimatt\SiteBuilder\Event\FileCopyEvent;
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
 use Inanimatt\SiteBuilder\FrontmatterReader;
 use dflydev\markdown\MarkdownParser;
@@ -25,17 +26,13 @@ class TwigMarkdownTransformer implements TransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function getSupportedExtensions()
+    public function transform(FileCopyEvent $event)
     {
-        return array('md', 'markdown');
-    }
+        if (!in_array($event->getExtension(), array('md', 'markdown'))) {
+            return;
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function transform($originFile, $targetFile)
-    {
-        $fileContent = file_get_contents($originFile);
+        $fileContent = $event->getContent();
 
         list($fileContent, $data) = $this->frontmatterReader->parse($fileContent);
 
@@ -50,8 +47,10 @@ class TwigMarkdownTransformer implements TransformerInterface
         // Render and save
         $output = $this->twig->render($this->template, $data);
 
+        $targetFile = $event->getTarget();
         $targetFile = substr($targetFile, 0, 0 - strlen(pathinfo($targetFile, PATHINFO_EXTENSION))) . 'html';
 
-        file_put_contents($targetFile, $output);
+        $event->setTarget($targetFile);
+        $event->setContent($output);
     }
 }
