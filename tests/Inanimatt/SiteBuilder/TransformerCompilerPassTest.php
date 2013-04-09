@@ -24,27 +24,27 @@ class TransformerCompilerPassTest extends \PHPUnit_Framework_TestCase
     {
         $container = m::mock('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->shouldReceive('hasDefinition')
-            ->with('sitebuilder_filesystem')
+            ->with('event_dispatcher')
             ->andReturn(false)
             ->mock();
         
         $this->assertNull($this->object->process($container));
     }
-
+    
     public function testProcessAddsServices()
     {
         $service = m::mock('mock_service')
             ->shouldReceive('addMethodCall')
             ->times(2)
-            ->with('addTransformer', m::type('array'))
+            ->with('addListener', m::type('array'))
             ->mock();
 
         $container = m::mock('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->shouldReceive('hasDefinition')
-            ->with('sitebuilder_filesystem')
+            ->with('event_dispatcher')
             ->andReturn(true)
             ->shouldReceive('getDefinition')
-            ->with('sitebuilder_filesystem')
+            ->with('event_dispatcher')
             ->andReturn($service)
             ->shouldReceive('findTaggedServiceIds')
             ->with('sitebuilder.transformer')
@@ -56,5 +56,6 @@ class TransformerCompilerPassTest extends \PHPUnit_Framework_TestCase
         
         $this->assertNull($this->object->process($container));
     }
+
 
 }

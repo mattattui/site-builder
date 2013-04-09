@@ -41,19 +41,8 @@ class TwigMarkdownTransformerTest extends \PHPUnit_Framework_TestCase
             unlink($file);
         }
     }
+/*
 
-    public function testgetSupportedExtensions()
-    {
-        $markdown = m::mock('dflydev\markdown\MarkdownParser');
-        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader');
-        $twig = m::mock('\Twig_Environment');
-        $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
-        
-        $extensions = $object->getSupportedExtensions();
-        $this->assertContains('md', $extensions);
-        $this->assertContains('markdown', $extensions);
-    }
-    
     public function testTransform()
     {
         $sourceFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.md';
@@ -123,5 +112,6 @@ ORIGINAL INPUT';
         $output = file_get_contents($targetFilePath);
 
         $this->assertEquals($output, 'TRANSFORMED OUTPUT');
-    }
+    }*/
+
 }

@@ -11,58 +11,19 @@ class TwigHtmlTransformerTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    protected $workspace;
 
-    protected function setUp()
+
+    public function testTransformIgnoresNonHTML()
     {
-        $this->workspace = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.time().rand(0, 1000);
-        mkdir($this->workspace, 0777, true);
-        $this->workspace = realpath($this->workspace);
-    }
-
-    protected function tearDown()
-    {
-        $this->clean($this->workspace);
-    }
-
-    /**
-     * @param string $file
-     */
-    private function clean($file)
-    {
-        if (is_dir($file) && !is_link($file)) {
-            $dir = new \FilesystemIterator($file);
-            foreach ($dir as $childFile) {
-                $this->clean($childFile);
-            }
-
-            rmdir($file);
-        } else {
-            unlink($file);
-        }
-    }
-
-    public function testgetSupportedExtensions()
-    {
-        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader');
-        $twig = m::mock('\Twig_Environment');
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
         
-        $extensions = $object->getSupportedExtensions();
-        $this->assertContains('html', $extensions);
-        $this->assertContains('htm', $extensions);
     }
 
     public function testTransform()
     {
-        $sourceFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.test';
-        $targetFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.html';
-        
         $content = '---
 title: Lorem ipsum
 ---
 ORIGINAL INPUT';
-        file_put_contents($sourceFilePath, $content);
 
         $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader')
             ->shouldReceive('parse')
@@ -76,24 +37,28 @@ ORIGINAL INPUT';
             ->andReturn('TRANSFORMED OUTPUT')
             ->mock();
 
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
-        $object->transform($sourceFilePath, $targetFilePath);
-        $output = file_get_contents($targetFilePath);
+        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
+            ->shouldReceive('getExtension')
+            ->andReturn('html')
+            ->shouldReceive('getContent')
+            ->andReturn($content)
+            ->shouldReceive('setContent')
+            ->with('TRANSFORMED OUTPUT')
+            ->mock();
 
-        $this->assertEquals($output, 'TRANSFORMED OUTPUT');
+        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $object->transform($event);
     }
+
+
 
     public function testTransformOverridesTemplate()
     {
-        $sourceFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.test';
-        $targetFilePath = $this->workspace.DIRECTORY_SEPARATOR.'example.html';
-        
         $content = '---
 title: Lorem ipsum
 template: overridden.twig
 ---
 ORIGINAL INPUT';
-        file_put_contents($sourceFilePath, $content);
 
         $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader')
             ->shouldReceive('parse')
@@ -107,10 +72,17 @@ ORIGINAL INPUT';
             ->andReturn('TRANSFORMED OUTPUT')
             ->mock();
 
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
-        $object->transform($sourceFilePath, $targetFilePath);
-        $output = file_get_contents($targetFilePath);
+        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
+            ->shouldReceive('getExtension')
+            ->andReturn('html')
+            ->shouldReceive('getContent')
+            ->andReturn($content)
+            ->shouldReceive('setContent')
+            ->with('TRANSFORMED OUTPUT')
+            ->mock();
 
-        $this->assertEquals($output, 'TRANSFORMED OUTPUT');
+        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $object->transform($event);
     }
+
 }
