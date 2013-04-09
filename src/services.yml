@@ -6,8 +6,6 @@ services:
     sitebuilder_filesystem:
         class: Inanimatt\SiteBuilder\TransformingFilesystem
         arguments: [@event_dispatcher]
-        calls:
-            - [setLogger, [@logger]]
 
     twig_markdown_transformer:
         class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
@@ -47,13 +45,3 @@ services:
 
     markdown:
         class: dflydev\markdown\MarkdownExtraParser
-
-    logger:
-        class: Monolog\Logger
-        arguments: ['sitebuilder']
-        calls:
-            - [pushHandler, [@monolog.streamhandler]]
-
-    monolog.streamhandler:
-        class: Monolog\Handler\StreamHandler
-        arguments: ['sitebuilder.log', 100]
