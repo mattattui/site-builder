@@ -16,7 +16,7 @@ Um… everything changed. Everything. I mean, the name's the same, but…
 
 The new architecture looks like this:
 
-* Sitebuilder's main class is now the `TransformingFilesystem` class. It extends the [Symfony Filesystem component](http://symfony.com/doc/current/components/filesystem.html), and acts the same way except for one important detail: you can register handlers to transform content based on the file extension when a file is copied.
-* The Sitebuilder `rebuild` console command now creates a TransformingFilesystem object and uses the `mirror` method to copy everything from `content` to `output`, transforming files according to its registered transformers.
-* You can register new transformers in the `src/services.yml` file, either by adding a `calls` instruction to the `sitebuilder_filesystem` definition, or by tagging your new class with `sitebuilder.transformer` (in which case they'll be added automatically).
-* Transformers are responsible for reading an input file from the content directory and producing a corresponding file in the output director. What they do and how they do that is up to you.
+* Sitebuilder's main class is now the `TransformingFilesystem` class. It extends the [Symfony Filesystem component](http://symfony.com/doc/current/components/filesystem.html), and acts the same way except for one important detail: it dispatches a FileCopy event for each file, which you can hook into in order to transform or modify files or file names. 
+* The Sitebuilder `rebuild` console command now creates a TransformingFilesystem object and uses the `mirror` method to copy everything from `content` to `output`, transforming files according to its registered listeners.
+* You can register new transformers in the `src/services.yml` file by tagging your new class with `sitebuilder.transformer` (in which case they'll be added automatically to the event dispatcher).
+* Transformers receive a FileCopyEvent and can get/set the content, modify the target file name, etc.
