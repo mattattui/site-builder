@@ -26,14 +26,6 @@ class TwigMarkdownTransformer implements TransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function getSupportedExtensions()
-    {
-        return array('md', 'markdown');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function transform(FileCopyEvent $event)
     {
         if (!in_array($event->getExtension(), array('md', 'markdown'))) {
