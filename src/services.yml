@@ -21,9 +21,13 @@ services:
 
     scss_transformer:
         class: Inanimatt\SiteBuilder\Transformer\SassTransformer
-        arguments: [%sass_path%]
+        arguments: [@sass_process_builder]
         tags:
             - { name: sitebuilder.transformer }
+
+    sass_process_builder:
+        class: Inanimatt\SiteBuilder\Transformer\SassProcessBuilder
+        arguments: [%sass_path%, 'compressed']
 
     event_dispatcher:
         class: Symfony\Component\EventDispatcher\EventDispatcher
