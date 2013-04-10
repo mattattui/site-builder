@@ -7,7 +7,7 @@ use Symfony\Component\Process\ProcessBuilder;
 class SassProcessBuilder
 {
     protected $sass_bin;
-    
+
     protected $style;
 
     public function __construct($sass_bin, $style = 'compressed')
@@ -39,8 +39,9 @@ class SassProcessBuilder
         if (pathinfo($filename, PATHINFO_EXTENSION) === 'scss') {
             $type = '--scss';
         }
-        
+
         $builder = new ProcessBuilder(array($this->sass_bin, $type, '--no-cache', '--style='.$this->style, $filename));
+
         return $builder->getProcess();
     }
 }
