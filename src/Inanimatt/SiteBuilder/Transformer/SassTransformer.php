@@ -4,13 +4,13 @@ namespace Inanimatt\SiteBuilder\Transformer;
 
 use Inanimatt\SiteBuilder\Event\FileCopyEvent;
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Inanimatt\SiteBuilder\Transformer\SassProcessBuilder;
 
 class SassTransformer implements TransformerInterface
 {
     protected $sass_bin;
 
-    public function __construct($process_builder)
+    public function __construct(SassProcessBuilder $process_builder)
     {
         $this->sass_process_builder = $process_builder;
     }
