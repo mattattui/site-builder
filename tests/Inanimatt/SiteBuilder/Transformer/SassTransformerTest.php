@@ -3,72 +3,58 @@
 namespace Inanimatt\SiteBuilder\Transformer;
 
 use \Mockery as m;
+use Symfony\Component\Process\Process;
 
-class SassTransformerTest extends \PHPUnit_Framework_TestCase
+class SassProcessBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SassTransformer
+     * @var SassProcessBuilder
      */
     protected $object;
 
-    public function testTransformIgnoresNonSass()
+    public function testIsInstalledSucceeds()
     {
-        $process_builder = m::mock('Inanimatt\SiteBuilder\Transformer\SassProcessBuilder');
-        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
-            ->shouldReceive('getExtension')
-            ->andReturn('notsass')
-            ->mock();
-
-        $object = new SassTransformer($process_builder);
-        $object->transform($event);
+        // Safe to assume phpunit binary is installed…?
+        $object = new SassProcessBuilder($_SERVER['_']);
+        $this->assertTrue($object->isInstalled());
     }
 
-    public function testTransformSkipsIfNotInstalled()
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidExecutable()
     {
-        $process_builder = m::mock('Inanimatt\SiteBuilder\Transformer\SassProcessBuilder')
-            ->shouldReceive('isInstalled')
-            ->andReturn(false)
-            ->mock();
+        // Safe to assume PHP binary is installed…?
+        $object = new SassProcessBuilder('NoSuchFile');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidStyle()
+    {
+        // Safe to assume phpunit binary is installed…?
+        $object = new SassProcessBuilder($_SERVER['_'], 'NoSuchStyle');
+    }
+
+    public function testGetProcess()
+    {
+        // Safe to assume PHP binary is installed…?
+        $object = new SassProcessBuilder($_SERVER['_']);
+        $process = $object->getProcess('filename.scss');
         
-        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
-            ->shouldReceive('getExtension')
-            ->andReturn('scss')
-            ->mock();
-
-        $object = new SassTransformer($process_builder);
-        $object->transform($event);
+        $this->assertTrue($process instanceof Process);
+        $this->assertTrue(strpos($process->getCommandLine(), '--scss') !== false);
     }
 
-    public function testTransform()
+    public function testGetSassProcess()
     {
-        $process = m::mock('process')
-            ->shouldReceive('run')
-            ->shouldReceive('getOutput')
-            ->andReturn('TRANSFORMED OUTPUT')
-            ->mock();
-
-        $process_builder = m::mock('Inanimatt\SiteBuilder\Transformer\SassProcessBuilder')
-            ->shouldReceive('isInstalled')
-            ->andReturn(true)
-            ->shouldReceive('getProcess')
-            ->with('filename.scss')
-            ->andReturn($process)
-            ->mock();
-
-        $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
-            ->shouldReceive('getExtension')
-            ->andReturn('scss')
-            ->shouldReceive('getTarget')
-            ->andReturn('filename.scss')
-            ->shouldReceive('setTarget')
-            ->with('filename.css')
-            ->shouldReceive('getSource')
-            ->andReturn('filename.scss')
-            ->shouldReceive('setContent')
-            ->with('TRANSFORMED OUTPUT')
-            ->mock();
-
-        $object = new SassTransformer($process_builder);
-        $object->transform($event);
+        // Safe to assume PHP binary is installed…?
+        $object = new SassProcessBuilder($_SERVER['_']);
+        $process = $object->getProcess('filename.sass');
+        
+        $this->assertTrue($process instanceof Process);
+        $this->assertTrue(strpos($process->getCommandLine(), '--scss') === false);
     }
+
 }
