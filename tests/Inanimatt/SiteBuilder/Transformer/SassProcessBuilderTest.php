@@ -15,7 +15,7 @@ class SassProcessBuilderTest extends \PHPUnit_Framework_TestCase
     public function testIsInstalledSucceeds()
     {
         // Safe to assume shell is installed?
-        $object = new SassProcessBuilder('/bin/sh');
+        $object = new SassProcessBuilder('/bin/cat');
         $this->assertTrue($object->isInstalled());
     }
 
@@ -34,13 +34,13 @@ class SassProcessBuilderTest extends \PHPUnit_Framework_TestCase
     public function testInvalidStyle()
     {
         // Safe to assume shell is installed?
-        $object = new SassProcessBuilder('/bin/sh', 'NoSuchStyle');
+        $object = new SassProcessBuilder('/bin/cat', 'NoSuchStyle');
     }
 
     public function testGetProcess()
     {
         // Safe to assume shell is installed?
-        $object = new SassProcessBuilder('/bin/sh');
+        $object = new SassProcessBuilder('/bin/cat');
         $process = $object->getProcess('filename.scss');
         
         $this->assertTrue($process instanceof Process);
