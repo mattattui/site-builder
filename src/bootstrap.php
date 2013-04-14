@@ -7,8 +7,7 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 
-$loader = require __DIR__.'/../vendor/autoload.php';
-$loader->register();
+(@include_once __DIR__ . '/../vendor/autoload.php') || @include_once __DIR__ . '/../../../autoload.php';
 
 // Set up the service container
 $sc = new ContainerBuilder;
