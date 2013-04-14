@@ -1,6 +1,5 @@
 {
-    "name": "inanimatt/Site-Builder",
-    "version": "2.0-dev",
+    "name": "inanimatt/site-builder",
     "license": "MIT",
     "description" : "Simple PHP static site generator",
     "homepage" : "https://github.com/inanimatt/site-builder",
