@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 
 $loader = require __DIR__.'/../vendor/autoload.php';
-$loader->add('Inanimatt\\SiteBuilder', __DIR__.'/../src');
 $loader->register();
 
 // Set up the service container
