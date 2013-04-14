@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 $sc = new ContainerBuilder;
 $sc->addCompilerPass(new TransformerCompilerPass);
 
-$searchPath = array(__DIR__, __DIR__.'/..');
+$searchPath = array(getcwd(), __DIR__, __DIR__.'/..');
 if (defined('SITEBUILDER_ROOT')) {
     array_unshift($searchPath, SITEBUILDER_ROOT);
 }
