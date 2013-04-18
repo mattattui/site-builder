@@ -15,7 +15,7 @@ class SassProcessBuilder
         $this->sass_bin = $sass_bin;
         $this->style = $style;
 
-        if (!is_executable($sass_bin)) {
+        if ($sass_bin && !is_executable($sass_bin)) {
             throw new \InvalidArgumentException(
                 'Sass compiler not installed, or not configured. Check your config.ini'
             );
