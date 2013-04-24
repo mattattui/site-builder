@@ -2,6 +2,7 @@
 
 namespace Inanimatt\SiteBuilder\Event;
 
+use PhpCollection\Map;
 use Symfony\Component\EventDispatcher\Event;
 
 class FileCopyEvent extends Event
@@ -34,11 +35,17 @@ class FileCopyEvent extends Event
      */
     protected $is_modified = false;
 
+    /**
+     * File metadata
+     */
+    public $data;
+
     public function __construct($source, $target)
     {
         $this->source = $source;
         $this->target = $target;
         $this->extension = pathinfo($source, PATHINFO_EXTENSION);
+        $this->data = new Map();
     }
 
     public function getSource ()
