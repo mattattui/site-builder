@@ -32,7 +32,6 @@ class FrontmatterTransformerTest extends \PHPUnit_Framework_TestCase
         $object->transform($event);
     }
 
-/*
     public function testTransform()
     {
         $content = '---
@@ -46,45 +45,31 @@ ORIGINAL INPUT';
             ->andReturn(array('ORIGINAL INPUT', array('title' => 'Lorem ipsum')))
             ->mock();
 
-        $twig = m::mock('\Twig_Environment')
-            ->shouldReceive('render')
-            ->with('whatever', array('title' => 'Lorem ipsum', 'content' => 'ORIGINAL INPUT'))
-            ->andReturn('TRANSFORMED OUTPUT')
-            ->mock();
-
         $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
             ->shouldReceive('getExtension')
             ->andReturn('html')
             ->shouldReceive('getContent')
             ->andReturn($content)
             ->shouldReceive('setContent')
-            ->with('TRANSFORMED OUTPUT')
+            ->with('ORIGINAL INPUT')
             ->mock();
 
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $event->data = new \PhpCollection\Map;
+
+        $object = new FrontmatterTransformer($reader);
         $object->transform($event);
+
+        $this->assertEquals($event->data->get('title')->get(), 'Lorem ipsum');
     }
 
-
-
-    public function testTransformOverridesTemplate()
+    public function testNofrontmatter()
     {
-        $content = '---
-title: Lorem ipsum
-template: overridden.twig
----
-ORIGINAL INPUT';
+        $content = 'ORIGINAL INPUT';
 
         $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader')
             ->shouldReceive('parse')
             ->with($content)
-            ->andReturn(array('ORIGINAL INPUT', array('title' => 'Lorem ipsum', 'template' => 'overridden.twig')))
-            ->mock();
-
-        $twig = m::mock('\Twig_Environment')
-            ->shouldReceive('render')
-            ->with('overridden.twig', array('title' => 'Lorem ipsum', 'content' => 'ORIGINAL INPUT', 'template' => 'overridden.twig'))
-            ->andReturn('TRANSFORMED OUTPUT')
+            ->andReturn(array('ORIGINAL INPUT', array()))
             ->mock();
 
         $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
@@ -93,12 +78,12 @@ ORIGINAL INPUT';
             ->shouldReceive('getContent')
             ->andReturn($content)
             ->shouldReceive('setContent')
-            ->with('TRANSFORMED OUTPUT')
+            ->with('ORIGINAL INPUT')
             ->mock();
 
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $event->data = new \PhpCollection\Map;
+
+        $object = new FrontmatterTransformer($reader);
         $object->transform($event);
     }
-*/
-
 }
