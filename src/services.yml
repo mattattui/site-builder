@@ -13,6 +13,12 @@ services:
         tags:
             - { name: sitebuilder.transformer, priority: 255 }
 
+    siteroot_transformer:
+        class: Inanimatt\SiteBuilder\Transformer\SiterootTransformer
+        arguments: [%output_dir%]
+        tags:
+            - { name: sitebuilder.transformer, priority: 255 }
+
     twig_markdown_transformer:
         class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
         arguments: [@markdown, @twig, %default_template%]
