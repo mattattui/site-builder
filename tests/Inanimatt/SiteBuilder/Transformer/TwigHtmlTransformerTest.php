@@ -25,7 +25,7 @@ class TwigHtmlTransformerTest extends \PHPUnit_Framework_TestCase
         $object = new TwigHtmlTransformer($twig, 'whatever');
         $object->transform($event);
     }
-/*
+
 
     public function testTransform()
     {
@@ -45,15 +45,17 @@ class TwigHtmlTransformerTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setContent')
             ->with('TRANSFORMED OUTPUT')
             ->mock();
+        
+        $event->data = new \PhpCollection\Map(array('title' => 'Lorem ipsum', 'content' => 'ORIGINAL INPUT'));
 
         $object = new TwigHtmlTransformer($twig, 'whatever');
         $object->transform($event);
-    }*/
+    }
 
 
 
 
-/*
+
     public function testTransformOverridesTemplate()
     {
         $content = 'ORIGINAL INPUT';
@@ -73,9 +75,11 @@ class TwigHtmlTransformerTest extends \PHPUnit_Framework_TestCase
             ->with('TRANSFORMED OUTPUT')
             ->mock();
 
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $event->data = new \PhpCollection\Map(array('title' => 'Lorem ipsum', 'content' => 'ORIGINAL INPUT', 'template' => 'overridden.twig'));
+
+        $object = new TwigHtmlTransformer($twig, 'whatever');
         $object->transform($event);
     }
-*/
+
 
 }
