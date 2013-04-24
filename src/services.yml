@@ -7,15 +7,21 @@ services:
         class: Inanimatt\SiteBuilder\TransformingFilesystem
         arguments: [@event_dispatcher]
 
+    frontmatter_transformer:
+        class: Inanimatt\SiteBuilder\Transformer\FrontmatterTransformer
+        arguments: [@frontmatter_reader]
+        tags:
+            - { name: sitebuilder.transformer, priority: 255 }
+
     twig_markdown_transformer:
         class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
-        arguments: [@markdown, @frontmatter_reader, @twig, %default_template%]
+        arguments: [@markdown, @twig, %default_template%]
         tags:
             - { name: sitebuilder.transformer, priority: 127 }
 
     twig_html_transformer:
         class: Inanimatt\SiteBuilder\Transformer\TwigHtmlTransformer
-        arguments: [@frontmatter_reader, @twig, %default_template%]
+        arguments: [@twig, %default_template%]
         tags:
             - { name: sitebuilder.transformer, priority: 127 }
 
