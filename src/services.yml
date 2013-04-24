@@ -11,19 +11,19 @@ services:
         class: Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer
         arguments: [@markdown, @frontmatter_reader, @twig, %default_template%]
         tags:
-            - { name: sitebuilder.transformer }
+            - { name: sitebuilder.transformer, priority: 127 }
 
     twig_html_transformer:
         class: Inanimatt\SiteBuilder\Transformer\TwigHtmlTransformer
         arguments: [@frontmatter_reader, @twig, %default_template%]
         tags:
-            - { name: sitebuilder.transformer }
+            - { name: sitebuilder.transformer, priority: 127 }
 
     scss_transformer:
         class: Inanimatt\SiteBuilder\Transformer\SassTransformer
         arguments: [@sass_process_builder]
         tags:
-            - { name: sitebuilder.transformer }
+            - { name: sitebuilder.transformer, priority: 127 }
 
     sass_process_builder:
         class: Inanimatt\SiteBuilder\Transformer\SassProcessBuilder
