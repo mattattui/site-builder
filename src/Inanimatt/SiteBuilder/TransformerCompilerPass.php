@@ -21,11 +21,14 @@ class TransformerCompilerPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds(
             'sitebuilder.transformer'
         );
-        foreach ($taggedServices as $id => $attributes) {
-            $definition->addMethodCall(
-                'addListener',
-                array(FilesystemEvents::COPY, array(new Reference($id), 'transform'))
-            );
+        foreach ($taggedServices as $id => $tagAttributes) {
+            foreach ($tagAttributes as $attributes) {
+                $definition->addMethodCall(
+                    'addListener',
+                    array(FilesystemEvents::COPY, array(new Reference($id), 'transform'), $attributes['priority'])
+                );
+
+            }
         }
     }
 }

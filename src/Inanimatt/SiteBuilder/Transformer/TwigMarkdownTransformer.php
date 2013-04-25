@@ -11,14 +11,12 @@ use \Twig_Environment;
 class TwigMarkdownTransformer implements TransformerInterface
 {
     protected $markdown;
-    protected $frontmatterReader;
     protected $twig;
     protected $template;
 
-    public function __construct(MarkdownParser $markdown, FrontmatterReader $reader, Twig_Environment $twig, $template)
+    public function __construct(MarkdownParser $markdown, Twig_Environment $twig, $template)
     {
         $this->markdown = $markdown;
-        $this->frontmatterReader = $reader;
         $this->twig = $twig;
         $this->template = $template;
     }
@@ -34,14 +32,11 @@ class TwigMarkdownTransformer implements TransformerInterface
 
         $fileContent = $event->getContent();
 
-        list($fileContent, $data) = $this->frontmatterReader->parse($fileContent);
-
         // Override template?
-        if (isset($data['template'])) {
-            $this->template = $data['template'];
-        }
+        $this->template = $event->data->get('template')->getOrElse($this->template);
 
         /* Parse remaining file as markdown */
+        $data = iterator_to_array($event->data);
         $data['content'] = $this->markdown->transformMarkdown($fileContent);
 
         // Render and save
