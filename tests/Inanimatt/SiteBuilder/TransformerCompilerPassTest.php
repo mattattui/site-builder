@@ -49,8 +49,8 @@ class TransformerCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('findTaggedServiceIds')
             ->with('sitebuilder.transformer')
             ->andReturn(array(
-                'id1' => 'service1',
-                'id2' => 'service2',
+                'id1' => array('priority' => 0),
+                'id2' => array('priority' => 127),
             ))
             ->mock();
         

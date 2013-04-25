@@ -15,8 +15,6 @@ class TwigHtmlTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function testTransformIgnoresNonHTML()
     {
-        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader');
-        
         $twig = m::mock('\Twig_Environment');
 
         $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
@@ -24,22 +22,14 @@ class TwigHtmlTransformerTest extends \PHPUnit_Framework_TestCase
             ->andReturn('nothtml')
             ->mock();
 
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $object = new TwigHtmlTransformer($twig, 'whatever');
         $object->transform($event);
     }
 
+
     public function testTransform()
     {
-        $content = '---
-title: Lorem ipsum
----
-ORIGINAL INPUT';
-
-        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader')
-            ->shouldReceive('parse')
-            ->with($content)
-            ->andReturn(array('ORIGINAL INPUT', array('title' => 'Lorem ipsum')))
-            ->mock();
+        $content = 'ORIGINAL INPUT';
 
         $twig = m::mock('\Twig_Environment')
             ->shouldReceive('render')
@@ -55,26 +45,20 @@ ORIGINAL INPUT';
             ->shouldReceive('setContent')
             ->with('TRANSFORMED OUTPUT')
             ->mock();
+        
+        $event->data = new \PhpCollection\Map(array('title' => 'Lorem ipsum', 'content' => 'ORIGINAL INPUT'));
 
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $object = new TwigHtmlTransformer($twig, 'whatever');
         $object->transform($event);
     }
 
 
 
+
+
     public function testTransformOverridesTemplate()
     {
-        $content = '---
-title: Lorem ipsum
-template: overridden.twig
----
-ORIGINAL INPUT';
-
-        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader')
-            ->shouldReceive('parse')
-            ->with($content)
-            ->andReturn(array('ORIGINAL INPUT', array('title' => 'Lorem ipsum', 'template' => 'overridden.twig')))
-            ->mock();
+        $content = 'ORIGINAL INPUT';
 
         $twig = m::mock('\Twig_Environment')
             ->shouldReceive('render')
@@ -91,8 +75,11 @@ ORIGINAL INPUT';
             ->with('TRANSFORMED OUTPUT')
             ->mock();
 
-        $object = new TwigHtmlTransformer($reader, $twig, 'whatever');
+        $event->data = new \PhpCollection\Map(array('title' => 'Lorem ipsum', 'content' => 'ORIGINAL INPUT', 'template' => 'overridden.twig'));
+
+        $object = new TwigHtmlTransformer($twig, 'whatever');
         $object->transform($event);
     }
+
 
 }

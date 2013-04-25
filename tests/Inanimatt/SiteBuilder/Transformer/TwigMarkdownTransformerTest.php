@@ -14,7 +14,6 @@ class TwigMarkdownTransformerTest extends \PHPUnit_Framework_TestCase
     public function testTransformIgnoresNonMarkdown()
     {
         $markdown = m::mock('dflydev\markdown\MarkdownParser');
-        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader');
         $twig = m::mock('\Twig_Environment');
 
         $event = m::mock('Inanimatt\SiteBuilder\Event\FileCopyEvent')
@@ -22,26 +21,17 @@ class TwigMarkdownTransformerTest extends \PHPUnit_Framework_TestCase
             ->andReturn('notmarkdown')
             ->mock();
 
-        $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
+        $object = new TwigMarkdownTransformer($markdown, $twig, 'whatever');
         $object->transform($event);
     }
 
     public function testTransform()
     {
-        $content = '---
-title: Lorem ipsum
----
-ORIGINAL INPUT';
+        $content = 'ORIGINAL INPUT';
 
         $markdown = m::mock('dflydev\markdown\MarkdownParser')
             ->shouldReceive('transformMarkdown')
             ->andReturn('TRANSFORMED OUTPUT')
-            ->mock();
-
-        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader')
-            ->shouldReceive('parse')
-            ->with($content)
-            ->andReturn(array('ORIGINAL INPUT', array('title' => 'Lorem ipsum')))
             ->mock();
 
         $twig = m::mock('\Twig_Environment')
@@ -63,7 +53,10 @@ ORIGINAL INPUT';
             ->with('TRANSFORMED OUTPUT')
             ->mock();
 
-        $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
+        $event->data = new \PhpCollection\Map(array('title' => 'Lorem ipsum'));
+
+
+        $object = new TwigMarkdownTransformer($markdown, $twig, 'whatever');
         $object->transform($event);
     }
     
@@ -78,12 +71,6 @@ ORIGINAL INPUT';
         $markdown = m::mock('dflydev\markdown\MarkdownParser')
             ->shouldReceive('transformMarkdown')
             ->andReturn('TRANSFORMED OUTPUT')
-            ->mock();
-
-        $reader = m::mock('Inanimatt\SiteBuilder\FrontmatterReader')
-            ->shouldReceive('parse')
-            ->with($content)
-            ->andReturn(array('ORIGINAL INPUT', array('title' => 'Lorem ipsum', 'template' => 'overridden.twig')))
             ->mock();
 
         $twig = m::mock('\Twig_Environment')
@@ -105,7 +92,9 @@ ORIGINAL INPUT';
             ->with('TRANSFORMED OUTPUT')
             ->mock();
 
-        $object = new TwigMarkdownTransformer($markdown, $reader, $twig, 'whatever');
+        $event->data = new \PhpCollection\Map(array('title' => 'Lorem ipsum', 'template' => 'overridden.twig'));
+
+        $object = new TwigMarkdownTransformer($markdown, $twig, 'whatever');
         $object->transform($event);
     }
 

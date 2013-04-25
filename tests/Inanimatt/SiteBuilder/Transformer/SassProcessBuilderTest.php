@@ -30,12 +30,17 @@ class SassProcessBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($object->isInstalled());
     }
 
+    public function testIsInstalledFails()
+    {
+        $object = new SassProcessBuilder('');
+        $this->assertFalse($object->isInstalled());
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */
     public function testInvalidExecutable()
     {
-        // Safe to assume shell is installed?
         $object = new SassProcessBuilder('NoSuchFile');
     }
 
