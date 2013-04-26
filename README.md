@@ -215,3 +215,7 @@ first though, in case someone's already working on the feature.
   site structure, so that templates can create left navigation. It should
   ignore resource files and be context aware (so links in sub-directories don't
   break).
+
+## Contributors
+
+* [inouire](https://github.com/inouire)
