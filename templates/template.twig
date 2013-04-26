@@ -9,7 +9,9 @@
 </head>
 <body class="twig">
 
-  {{ content | raw }}
+	You are here: /{% for item in breadcrumbs %}{{item}}/{% endfor %}{{pagename}}
+
+	{{ content | raw }}
 
 </body>
 </html>
