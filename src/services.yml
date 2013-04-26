@@ -13,8 +13,8 @@ services:
         tags:
             - { name: sitebuilder.transformer, priority: 255 }
 
-    siteroot_transformer:
-        class: Inanimatt\SiteBuilder\Transformer\SiterootTransformer
+    pagecontext_transformer:
+        class: Inanimatt\SiteBuilder\Transformer\PagecontextTransformer
         arguments: [%output_dir%]
         tags:
             - { name: sitebuilder.transformer, priority: 255 }
