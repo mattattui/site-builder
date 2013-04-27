@@ -4,7 +4,6 @@ namespace Inanimatt\SiteBuilder\Transformer;
 
 use Inanimatt\SiteBuilder\Event\FileCopyEvent;
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
-use Inanimatt\SiteBuilder\FrontmatterReader;
 use dflydev\markdown\MarkdownParser;
 use \Twig_Environment;
 
