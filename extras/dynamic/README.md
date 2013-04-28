@@ -9,7 +9,14 @@ It can also dynamically set HTTP headers from frontmatter blocks, which means yo
 ## How to set it up:
 
 * This doesn't work with the `sitebuilder.phar` build, only the full download with the composer setup.
+
 * Copy `dev.php` and `.htaccess` to the output folder - careful not to overwrite your own, if you have one. The `.htaccess` redirects all requests for non-existent files to `dev.php`, which will then attempt to create them.
+
+* If you're not using Apache with `mod_rewrite` then I'm afraid you're on your own. Roughly speaking, the nginx equivalent would look like this (assuming PHP is already set up):
+
+        location ~ \.html$ {
+            try_files $uri $uri/ /dev.php;
+        }
 
 * Visit e.g. `http://yoursite.com/some-page.html`
 
