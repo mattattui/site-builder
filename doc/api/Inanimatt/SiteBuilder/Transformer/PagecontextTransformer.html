@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Inanimatt\SiteBuilder\Transformer\TwigMarkdownTransformer | Site-builder (master)</title>
+        <title>Inanimatt\SiteBuilder\Transformer\PagecontextTransformer | Site-builder (master)</title>
                     <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
                             </head>
         <body id="class">
@@ -19,10 +19,10 @@
         <div id="title">Site-builder (master)</div>
 
             <div class="type">Class</div>
-    <h1><a href="../../../Inanimatt/SiteBuilder/Transformer.html">Inanimatt\SiteBuilder\Transformer</a>\TwigMarkdownTransformer</h1>
+    <h1><a href="../../../Inanimatt/SiteBuilder/Transformer.html">Inanimatt\SiteBuilder\Transformer</a>\PagecontextTransformer</h1>
     </div>
         <div class="content">
-                <p>class    <strong>TwigMarkdownTransformer</strong>        implements
+                <p>class    <strong>PagecontextTransformer</strong>        implements
         <a href="../../../Inanimatt/SiteBuilder/Transformer/TransformerInterface.html"><abbr title="Inanimatt\SiteBuilder\Transformer\TransformerInterface">TransformerInterface</abbr></a></p>
 
     
@@ -36,7 +36,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<abbr title="dflydev\markdown\MarkdownParser">MarkdownParser</abbr> $markdown, <abbr title="Twig_Environment">Twig_Environment</abbr> $twig, $template)
+                    <a href="#method___construct">__construct</a>($output_path)
                     <p></p>
                 </td>
                 <td></td>
@@ -57,9 +57,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 16</div>
+        <div class="location">at line 12</div>
         <code>            public            
-    <strong>__construct</strong>(<abbr title="dflydev\markdown\MarkdownParser">MarkdownParser</abbr> $markdown, <abbr title="Twig_Environment">Twig_Environment</abbr> $twig, $template)</code>
+    <strong>__construct</strong>($output_path)</code>
     </h3>
     <div class="details">
         <p></p>
@@ -69,18 +69,8 @@
 
                     <table>
                     <tr>
-                <td><abbr title="dflydev\markdown\MarkdownParser">MarkdownParser</abbr></td>
-                <td>$markdown</td>
                 <td></td>
-            </tr>
-                    <tr>
-                <td><abbr title="Twig_Environment">Twig_Environment</abbr></td>
-                <td>$twig</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$template</td>
+                <td>$output_path</td>
                 <td></td>
             </tr>
             </table>
@@ -92,7 +82,7 @@
     </div>
 
                 <h3 id="method_transform">
-        <div class="location">at line 26</div>
+        <div class="location">at line 23</div>
         <code>            public            
     <strong>transform</strong>(<a href="../../../Inanimatt/SiteBuilder/Event/FileCopyEvent.html"><abbr title="Inanimatt\SiteBuilder\Event\FileCopyEvent">FileCopyEvent</abbr></a> $event)</code>
     </h3>

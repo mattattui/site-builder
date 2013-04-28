@@ -2,34 +2,13 @@
 
 # Site-builder
 
-Site-builder is a simple static site generator. It copies files from one directory to another, and can apply transformations to them on the way.
+Site-builder is a simple static site generator. It allows you to create and
+manage a website out of simple text files and templates. This gives you many of
+the advantages of a CMS, but because the result is plain old HTML, it's more
+secure and has higher performance.
 
-The simplest example is this:
-
-* Put a bunch of HTML files in the `content` directory
-* Run `php sitebuilder.phar rebuild`
-* Every HTML file is wrapped in the default template in `templates/template.twig` and saved in the `output` directory.
-
-Site-builder can do other transformations too, and you can add your own. Out of the box it can do this:
-
-* Turn Markdown into HTML and wrap it in a Twig template
-* Compile SASS and SCSS files
-
-## Why use it?
-
-Using a CMS or Apache/PHP includes will build your site dynamically upon request, which adds a lot of unnecessary overhead - your content probably doesn't change all that often, and all you really want those things for is to keep your content and your templates separate. 
-
-In contrast, static site generators run offline and rebuild your site as flat HTML when you change your content. A web server like Apache can deliver flat HTML files hundreds of times more efficiently than processing PHP files every time they're requested. 
-
-Site-builder is yet another SSG. Out of the box it supports Twig templates, and
-content files in HTML and Markdown. It's also extensible, so you can add
-transformations for any other file format with its own file extension.
-
-**Note:** Site-builder is a work in progress. Use it at your own 
-risk, and don't be surprised if new updates break backward compatibility. It's 
-essentially in alpha stage until the interfaces, configuration formats, and API 
-are settled.
-
+Site-builder works by copying files from your content directory to an output
+directory, applying one or more transformation filters on the way.
 
 ## Quick Start
 
@@ -40,7 +19,7 @@ are settled.
 4. Test your installation with `php sitebuilder.phar rebuild`. If it works, you 
    should see a generated `example.html` file in the `output` directory.
 5. Replace the default template with your own. Twig is a pretty straightforward 
-   templating language; just put {{ content | raw }} where you want your page 
+   template language; just put {{ content | raw }} where you want your page 
    content to appear. Read on for more help and links to the Twig docs.
 6. Create your content files. You can write plain HTML (and save as `.html`),
    or Markdown (and save as `.md` or `.markdown`). You can make sub-directories
@@ -48,8 +27,21 @@ are settled.
    documentation.
 7. Run `php sitebuilder.phar rebuild` to regenerate your site.
 
+## Why use it?
 
+Using a CMS or Apache/PHP includes will build your site dynamically upon
+request, which adds a lot of overhead - your content probably doesn't change
+very often, and all you really need those things for is to keep your content
+and your templates separate.
 
+By contrast, static site generators run offline and rebuild your site as flat
+HTML when you change your content. A web server like Apache can deliver flat
+HTML files hundreds of times more efficiently than processing PHP files every
+time they're requested.
+
+Site-builder is yet another SSG. Out of the box it supports Twig templates, and
+content files in HTML and Markdown. It's also extensible, so you can add
+transformations for any other behaviour you want.
 
 ## Requirements
 

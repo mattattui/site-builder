@@ -1,0 +1,6 @@
+RewriteEngine On
+
+RewriteRule ^$ index.html
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ dev.php [QSA,L]

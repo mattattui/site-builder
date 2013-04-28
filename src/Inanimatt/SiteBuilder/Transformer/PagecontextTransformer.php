@@ -4,7 +4,6 @@ namespace Inanimatt\SiteBuilder\Transformer;
 
 use Inanimatt\SiteBuilder\Event\FileCopyEvent;
 use Inanimatt\SiteBuilder\Transformer\TransformerInterface;
-use \Twig_Environment;
 
 class PagecontextTransformer implements TransformerInterface
 {
@@ -28,7 +27,7 @@ class PagecontextTransformer implements TransformerInterface
         $path_parts = pathinfo($relative_path);
         $page_name = $path_parts['filename'];
         $path = explode(DIRECTORY_SEPARATOR, $relative_path, -1);
-        
+
         $event->data->set('siteroot', $site_root);
         $event->data->set('breadcrumbs', $path);
         $event->data->set('pagename', $page_name);

@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$console = new Application('SiteBuilder', '3.4.1');
+$console = new Application('SiteBuilder', '3.5.0');
 
 $console
     ->register('rebuild')
@@ -55,7 +55,7 @@ EOH
 )
     ->setDefinition(array())
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($sc) {
-        foreach (array('content', 'output', 'templates') as $dir) {
+        foreach (array('content', 'output', 'templates', 'cache') as $dir) {
             if (!is_dir($dir)) {
                 mkdir($dir);
             }
@@ -77,6 +77,11 @@ output_dir = output
 
 ; Where the sass binary lives. Leave it blank if you don't have it
 sass_path = /usr/bin/sass
+
+; Cache directory (can speed things up, but also make it hard to debug stuff)
+; Leave it 'false' unless you're doing something clever
+cache = false
+
 EOF;
 
             file_put_contents('config.ini', $template);
