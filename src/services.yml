@@ -54,7 +54,9 @@ services:
 
     twig:
         class: Twig_Environment
-        arguments: [@twig.loader]
+        arguments:
+            - @twig.loader
+            - { cache: %cache% }
 
     yaml:
         class: Symfony\Component\Yaml\Parser
