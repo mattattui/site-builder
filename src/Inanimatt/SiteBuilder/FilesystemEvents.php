@@ -12,5 +12,4 @@ final class FilesystemEvents
      * @var string
      */
     const COPY = 'filesystem.copy';
-
 }
