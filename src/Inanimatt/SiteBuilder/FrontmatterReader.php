@@ -18,7 +18,6 @@ class FrontmatterReader
      */
     public function parse($content)
     {
-        $frontmatter = '';
         $data = array();
 
         if ((substr($content,0,3) === '---') && preg_match('/^\-\-\-/m', $content, $matches, PREG_OFFSET_CAPTURE, 3)) {
