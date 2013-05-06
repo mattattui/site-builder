@@ -10,6 +10,8 @@ secure and has higher performance.
 Site-builder works by copying files from your content directory to an output
 directory, applying one or more transformation filters on the way.
 
+**Note:** There are more stable and better-supported static site generators out there; this is just a personal project to help me learn and improve my code. If you're looking for a well-supported and very capable static site generator, look at [Jekyll](http://jekyllrb.com/) (Ruby), [Hyde](http://ringce.com/hyde) (Python), or [Phrozn](http://www.phrozn.info/en/) or [PieCrust](http://bolt80.com/piecrust/) (both PHP).
+
 ## Quick Start
 
 1. [Download the .phar file](https://lazycat.org/download/sitebuilder.phar). 
@@ -177,20 +179,6 @@ When you rebuild the site, Markdown files are converted into HTML and then
 passed to either the default template, or whichever template you named in the 
 front-matter block. The HTML content is set on the `{{ content | raw }}` variable in the template.
 
-
-
-## Notes
-
-* There are other Static Site Generators out there, many of them far more
-  accomplished and capable than this one. For example 
-  [Jekyll](http://jekyllrb.com/) (Ruby) and 
-  [Hyde](http://ringce.com/hyde) (Python). YMMV!
-* You can change the output and content directories, the output file 
-  extension, and the default template filename by editing `config.ini`
-* `sitebuilder.php` is supposed to be a command-line tool. Don't put it on your 
-  website. If you can't run php from the command-line and you're on a Linux 
-  system, try `apt-get install php-cli` or `yum install php5-cli` or 
-  similar. 
 
 
 ## Contributing
