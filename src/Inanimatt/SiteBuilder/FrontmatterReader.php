@@ -6,6 +6,8 @@ use Symfony\Component\Yaml\Parser as YamlParser;
 
 class FrontmatterReader
 {
+    protected $yaml;
+
     public function __construct(YamlParser $yaml)
     {
         $this->yaml = $yaml;
