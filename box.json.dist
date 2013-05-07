@@ -1,0 +1,44 @@
+{
+    "algorithm": "SHA1",
+    "chmod": "0755",
+    "directories": [],
+    "directories-bin": [],
+    "files": [],
+    "files-bin": [],
+    "finder": [
+        {
+            "ignoreVCS": true,
+            "name": [
+                "*.php",
+                "*.twig",
+                "*.ini",
+                "*.yml"
+            ],
+            "exclude": [
+                "doc",
+                "cache",
+                "Tests",
+                "tests",
+                "test",
+                "templates",
+                "content",
+                "output",
+                "build",
+                "vendor/phpunit",
+                "vendor/mockery"
+            ],
+            "notName": [
+                "phpunit.xml.dist",
+                "compile.php"
+            ],
+            "in": ""
+        }
+    ],
+    "finder-bin": [],
+    "git-version": "SBVERSION",
+    "intercept": false,
+    "main": "sitebuilder.php",
+    "output": "build/sitebuilder.phar",
+    "stub": true,
+    "web": false
+}
