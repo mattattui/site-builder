@@ -29,10 +29,12 @@ if (file_exists($file)) {
     $container->addCompilerPass(new TransformerCompilerPass);
 
     $locator = new FileLocator($searchPath);
-    $resolver = new LoaderResolver(array(
-        new YamlFileLoader($container, $locator),
-        new IniFileLoader($container, $locator),
-    ));
+    $resolver = new LoaderResolver(
+        array(
+            new YamlFileLoader($container, $locator),
+            new IniFileLoader($container, $locator),
+        )
+    );
 
     $loader = new DelegatingLoader($resolver);
     $loader->load('services.yml');

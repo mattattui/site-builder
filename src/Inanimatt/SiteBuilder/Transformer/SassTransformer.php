@@ -9,6 +9,7 @@ use Inanimatt\SiteBuilder\Transformer\SassProcessBuilder;
 class SassTransformer implements TransformerInterface
 {
     protected $sass_bin;
+    protected $sass_process_builder;
 
     public function __construct(SassProcessBuilder $process_builder)
     {
