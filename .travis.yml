@@ -4,7 +4,7 @@ php:
     - 5.4
 
 before_script:
-    - composer install --dev
+    - composer install --dev -n --prefer-dist
 
 script: vendor/bin/phpunit
 
