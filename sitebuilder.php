@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$console = new Application('SiteBuilder', '3.5.1');
+$console = new Application('SiteBuilder', '3.5.2');
 
 $console
     ->register('rebuild')
