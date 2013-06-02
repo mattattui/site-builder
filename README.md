@@ -196,6 +196,8 @@ first though, in case someone's already working on the feature.
   ignore resource files and be context aware (so links in sub-directories don't
   break).
 
+* **Please submit pull requests to the develop branch!** The master branch is for tested, stable releases only.
+
 ## Contributors
 
 * [inouire](https://github.com/inouire)
