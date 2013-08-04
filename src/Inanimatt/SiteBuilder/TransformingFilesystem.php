@@ -40,21 +40,22 @@ class TransformingFilesystem extends Filesystem
             $doCopy = true;
         }
 
-        if ($doCopy) {
+        if (!$doCopy) {
+            return;
+        }
 
-            $event = new FileCopyEvent($originFile, $targetFile);
-            $event = $this->event_dispatcher->dispatch(FilesystemEvents::COPY, $event);
+        $event = new FileCopyEvent($originFile, $targetFile);
+        $event = $this->event_dispatcher->dispatch(FilesystemEvents::COPY, $event);
 
-            $originFile = $event->getSource();
-            $targetFile = $event->getTarget();
+        $originFile = $event->getSource();
+        $targetFile = $event->getTarget();
 
-            if ($event->isModified()) {
-                file_put_contents($targetFile, $event->getContent());
-            } else {
-                // No listeners modified the file, so just copy it.
-                if (true !== @copy($originFile, $targetFile)) {
-                    throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
-                }
+        if ($event->isModified()) {
+            file_put_contents($targetFile, $event->getContent());
+        } else {
+            // No listeners modified the file, so just copy it.
+            if (true !== @copy($originFile, $targetFile)) {
+                throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
             }
         }
     }
