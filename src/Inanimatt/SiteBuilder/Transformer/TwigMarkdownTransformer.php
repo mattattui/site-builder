@@ -32,14 +32,14 @@ class TwigMarkdownTransformer implements TransformerInterface
         $fileContent = $event->getContent();
 
         // Override template?
-        $this->template = $event->data->get('template')->getOrElse($this->template);
+        $template = $event->data->get('template')->getOrElse($this->template);
 
         /* Parse remaining file as markdown */
         $data = iterator_to_array($event->data);
         $data['content'] = $this->markdown->transformMarkdown($fileContent);
 
         // Render and save
-        $output = $this->twig->render($this->template, $data);
+        $output = $this->twig->render($template, $data);
 
         $targetFile = $event->getTarget();
         $targetFile = substr($targetFile, 0, 0 - strlen(pathinfo($targetFile, PATHINFO_EXTENSION))) . 'html';
