@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-$console = new Application('SiteBuilder', '3.5.3');
+$console = new Application('SiteBuilder', '3.5.4');
 
 $console
     ->register('rebuild')
@@ -76,7 +76,7 @@ content_dir = content
 output_dir = output
 
 ; Where the sass binary lives. Leave it blank if you don't have it
-sass_path = /usr/bin/sass
+sass_path = 
 
 ; Cache directory (can speed things up, but also make it hard to debug stuff)
 ; Leave it 'false' unless you're doing something clever
