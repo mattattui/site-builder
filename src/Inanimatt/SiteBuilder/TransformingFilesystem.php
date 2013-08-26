@@ -32,6 +32,10 @@ class TransformingFilesystem extends Filesystem
      */
     public function copy($originFile, $targetFile, $override = false)
     {
+        if (stream_is_local($originFile) && !is_file($originFile)) {
+            throw new IOException(sprintf('Failed to copy %s because file does not exist', $originFile));
+        }
+
         $this->mkdir(dirname($targetFile));
 
         if (!$override && is_file($targetFile)) {
@@ -52,11 +56,20 @@ class TransformingFilesystem extends Filesystem
 
         if ($event->isModified()) {
             file_put_contents($targetFile, $event->getContent());
-        } else {
-            // No listeners modified the file, so just copy it.
-            if (true !== @copy($originFile, $targetFile)) {
-                throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
-            }
+            return;
+        }
+
+        // No listeners modified the file, so just copy it (original behaviour & code)
+        // https://bugs.php.net/bug.php?id=64634
+        $source = fopen($originFile, 'r');
+        $target = fopen($targetFile, 'w+');
+        stream_copy_to_stream($source, $target);
+        fclose($source);
+        fclose($target);
+        unset($source, $target);
+
+        if (!is_file($targetFile)) {
+            throw new IOException(sprintf('Failed to copy %s to %s', $originFile, $targetFile));
         }
     }
 }
